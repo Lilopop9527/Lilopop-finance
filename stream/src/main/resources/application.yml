@@ -1,0 +1,28 @@
+server:
+  port: 9800
+spring:
+  application:
+    name: stream
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    username: guest
+    password: guest
+    virtual-host: /
+  cloud:
+    stream:
+      function:
+        definition: logConsumer
+      bindings:
+        logConsumer-in-0:
+          destination: log
+          group: logconsumer
+          consumer:
+            batch-mode: true
+      rabbit:
+        bindings:
+          logConsumer-in-0:
+            consumer:
+              enable-batching: true
+              batch-size: 800
+              recevice-timeout: 200

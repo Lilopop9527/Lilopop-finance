@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration>
+    <property name = "logRule" value = "[%-10level] %d{yyyy-MM-dd HH:mm:ss} %m%n"/>
+    <property name="logDir" value="./log"/>
+
+    <appender name = "filesLog" class = "ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${logDir}/logging_logback.log</file>
+        <encoder class = "ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${logRule}</pattern>
+        </encoder>
+        <rollingPolicy class = "ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${logDir}/log_roll.%d{yyyy-MM-dd}.log%i.log</fileNamePattern>
+            <maxFileSize>50MB</maxFileSize>
+        </rollingPolicy>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>INFO</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>ACCEPT</onMismatch>
+        </filter>
+    </appender>
+    <root level="info">
+        <appender-ref ref = "filesLog"/>
+    </root>
+</configuration>
