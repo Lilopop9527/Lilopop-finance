@@ -30,21 +30,26 @@ public class UserService {
     private UserRepository userRepository;
     @Autowired
     private UserToRoleRepository userToRoleRepository;
-    public void saveUser(User user){
-        Object u = userRepository
-                .findOneUser(
-                        ObjectUtil.isEmpty(user.getUsername())?null:user.getUsername(),
-                        ObjectUtil.isEmpty(user.getPhone())?null:user.getPhone(),
-                        ObjectUtil.isEmpty(user.getEmail())?null:user.getEmail());
+    public boolean saveUser(User user){
+        String username = user.getUsername();
+        String email = user.getEmail();
+        User u = null;
+        if (ObjectUtil.isNotEmpty(username)){
+            u = userRepository.findUserByUsername(username);
+        }
+        if (ObjectUtil.isEmpty(u)&&ObjectUtil.isNotEmpty(email)){
+            u = userRepository.findUserByEmail(email);
+        }
         if(ObjectUtil.isNotEmpty(u)){
-            //TODO 添加日志
-            Asserts.fail("用户已存在");
+            return false;
+            //Asserts.fail(200,"用户已存在");
         }
         user.setDeleated(0);
         UserDetail detail = new UserDetail();
         detail.setDeleated(0);
         user.setUserDetail(detail);
         userRepository.save(user);
+        return true;
     }
 
     public void updateUser(User u){

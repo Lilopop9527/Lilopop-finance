@@ -19,9 +19,9 @@ public interface UserRepository extends JpaRepository<User,Long> {
     Optional<User> findUserByEmailAndEmailIsNotNull(String email);
     Optional<User> findUserByEmailAndPassword(String email,String password);
     Optional<User> findById(Long id);
-    @Query("select u.id,u.username,u.password,u.phone,u.email,u.cteateTime,u.deleated from User u where u.username = :username and u.username is not null or u.email = :email and u.email is not null or u.phone = :phone and u.phone is not null")
-    Object findOneUser(@Param("username") String username, @Param("email") String email,@Param("phone") String phone);
     Page<User> findByUsernameLikeAndUsernameIsNotNullOrderById(String username, Pageable pageable);
     Page<User> findByEmailLikeAndEmailIsNotNull(String email, Pageable pageable);
     User findUserById(Long id);
+    User findUserByUsername(String username);
+    User findUserByEmail(String email);
 }

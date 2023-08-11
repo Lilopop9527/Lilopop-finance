@@ -13,7 +13,7 @@ class Login extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            login: <LoginByUsername/>,
+            login: <LoginByUsername tohome={this.toHome.bind(this)}/>,
             forgetPassword: false,
             createUser: false,
             type: 1
@@ -25,24 +25,32 @@ class Login extends Component {
         })
     }
 
+    closeModal(msg){
+        this.setState({
+            [msg]: false
+        })
+    }
+   toHome(){
+        this.props.tohome()
+   }
     setType(e){
         const v = e.target.value
         switch (v) {
             case 1:
                 this.setState({
-                    login:<LoginByUsername/>,
+                    login:<LoginByUsername tohome={this.toHome.bind(this)}/>,
                     type: 1
                 })
                 break;
             case 2:
                 this.setState({
-                    login:<LoginByEmail/>,
+                    login:<LoginByEmail tohome={this.toHome.bind(this)}/>,
                     type: 2
                 })
                 break;
             case 3:
                 this.setState({
-                    login:<LoginByPhone/>,
+                    login:<LoginByPhone tohome={this.toHome.bind(this)}/>,
                     type: 3
                 })
                 break;
@@ -83,7 +91,7 @@ class Login extends Component {
                     }}
                     cancelText='取消'
                 >
-                    <Create/>
+                    <Create close={this.closeModal.bind(this)}/>
                 </Modal>
                 <div>
                     <Radio.Group value={this.state.type} onChange={e=>this.setType(e)} className='radio'>
@@ -109,8 +117,8 @@ const mapStateToProps = (state)=>{
 };
 const mapDispatchToProps = (dispatch)=>{
     return {
-        setToken:()=>{
-            dispatch(token("123456"))
+        token:(msg)=>{
+            dispatch(token(msg))
         }
     }
 }

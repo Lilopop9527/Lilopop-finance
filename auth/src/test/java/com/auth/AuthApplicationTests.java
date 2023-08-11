@@ -82,12 +82,7 @@ class AuthApplicationTests {
 
     @Test
     void test3(){
-        User user = new User("1234567","","13546598799",
-                "","");
-//        user.setId(6L);
-//        userService.updateUser(user);
-        Object u = userRepository.findOneUser(null,null,null);
-        System.out.println(ObjectUtil.isEmpty(u));
+
     }
 
     @Test
@@ -159,5 +154,10 @@ class AuthApplicationTests {
 //        list.add(32L);
 //        stationService.setUsers(list,1L);
     stationService.findUsersByStationId(1L,1,1).getContent().forEach(System.out::println);
+    }
+
+    @Test
+    void test10(){
+
     }
 }

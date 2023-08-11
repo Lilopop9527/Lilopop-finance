@@ -27,56 +27,21 @@ public class LoginService {
     @Autowired
     private StringRedisTemplate template;
 
-    @Autowired
-    private StreamBridge streamBridge;
     public UserVO loginByUsername(String username, String password){
         Optional<User> o = userRepository.findUserByUsernameAndPassword(username, password);
-        if (o.isPresent()){
-            return createUser(o.get());
-        }else {
-//            StringBuffer bu = new StringBuffer("username:");
-//            bu.append(username).append(",password:").append(password);
-//            StringBuffer bu2 = new StringBuffer(this.getClass().toString());
-//            bu2.append(".").append("loginByUsername");
-//            LogMessage msg = LogMessage.builder("auth",bu.toString(),2, bu2.toString());
-//            streamBridge.send("logSend", msg);
-            Asserts.fail("登陆失败，请检查账号密码");
-            return null;
-        }
+        return o.map(this::createUser).orElse(null);
     }
 
     public UserVO loginByPhone(String phone,String verCode){
         //TODO 手机验证码验证
         int codeStatus = 0;
         Optional<User> o = userRepository.findUserByPhoneAndPhoneIsNotNull(phone);
-        if (o.isPresent()){
-            return createUser(o.get());
-        }else {
-//            StringBuffer bu = new StringBuffer("phone:");
-//            bu.append(phone).append(",codeStatus:").append(codeStatus);
-//            StringBuffer bu2 = new StringBuffer(this.getClass().toString());
-//            bu2.append(".").append("loginByPhone");
-//            LogMessage msg = LogMessage.builder("auth",bu.toString(),2, bu2.toString());
-//            streamBridge.send("logSend", msg);
-            Asserts.fail("登陆失败，请检查手机号码和验证码");
-            return null;
-        }
+        return o.map(this::createUser).orElse(null);
     }
 
     public UserVO loginByEmail(String email,String password){
         Optional<User> o = userRepository.findUserByEmailAndPassword(email, password);
-        if (o.isPresent()){
-            return createUser(o.get());
-        }else {
-//            StringBuffer bu = new StringBuffer("email:");
-//            bu.append(email).append(",password:").append(password);
-//            StringBuffer bu2 = new StringBuffer(this.getClass().toString());
-//            bu2.append(".").append("loginByEmail");
-//            LogMessage msg = LogMessage.builder("auth",bu.toString(),2, bu2.toString());
-//            streamBridge.send("logSend", msg);
-            Asserts.fail("登陆失败，请检查邮箱和密码");
-            return null;
-        }
+        return o.map(this::createUser).orElse(null);
     }
 
     public boolean loginout(Long id){
@@ -102,7 +67,7 @@ public class LoginService {
     }
 
     public void saveToken(String token,Long id){
-        template.opsForValue().set("token_"+id,token,30L,TimeUnit.DAYS);
+        template.opsForValue().set("token_"+id,token,30L,TimeUnit.HOURS);
     }
 
     public boolean hasToken(Long id){

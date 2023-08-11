@@ -1,5 +1,6 @@
 package com.auth.section;
 
+import com.common.core.exception.GlobalException;
 import com.common.core.pojo.LogMessage;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.*;
@@ -17,7 +18,7 @@ public class ServiceSection {
     @Autowired
     private StreamBridge streamBridge;
 
-    @Pointcut("execution(public * com.auth.service..*.*(..))")
+    @Pointcut("execution(* com.auth.service.*.*(..))")
     public void sectionPoint(){}
 
     @Before("sectionPoint()")
@@ -48,7 +49,7 @@ public class ServiceSection {
     }
 
     @AfterThrowing(pointcut = "sectionPoint()",throwing = "e")
-    public void exceptionPoint(JoinPoint point,Exception e){
+    public void exceptionPoint(JoinPoint point,Throwable e){
         MethodSignature signature = (MethodSignature)point.getSignature();
         Method method = signature.getMethod();
         StringBuffer bu = new StringBuffer(method.getDeclaringClass().toString());

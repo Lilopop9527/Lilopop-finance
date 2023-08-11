@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Button} from "antd";
+import {Button,Input} from "antd";
 import './login.css'
 import md5 from "js-md5";
 import request from "../../utils/request";
@@ -40,10 +40,10 @@ class LoginByPhone extends Component {
         return (
             <div>
                 <div className='inside'>
-                    手机号：<input onChange={e=>{this.setPhone(e)}}/>
+                    手机号：<Input className='input2' onChange={e=>{this.setPhone(e)}} placeholder='使用手机登录无需注册'/>
                     <br/>
                     <br/>
-                    验证码：<input className='input' onChange={e=>{this.setCode(e)}}/>
+                    验证码：<Input className='input' onChange={e=>{this.setCode(e)}}/>
                     <Button type='primary' onClick={this.sendCode()} className='code'>发送验证码</Button>
                     <br/>
                     <Button type='primary' className='button' onClick={()=>{this.login()}}>登录</Button>
