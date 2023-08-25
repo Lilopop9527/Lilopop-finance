@@ -1,31 +1,21 @@
 import React, {Component} from 'react';
-import Login from "./pages/login/login";
-import Home from "./pages/home/home";
-class App extends Component {
-    constructor() {
-        super();
-        this.state = {
-            app:<Login tohome={this.toHome.bind(this)}/>
-        }
-    }
+import {connect} from "react-redux";
 
-    toHome(){
-        this.setState({
-            app: <Home tologin={this.toLogin.bind(this)}/>
-        })
-    }
-    toLogin(){
-        this.setState({
-            app:<Login tohome={this.toHome.bind(this)}/>
-        })
+class App extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+        }
     }
     render() {
         return (
             <div>
-                {this.state.app}
+                {this.props.element}
             </div>
         );
     }
 }
-
-export default App;
+const mapStateToProps = (state)=>({
+    element:state.element
+})
+export default connect(mapStateToProps)(App);

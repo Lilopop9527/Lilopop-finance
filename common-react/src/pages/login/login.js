@@ -13,7 +13,7 @@ class Login extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            login: <LoginByUsername tohome={this.toHome.bind(this)}/>,
+            login: <LoginByUsername/>,
             forgetPassword: false,
             createUser: false,
             type: 1
@@ -30,27 +30,24 @@ class Login extends Component {
             [msg]: false
         })
     }
-   toHome(){
-        this.props.tohome()
-   }
     setType(e){
         const v = e.target.value
         switch (v) {
             case 1:
                 this.setState({
-                    login:<LoginByUsername tohome={this.toHome.bind(this)}/>,
+                    login:<LoginByUsername/>,
                     type: 1
                 })
                 break;
             case 2:
                 this.setState({
-                    login:<LoginByEmail tohome={this.toHome.bind(this)}/>,
+                    login:<LoginByEmail/>,
                     type: 2
                 })
                 break;
             case 3:
                 this.setState({
-                    login:<LoginByPhone tohome={this.toHome.bind(this)}/>,
+                    login:<LoginByPhone/>,
                     type: 3
                 })
                 break;
@@ -104,22 +101,4 @@ class Login extends Component {
         )
     }
 }
-
-/**
- * connect是一个函数 ，返回一个高阶组件
- * 需要传递两个参数：mapStateToProps，mapDispatchToProps
- */
-//用于建立组件和store的state的映射关系
-const mapStateToProps = (state)=>{
-    return {
-        token: state.token
-    };
-};
-const mapDispatchToProps = (dispatch)=>{
-    return {
-        token:(msg)=>{
-            dispatch(token(msg))
-        }
-    }
-}
-export default connect(mapStateToProps,mapDispatchToProps)(Login);
+export default connect()(Login);
