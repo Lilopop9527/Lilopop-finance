@@ -4,7 +4,7 @@ import './login.css'
 import md5 from "js-md5";
 import request from "../../utils/request";
 import {connect} from "react-redux";
-import {token,home} from "../../stores/auth/action";
+import {token,home,userInfo,route,role} from "../../stores/auth/action";
 
 React.Component.prototype.$md5 = md5
 class LoginByUsername extends Component {
@@ -35,15 +35,22 @@ class LoginByUsername extends Component {
                 password: this.state.password
             }
         }).then(function (response) {
-            console.log(response)
             if (response.data.code === 201){
                 message["error"](response.data.message)
             }else{
+                console.log(response.data)
                 const {dispatch} = p;
                 dispatch(token(response.data.data.token))
+                dispatch(userInfo({
+                    id:response.data.data.id,
+                    username:response.data.data.username,
+                    phone:response.data.data.phone,
+                    email:response.data.data.email,
+                    img:response.data.data.img
+                }))
+                dispatch(role(response.data.data.roles))
+                dispatch(route(response.data.data.routes))
                 dispatch(home(1))
-                //window.localStorage.setItem('token',response.data.data.token)
-                window.localStorage.setItem('user',response.data.data)
                 message['success']('登陆成功')
             }
         }).catch(function (error) {

@@ -1,6 +1,7 @@
 package com.stream.config;
 
 import com.common.core.pojo.LogMessage;
+import com.stream.logger.Auth;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
@@ -11,13 +12,13 @@ import java.util.function.Consumer;
 
 @Configuration
 public class LogStreamConfig {
-
-    Logger logger = LoggerFactory.getLogger(LogStreamConfig.class);
+    private final String AUTH = "auth";
 
     @Bean
     Consumer<List<LogMessage>> logConsumer(){
         return list->{
             list.forEach(e->{
+                Logger logger = changeLogger(e.getFrom());
                 StringBuilder bu = new StringBuilder(e.getFrom());
                 bu.append("服务").append(e.getMethod())
                         .append("参数:").append(e.getData())
@@ -38,5 +39,14 @@ public class LogStreamConfig {
                 }
             });
         };
+    }
+
+    public Logger changeLogger(String from){
+        Logger logger;
+        switch (from){
+            case AUTH -> logger = LoggerFactory.getLogger(Auth.class);
+            default -> logger = LoggerFactory.getLogger(LogStreamConfig.class);
+        }
+        return logger;
     }
 }

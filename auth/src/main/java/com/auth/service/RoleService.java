@@ -52,6 +52,9 @@ public class RoleService {
         return vos;
     }
 
+    public Role getRoleById(Long id){
+        return roleRepository.findRoleById(id);
+    }
     public void saveUserToRole(Long userId,List<Long> roleIds){
         List<UserToRole> lists = getUserAndRoles(userId,roleIds);
         userToRoleRepository.saveAll(lists);

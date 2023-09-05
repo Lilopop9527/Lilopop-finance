@@ -1,5 +1,7 @@
 package com.auth.pojo.vo;
 
+import java.util.List;
+
 public class UserVO {
     private Long id;
     private String username;
@@ -7,17 +9,19 @@ public class UserVO {
     private String phone;
     private String img;
     private String token;
-
+    private List<RoleVO> roles;
+    private List<RouteVO> routes;
     public UserVO() {
     }
 
-    public UserVO(Long id, String username, String email, String phone, String img, String token) {
+    public UserVO(Long id, String username, String email, String phone, String img, String token,List<RoleVO> vos) {
         this.id = id;
         this.username = username;
         this.email = email;
         this.phone = phone;
         this.img = img;
         this.token = token;
+        this.roles = vos;
     }
 
     public Long getId() {
@@ -66,6 +70,22 @@ public class UserVO {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public List<RoleVO> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<RoleVO> roles) {
+        this.roles = roles;
+    }
+
+    public List<RouteVO> getRoutes() {
+        return routes;
+    }
+
+    public void setRoutes(List<RouteVO> routes) {
+        this.routes = routes;
     }
 
     @Override

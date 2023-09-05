@@ -28,14 +28,21 @@ public class Routes {
     )
     private Long id;
     @Column(
-            name = "name",
+            name = "title",
             length = 64
     )
-    private String name;
+    private String title;
     @Column(
-            name = "url"
+            name = "path"
     )
-    private String url;
+    private String path;
+
+    @Column(
+            name = "parent",
+            columnDefinition = "BIGINT DEFAULT 0"
+    )
+    private Long parent;
+
     @Column(
             name = "create_time",
             nullable = false,
@@ -58,9 +65,15 @@ public class Routes {
     public Routes() {
     }
 
-    public Routes(String name, String url) {
-        this.name = name;
-        this.url = url;
+    public Routes(String title, String path) {
+        this.title = title;
+        this.path = path;
+    }
+
+    public Routes(String title, String path, Long parent) {
+        this.title = title;
+        this.path = path;
+        this.parent = parent;
     }
 
     public Long getId() {
@@ -71,20 +84,28 @@ public class Routes {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public String getUrl() {
-        return url;
+    public String getPath() {
+        return path;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+    public void setPath(String path) {
+        this.path = path;
+    }
+
+    public Long getParent() {
+        return parent;
+    }
+
+    public void setParent(Long parent) {
+        this.parent = parent;
     }
 
     public Timestamp getCteateTime() {
@@ -119,8 +140,8 @@ public class Routes {
     public String toString() {
         return "Routes{" +
                 "id=" + id +
-                ", name='" + name + '\'' +
-                ", url='" + url + '\'' +
+                ", name='" + title + '\'' +
+                ", url='" + path + '\'' +
                 '}';
     }
 }

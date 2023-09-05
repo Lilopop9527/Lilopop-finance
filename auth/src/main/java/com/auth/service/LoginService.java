@@ -2,7 +2,11 @@ package com.auth.service;
 
 import cn.hutool.core.util.ObjectUtil;
 import com.auth.dao.UserRepository;
+import com.auth.pojo.base.Role;
+import com.auth.pojo.base.RoleToRoutes;
 import com.auth.pojo.base.User;
+import com.auth.pojo.base.UserToRole;
+import com.auth.pojo.vo.RoleVO;
 import com.auth.pojo.vo.UserVO;
 import com.common.core.exception.Asserts;
 import com.common.core.pojo.LogMessage;
@@ -14,16 +18,15 @@ import org.springframework.cloud.stream.function.StreamBridge;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 @Service
 public class LoginService {
     @Autowired
     private UserRepository userRepository;
-
+    @Autowired
+    private RoutesService routesService;
     @Autowired
     private StringRedisTemplate template;
 
@@ -83,9 +86,25 @@ public class LoginService {
         }else{
             token = template.opsForValue().get("token_"+user.getId());
         }
-        return new UserVO(user.getId(), user.getUsername(),
+        List<Role> roles = new ArrayList<>();
+        List<Long> ids = new ArrayList<>();
+        for (UserToRole utr:user.getRoles()) {
+            Role r = utr.getRole();
+            roles.add(r);
+            ids.add(r.getId());
+        }
+        UserVO vo = new UserVO(user.getId(), user.getUsername(),
                 user.getEmail(),
                 user.getPhone(),
-                user.getImg(), token);
+                user.getImg(), token,roleToVO(roles));
+        vo.setRoutes(routesService.getRoutesByRole(ids));
+        return vo;
+    }
+    public List<RoleVO> roleToVO(List<Role> roles){
+        List<RoleVO> vos = new ArrayList<>();
+        for (Role r:roles) {
+            vos.add(new RoleVO(r.getId(),r.getRoleName()));
+        }
+        return vos;
     }
 }

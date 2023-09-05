@@ -15,7 +15,7 @@
         <setting name="validation-enabled" value="true" />
         <setting name="provider-name" value="Hibernate" />
         <datasource-mapping>
-          <factory-entry name="auth" value="a3e02731-76e3-4eed-948f-86fb31c0bfb1" />
+          <factory-entry name="auth" value="47182868-f02d-42d7-8148-52b1140bc4df" />
         </datasource-mapping>
         <naming-strategy-map />
       </configuration>

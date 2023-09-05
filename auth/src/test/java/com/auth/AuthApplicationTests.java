@@ -44,10 +44,14 @@ class AuthApplicationTests {
     StationService stationService;
     @Autowired
     UserToStationRepository uts;
+    @Autowired
+    RoutesRepository routesRepository;
 
     Faker faker = new Faker();
     @Test
     void contextLoads() {
+        Optional<User> u = userRepository.findById(1L);
+        u.ifPresentOrElse(System.out::println,null);
     }
     @Test
     void test1(){
@@ -82,7 +86,17 @@ class AuthApplicationTests {
 
     @Test
     void test3(){
-
+        List<Routes> list = new ArrayList<>();
+        Routes r1 = new Routes("/","/");
+        r1.setDeleated(0);
+        Routes r2 = new Routes("首页","/home");
+        r2.setDeleated(0);
+        Routes r3 = new Routes("个人中心","/userCenter");
+        r3.setDeleated(0);
+        list.add(r1);
+        list.add(r2);
+        list.add(r3);
+        routesRepository.saveAll(list);
     }
 
     @Test
@@ -93,15 +107,8 @@ class AuthApplicationTests {
 
     @Test
     void test5(){
-        UserDetail detail = new UserDetail(faker.name().firstName(),faker.name().lastName(),"1993-03-12",
-                "1234567890",184,209,"A","coding",
-                "");
-        detail.setId(12L);
-        User user = new User();
-        user.setId(109l);
-        detail.setUser(user);
-        detailRepository.save(detail);
-
+        UserVO vo = loginService.loginByUsername("Lilopop_001","e10adc3949ba59abbe56e057f20f883e");
+        System.out.println(vo);
     }
 
     @Test

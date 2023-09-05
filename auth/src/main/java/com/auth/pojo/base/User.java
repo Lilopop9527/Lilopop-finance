@@ -82,7 +82,8 @@ public class User {
 
     @OneToMany(
             cascade = {CascadeType.PERSIST,CascadeType.REMOVE},
-            mappedBy = "user"
+            mappedBy = "user",
+            fetch = FetchType.EAGER
     )
     private List<UserToRole> roles;
     @OneToMany(

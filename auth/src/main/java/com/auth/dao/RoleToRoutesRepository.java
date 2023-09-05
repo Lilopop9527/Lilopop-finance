@@ -9,4 +9,5 @@ import java.util.List;
 public interface RoleToRoutesRepository extends JpaRepository<RoleToRoutes, RoleRoutesId> {
 
     List<RoleToRoutes> findRoleToRoutesById_RoleId(Long id);
+    List<RoleToRoutes> findRoleToRoutesById_RoleIdIn(List<Long> id);
 }
