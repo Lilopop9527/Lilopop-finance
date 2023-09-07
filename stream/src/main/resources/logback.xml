@@ -25,7 +25,7 @@
             <pattern>${logRule}</pattern>
         </encoder>
         <rollingPolicy class = "ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-            <fileNamePattern>${logDir}/log_roll.%d{yyyy-MM-dd}.log%i.log</fileNamePattern>
+            <fileNamePattern>${logDir}/auth/log_roll.%d{yyyy-MM-dd}.log%i.log</fileNamePattern>
             <maxFileSize>50MB</maxFileSize>
         </rollingPolicy>
         <filter class="ch.qos.logback.classic.filter.LevelFilter">

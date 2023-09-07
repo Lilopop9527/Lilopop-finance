@@ -26,3 +26,11 @@
 .input2 {
     width: 180px;
 }
+.box1 {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-image: url("../../img/bg_01.jpeg");
+    background-repeat: no-repeat;
+    background-size: 100%;
+}

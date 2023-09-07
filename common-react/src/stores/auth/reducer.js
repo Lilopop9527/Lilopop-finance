@@ -18,7 +18,7 @@ const reducer = (state=data,action)=>{
         case HOME:
             return {...state,element: <Home/>}
         case USERINFO:
-            return {...state,user:action.user}
+            return {...state,user:action.info}
         case ROLE:
             return {...state,role:action.role}
         case ROUTE:

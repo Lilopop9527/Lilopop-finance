@@ -20,24 +20,6 @@ class Left extends Component {
         })
     }
 
-    //  getMenus(){
-    //     const p = this.props
-    //     const local = this
-    //     const menus =  request({
-    //         url: '/auth/route/lists',
-    //         method: 'get',
-    //         headers: {
-    //             'Auth': p.token
-    //         }
-    //     }).then(
-    //         function (response) {
-    //             local.setState({
-    //                 menus: response.data.data
-    //             })
-    //         }
-    //     )
-    // }
-
 
     getMenuItem = (data)=>{
         return data.map(
@@ -67,7 +49,7 @@ class Left extends Component {
         return (
             <div>
                 <div className='logo'>
-                    <h1>软件</h1>
+                    <h1>Lilopop</h1>
                 </div>
                 <Menu theme='dark'>{this.state.menuItem}</Menu>
             </div>

@@ -17,7 +17,10 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
+/**
+ *@author: Lilopop
+ *@description:部门信息处理业务
+ */
 @Service
 public class DeptService {
     @Autowired
@@ -27,10 +30,19 @@ public class DeptService {
     @Autowired
     private UserToDeptRepository userToDeptRepository;
 
+    /**
+     * 存储部门信息
+     * @param department 部门信息
+     */
     public void saveDept(Department department){
         departmentRepository.save(department);
     }
 
+    /**
+     * 设置部门负责人
+     * @param userId 负责人id
+     * @param deptId 部门id
+     */
     public void saveDeptPrincipal(Long userId,Long deptId){
         Optional<Department> o1 = departmentRepository.findById(deptId);
         Optional<User> o2 = userRepository.findById(userId);
@@ -41,16 +53,31 @@ public class DeptService {
         departmentRepository.save(department);
     }
 
+    /**
+     * 存储用户和部门关系
+     * @param userIds 用户id列表
+     * @param deptId 部门id
+     */
     public void saveUserToDept(List<Long> userIds, Long deptId){
         List<UserToDept> ups = userToDept(userIds, deptId);
         userToDeptRepository.saveAll(ups);
     }
-
+    /**
+     * 删除用户和部门关系
+     * @param userIds 用户id列表
+     * @param deptId 部门id
+     */
     public void delUserToDept(List<Long> userIds, Long deptId){
         List<UserToDept> ups = userToDept(userIds, deptId);
         userToDeptRepository.deleteAll(ups);
     }
 
+    /**
+     * 获取用户和部门关联
+     * @param userIds 用户id列表
+     * @param deptId 部门id
+     * @return 用户和部门关联对象
+     */
     public List<UserToDept> userToDept(List<Long> userIds,Long deptId){
         List<UserToDept> list = new ArrayList<>();
         List<User> o1 = userRepository.findAllById(userIds);
@@ -64,6 +91,12 @@ public class DeptService {
         return list;
     }
 
+    /**
+     * 获取所有部门信息
+     * @param pageNum 当前查询页
+     * @param pageSize 每页数据量
+     * @return 部门信息列表
+     */
     public List<Department> listPage(Integer pageNum,Integer pageSize){
         //TODO 分页对象应该封装一下
         Pageable pageable = PageRequest.of(pageNum,pageSize);

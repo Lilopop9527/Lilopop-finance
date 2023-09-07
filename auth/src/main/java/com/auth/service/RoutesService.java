@@ -11,7 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-
+/**
+ *@author: Lilopop
+ *@description:页面权限信息
+ */
 @Service
 public class RoutesService {
 
@@ -22,18 +25,34 @@ public class RoutesService {
     @Autowired
     private RoleService roleService;
 
+    /**
+     * 存储路径
+     * @param routes 路径列表
+     */
     public void saveRoutes(List<Routes> routes){
         routesRepository.saveAll(routes);
     }
-
+    /**
+     * 删除路径
+     * @param routes 路径id列表
+     */
     public void delRoutes(List<Long> routes){
         routesRepository.deleteRoutesByIdIn(routes);
     }
 
+    /**
+     * 获取所有路径
+     * @return 路径对象列表
+     */
     public List<Routes> listRoutes(){
         return routesRepository.findAll();
     }
 
+    /**
+     * 设置角色访问权限
+     * @param route 路径id列表
+     * @param roleId 角色id
+     */
     public void saveRoleToRoutes(List<Long> route,Long roleId){
         Role role = roleService.getRoleById(roleId);
         List<Routes> routes = routesRepository.findRoutesByDeleatedAndIdIn(0,route);
@@ -46,10 +65,19 @@ public class RoutesService {
         roleToRoutesRepository.saveAll(rtrs);
     }
 
+    /**
+     * 查询角色权限路径
+     * @param roleId 角色id
+     * @return 路由列表
+     */
     public List<RoleToRoutes> getRoutesByRole(Long roleId){
         return roleToRoutesRepository.findRoleToRoutesById_RoleId(roleId);
     }
-
+    /**
+     * 查询角色权限路径
+     * @param roles 角色id列表
+     * @return 路由列表
+     */
     public List<RouteVO> getRoutesByRole(List<Long> roles){
         Set<Routes> routes = new HashSet<>();
         List<RoleToRoutes> rtrs = roleToRoutesRepository.findRoleToRoutesById_RoleIdIn(roles);
@@ -66,6 +94,12 @@ public class RoutesService {
         return routeToVO(map,0L);
     }
 
+    /**
+     * 设置路径上下级关系
+     * @param routes 每一级路由
+     * @param key 当前需要设置的路由层级
+     * @return key所代表的路由层级列表
+     */
     public List<RouteVO> routeToVO(Map<Long,List<Routes>> routes,Long key){
         List<RouteVO> vos = new ArrayList<>();
         if (!routes.containsKey(key))

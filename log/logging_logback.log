@@ -1,63 +1,41 @@
-[INFO      ] 2023-08-25 18:36:39 HV000001: Hibernate Validator 8.0.0.Final
-[INFO      ] 2023-08-25 18:36:39 Starting StreamApplication using Java 17.0.6 with PID 12216 (E:\workspace\Lilopop\stream\target\classes started by Administrator in E:\workspace\Lilopop)
-[INFO      ] 2023-08-25 18:36:39 No active profile set, falling back to 1 default profile: "default"
-[INFO      ] 2023-08-25 18:36:40 No bean named 'errorChannel' has been explicitly defined. Therefore, a default PublishSubscribeChannel will be created.
-[INFO      ] 2023-08-25 18:36:40 No bean named 'integrationHeaderChannelRegistry' has been explicitly defined. Therefore, a default DefaultHeaderChannelRegistry will be created.
-[INFO      ] 2023-08-25 18:36:40 Bean 'org.springframework.boot.autoconfigure.integration.IntegrationAutoConfiguration$IntegrationJmxConfiguration' of type [org.springframework.boot.autoconfigure.integration.IntegrationAutoConfiguration$IntegrationJmxConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
-[INFO      ] 2023-08-25 18:36:40 Bean 'org.springframework.cloud.stream.binder.rabbit.config.ExtendedBindingHandlerMappingsProviderConfiguration' of type [org.springframework.cloud.stream.binder.rabbit.config.ExtendedBindingHandlerMappingsProviderConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
-[INFO      ] 2023-08-25 18:36:40 Bean 'rabbitExtendedPropertiesDefaultMappingsProvider' of type [org.springframework.cloud.stream.binder.rabbit.config.ExtendedBindingHandlerMappingsProviderConfiguration$$Lambda$583/0x0000000800f9f618] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
-[INFO      ] 2023-08-25 18:36:40 Bean 'BindingHandlerAdvise' of type [org.springframework.cloud.stream.config.BindingHandlerAdvise] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
-[INFO      ] 2023-08-25 18:36:40 Bean 'spelConverter' of type [org.springframework.cloud.stream.config.SpelExpressionConverterConfiguration$SpelConverter] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
-[INFO      ] 2023-08-25 18:36:40 Bean 'spring.jmx-org.springframework.boot.autoconfigure.jmx.JmxProperties' of type [org.springframework.boot.autoconfigure.jmx.JmxProperties] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
-[INFO      ] 2023-08-25 18:36:40 Bean 'org.springframework.boot.autoconfigure.jmx.JmxAutoConfiguration' of type [org.springframework.boot.autoconfigure.jmx.JmxAutoConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
-[INFO      ] 2023-08-25 18:36:40 Bean 'mbeanServer' of type [com.sun.jmx.mbeanserver.JmxMBeanServer] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
-[INFO      ] 2023-08-25 18:36:41 Channel 'stream.logConsumer-in-0' has 1 subscriber(s).
-[WARN      ] 2023-08-25 18:36:41 Using deprecated '-debug' fallback for parameter name resolution. Compile the affected code with '-parameters' instead or avoid its introspection: org.springframework.amqp.rabbit.core.RabbitAdmin
-[INFO      ] 2023-08-25 18:36:41 Registering MessageChannel errorChannel
-[INFO      ] 2023-08-25 18:36:41 Registering MessageChannel logConsumer-in-0
-[INFO      ] 2023-08-25 18:36:41 Registering MessageChannel nullChannel
-[INFO      ] 2023-08-25 18:36:41 Registering MessageHandler _org.springframework.integration.errorLogger
-[INFO      ] 2023-08-25 18:36:41 Adding {logging-channel-adapter:_org.springframework.integration.errorLogger} as a subscriber to the 'errorChannel' channel
-[INFO      ] 2023-08-25 18:36:41 Channel 'stream.errorChannel' has 1 subscriber(s).
-[INFO      ] 2023-08-25 18:36:41 started bean '_org.springframework.integration.errorLogger'
-[INFO      ] 2023-08-25 18:36:41 Netty started on port 9800
-[INFO      ] 2023-08-25 18:36:41 Creating binder: rabbit
-[INFO      ] 2023-08-25 18:36:41 Constructing binder child context for rabbit
-[INFO      ] 2023-08-25 18:36:41 Caching the binder: rabbit
-[INFO      ] 2023-08-25 18:36:41 declaring queue for inbound: log.logconsumer, bound to: log
-[INFO      ] 2023-08-25 18:36:41 Attempting to connect to: [127.0.0.1:5672]
-[INFO      ] 2023-08-25 18:36:41 Created new connection: rabbitConnectionFactory#68ab6ab0:0/SimpleConnection@150d6eaf [delegate=amqp://guest@127.0.0.1:5672/, localPort=56041]
-[INFO      ] 2023-08-25 18:36:41 Channel 'rabbit-1899600322.logConsumer-in-0.errors' has 1 subscriber(s).
-[INFO      ] 2023-08-25 18:36:41 Channel 'rabbit-1899600322.logConsumer-in-0.errors' has 2 subscriber(s).
-[INFO      ] 2023-08-25 18:36:41 started bean 'inbound.log.logconsumer'
-[INFO      ] 2023-08-25 18:36:41 Started StreamApplication in 2.208 seconds (process running for 2.703)
-[INFO      ] 2023-08-25 18:37:00 auth服务class com.auth.service.LoginService.loginByUsername参数:username:Lilopop_003 password:e10adc3949ba59abbe56e057f20f883e ，执行结果为:调用
-[INFO      ] 2023-08-25 18:37:00 auth服务class com.auth.service.LoginService.loginByUsername参数:UserVO{id=123, username='Lilopop_003', email='123456@qq.cpm', phone='null', img='null', token='eyJ0eXAiOiJqd3QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjEyMyIsImV4cCI6MTY5Mjg3NjMxMSwiaWF0IjoxNjkyODc0NTExLCJ1c2VyIjoiTGlsb3BvcF8wMDMiLCJlbWFpbCI6IjEyMzQ1NkBxcS5jcG0ifQ.WSX4bGbteHH-XB0kbOuHSXWDPk2g05qNrXFH4pCOT2I'}，执行结果为:成功
-[INFO      ] 2023-08-25 18:37:56 auth服务class com.auth.service.LoginService.loginByUsername参数:username:Lilopop_003 password:e10adc3949ba59abbe56e057f20f883e ，执行结果为:调用
-[INFO      ] 2023-08-25 18:37:56 auth服务class com.auth.service.LoginService.loginByUsername参数:UserVO{id=123, username='Lilopop_003', email='123456@qq.cpm', phone='null', img='null', token='eyJ0eXAiOiJqd3QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjEyMyIsImV4cCI6MTY5Mjg3NjMxMSwiaWF0IjoxNjkyODc0NTExLCJ1c2VyIjoiTGlsb3BvcF8wMDMiLCJlbWFpbCI6IjEyMzQ1NkBxcS5jcG0ifQ.WSX4bGbteHH-XB0kbOuHSXWDPk2g05qNrXFH4pCOT2I'}，执行结果为:成功
-[INFO      ] 2023-08-25 18:39:18 auth服务class com.auth.service.LoginService.loginByUsername参数:username:Lilopop_003 password:e10adc3949ba59abbe56e057f20f883e ，执行结果为:调用
-[INFO      ] 2023-08-25 18:39:18 auth服务class com.auth.service.LoginService.loginByUsername参数:UserVO{id=123, username='Lilopop_003', email='123456@qq.cpm', phone='null', img='null', token='eyJ0eXAiOiJqd3QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjEyMyIsImV4cCI6MTY5Mjg3NjMxMSwiaWF0IjoxNjkyODc0NTExLCJ1c2VyIjoiTGlsb3BvcF8wMDMiLCJlbWFpbCI6IjEyMzQ1NkBxcS5jcG0ifQ.WSX4bGbteHH-XB0kbOuHSXWDPk2g05qNrXFH4pCOT2I'}，执行结果为:成功
-[INFO      ] 2023-08-25 18:41:05 auth服务class com.auth.service.LoginService.loginByUsername参数:username:Lilopop_003 password:e10adc3949ba59abbe56e057f20f883e ，执行结果为:调用
-[INFO      ] 2023-08-25 18:41:05 auth服务class com.auth.service.LoginService.loginByUsername参数:UserVO{id=123, username='Lilopop_003', email='123456@qq.cpm', phone='null', img='null', token='eyJ0eXAiOiJqd3QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjEyMyIsImV4cCI6MTY5Mjg3NjMxMSwiaWF0IjoxNjkyODc0NTExLCJ1c2VyIjoiTGlsb3BvcF8wMDMiLCJlbWFpbCI6IjEyMzQ1NkBxcS5jcG0ifQ.WSX4bGbteHH-XB0kbOuHSXWDPk2g05qNrXFH4pCOT2I'}，执行结果为:成功
-[INFO      ] 2023-08-25 18:42:33 auth服务class com.auth.service.LoginService.loginByUsername参数:username:Lilopop_003 password:e10adc3949ba59abbe56e057f20f883e ，执行结果为:调用
-[INFO      ] 2023-08-25 18:42:33 auth服务class com.auth.service.LoginService.loginByUsername参数:UserVO{id=123, username='Lilopop_003', email='123456@qq.cpm', phone='null', img='null', token='eyJ0eXAiOiJqd3QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjEyMyIsImV4cCI6MTY5Mjg3NjMxMSwiaWF0IjoxNjkyODc0NTExLCJ1c2VyIjoiTGlsb3BvcF8wMDMiLCJlbWFpbCI6IjEyMzQ1NkBxcS5jcG0ifQ.WSX4bGbteHH-XB0kbOuHSXWDPk2g05qNrXFH4pCOT2I'}，执行结果为:成功
-[INFO      ] 2023-08-25 18:45:32 auth服务class com.auth.service.LoginService.loginByUsername参数:username:Lilopop_003 password:e10adc3949ba59abbe56e057f20f883e ，执行结果为:调用
-[INFO      ] 2023-08-25 18:45:32 auth服务class com.auth.service.LoginService.loginByUsername参数:UserVO{id=123, username='Lilopop_003', email='123456@qq.cpm', phone='null', img='null', token='eyJ0eXAiOiJqd3QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjEyMyIsImV4cCI6MTY5Mjg3NjMxMSwiaWF0IjoxNjkyODc0NTExLCJ1c2VyIjoiTGlsb3BvcF8wMDMiLCJlbWFpbCI6IjEyMzQ1NkBxcS5jcG0ifQ.WSX4bGbteHH-XB0kbOuHSXWDPk2g05qNrXFH4pCOT2I'}，执行结果为:成功
-[INFO      ] 2023-08-25 18:46:21 auth服务class com.auth.service.LoginService.loginByUsername参数:username:Lilopop_003 password:e10adc3949ba59abbe56e057f20f883e ，执行结果为:调用
-[INFO      ] 2023-08-25 18:46:21 auth服务class com.auth.service.LoginService.loginByUsername参数:UserVO{id=123, username='Lilopop_003', email='123456@qq.cpm', phone='null', img='null', token='eyJ0eXAiOiJqd3QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjEyMyIsImV4cCI6MTY5Mjg3NjMxMSwiaWF0IjoxNjkyODc0NTExLCJ1c2VyIjoiTGlsb3BvcF8wMDMiLCJlbWFpbCI6IjEyMzQ1NkBxcS5jcG0ifQ.WSX4bGbteHH-XB0kbOuHSXWDPk2g05qNrXFH4pCOT2I'}，执行结果为:成功
-[INFO      ] 2023-08-25 18:48:26 auth服务class com.auth.service.LoginService.loginByUsername参数:username:Lilopop_003 password:e10adc3949ba59abbe56e057f20f883e ，执行结果为:调用
-[INFO      ] 2023-08-25 18:48:26 auth服务class com.auth.service.LoginService.loginByUsername参数:UserVO{id=123, username='Lilopop_003', email='123456@qq.cpm', phone='null', img='null', token='eyJ0eXAiOiJqd3QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjEyMyIsImV4cCI6MTY5Mjg3NjMxMSwiaWF0IjoxNjkyODc0NTExLCJ1c2VyIjoiTGlsb3BvcF8wMDMiLCJlbWFpbCI6IjEyMzQ1NkBxcS5jcG0ifQ.WSX4bGbteHH-XB0kbOuHSXWDPk2g05qNrXFH4pCOT2I'}，执行结果为:成功
-[INFO      ] 2023-08-25 18:53:36 auth服务class com.auth.service.LoginService.loginByUsername参数:username:Lilopop_003 password:e10adc3949ba59abbe56e057f20f883e ，执行结果为:调用
-[INFO      ] 2023-08-25 18:53:36 auth服务class com.auth.service.LoginService.loginByUsername参数:UserVO{id=123, username='Lilopop_003', email='123456@qq.cpm', phone='null', img='null', token='eyJ0eXAiOiJqd3QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjEyMyIsImV4cCI6MTY5Mjg3NjMxMSwiaWF0IjoxNjkyODc0NTExLCJ1c2VyIjoiTGlsb3BvcF8wMDMiLCJlbWFpbCI6IjEyMzQ1NkBxcS5jcG0ifQ.WSX4bGbteHH-XB0kbOuHSXWDPk2g05qNrXFH4pCOT2I'}，执行结果为:成功
-[INFO      ] 2023-08-25 18:54:59 auth服务class com.auth.service.LoginService.loginByUsername参数:username:Lilopop_003 password:e10adc3949ba59abbe56e057f20f883e ，执行结果为:调用
-[INFO      ] 2023-08-25 18:54:59 auth服务class com.auth.service.LoginService.loginByUsername参数:UserVO{id=123, username='Lilopop_003', email='123456@qq.cpm', phone='null', img='null', token='eyJ0eXAiOiJqd3QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjEyMyIsImV4cCI6MTY5Mjg3NjMxMSwiaWF0IjoxNjkyODc0NTExLCJ1c2VyIjoiTGlsb3BvcF8wMDMiLCJlbWFpbCI6IjEyMzQ1NkBxcS5jcG0ifQ.WSX4bGbteHH-XB0kbOuHSXWDPk2g05qNrXFH4pCOT2I'}，执行结果为:成功
-[INFO      ] 2023-08-25 18:57:35 auth服务class com.auth.service.LoginService.loginByUsername参数:username:Lilopop_003 password:e10adc3949ba59abbe56e057f20f883e ，执行结果为:调用
-[INFO      ] 2023-08-25 18:57:35 auth服务class com.auth.service.LoginService.loginByUsername参数:UserVO{id=123, username='Lilopop_003', email='123456@qq.cpm', phone='null', img='null', token='eyJ0eXAiOiJqd3QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjEyMyIsImV4cCI6MTY5Mjg3NjMxMSwiaWF0IjoxNjkyODc0NTExLCJ1c2VyIjoiTGlsb3BvcF8wMDMiLCJlbWFpbCI6IjEyMzQ1NkBxcS5jcG0ifQ.WSX4bGbteHH-XB0kbOuHSXWDPk2g05qNrXFH4pCOT2I'}，执行结果为:成功
-[INFO      ] 2023-08-25 18:58:20 Waiting for workers to finish.
-[INFO      ] 2023-08-25 18:58:21 Successfully waited for workers to finish.
-[INFO      ] 2023-08-25 18:58:21 stopped bean 'inbound.log.logconsumer'
-[INFO      ] 2023-08-25 18:58:21 Registering MessageChannel rabbit-1899600322.logConsumer-in-0.errors
-[INFO      ] 2023-08-25 18:58:21 Channel 'stream.rabbit-1899600322.logConsumer-in-0.errors' has 1 subscriber(s).
-[INFO      ] 2023-08-25 18:58:21 Removing {logging-channel-adapter:_org.springframework.integration.errorLogger} as a subscriber to the 'errorChannel' channel
-[INFO      ] 2023-08-25 18:58:21 Channel 'stream.errorChannel' has 0 subscriber(s).
-[INFO      ] 2023-08-25 18:58:21 stopped bean '_org.springframework.integration.errorLogger'
+[INFO      ] 2023-09-07 18:52:40 HV000001: Hibernate Validator 8.0.0.Final
+[INFO      ] 2023-09-07 18:52:40 Starting StreamApplication using Java 17.0.6 with PID 2588 (E:\workspace\Lilopop\stream\target\classes started by Administrator in E:\workspace\Lilopop)
+[INFO      ] 2023-09-07 18:52:40 No active profile set, falling back to 1 default profile: "default"
+[INFO      ] 2023-09-07 18:52:40 No bean named 'errorChannel' has been explicitly defined. Therefore, a default PublishSubscribeChannel will be created.
+[INFO      ] 2023-09-07 18:52:40 No bean named 'integrationHeaderChannelRegistry' has been explicitly defined. Therefore, a default DefaultHeaderChannelRegistry will be created.
+[INFO      ] 2023-09-07 18:52:40 Bean 'org.springframework.boot.autoconfigure.integration.IntegrationAutoConfiguration$IntegrationJmxConfiguration' of type [org.springframework.boot.autoconfigure.integration.IntegrationAutoConfiguration$IntegrationJmxConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+[INFO      ] 2023-09-07 18:52:40 Bean 'org.springframework.cloud.stream.binder.rabbit.config.ExtendedBindingHandlerMappingsProviderConfiguration' of type [org.springframework.cloud.stream.binder.rabbit.config.ExtendedBindingHandlerMappingsProviderConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+[INFO      ] 2023-09-07 18:52:40 Bean 'rabbitExtendedPropertiesDefaultMappingsProvider' of type [org.springframework.cloud.stream.binder.rabbit.config.ExtendedBindingHandlerMappingsProviderConfiguration$$Lambda$583/0x0000000800f7ee38] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+[INFO      ] 2023-09-07 18:52:40 Bean 'BindingHandlerAdvise' of type [org.springframework.cloud.stream.config.BindingHandlerAdvise] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+[INFO      ] 2023-09-07 18:52:40 Bean 'spelConverter' of type [org.springframework.cloud.stream.config.SpelExpressionConverterConfiguration$SpelConverter] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+[INFO      ] 2023-09-07 18:52:40 Bean 'spring.jmx-org.springframework.boot.autoconfigure.jmx.JmxProperties' of type [org.springframework.boot.autoconfigure.jmx.JmxProperties] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+[INFO      ] 2023-09-07 18:52:40 Bean 'org.springframework.boot.autoconfigure.jmx.JmxAutoConfiguration' of type [org.springframework.boot.autoconfigure.jmx.JmxAutoConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+[INFO      ] 2023-09-07 18:52:40 Bean 'mbeanServer' of type [com.sun.jmx.mbeanserver.JmxMBeanServer] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+[INFO      ] 2023-09-07 18:52:42 Channel 'stream.logConsumer-in-0' has 1 subscriber(s).
+[WARN      ] 2023-09-07 18:52:42 Using deprecated '-debug' fallback for parameter name resolution. Compile the affected code with '-parameters' instead or avoid its introspection: org.springframework.amqp.rabbit.core.RabbitAdmin
+[INFO      ] 2023-09-07 18:52:42 Registering MessageChannel errorChannel
+[INFO      ] 2023-09-07 18:52:42 Registering MessageChannel logConsumer-in-0
+[INFO      ] 2023-09-07 18:52:42 Registering MessageChannel nullChannel
+[INFO      ] 2023-09-07 18:52:42 Registering MessageHandler _org.springframework.integration.errorLogger
+[INFO      ] 2023-09-07 18:52:42 Adding {logging-channel-adapter:_org.springframework.integration.errorLogger} as a subscriber to the 'errorChannel' channel
+[INFO      ] 2023-09-07 18:52:42 Channel 'stream.errorChannel' has 1 subscriber(s).
+[INFO      ] 2023-09-07 18:52:42 started bean '_org.springframework.integration.errorLogger'
+[INFO      ] 2023-09-07 18:52:42 Netty started on port 9800
+[INFO      ] 2023-09-07 18:52:42 Creating binder: rabbit
+[INFO      ] 2023-09-07 18:52:42 Constructing binder child context for rabbit
+[INFO      ] 2023-09-07 18:52:42 Caching the binder: rabbit
+[INFO      ] 2023-09-07 18:52:42 declaring queue for inbound: log.logconsumer, bound to: log
+[INFO      ] 2023-09-07 18:52:42 Attempting to connect to: [127.0.0.1:5672]
+[INFO      ] 2023-09-07 18:52:42 Created new connection: rabbitConnectionFactory#68ab6ab0:0/SimpleConnection@150d6eaf [delegate=amqp://guest@127.0.0.1:5672/, localPort=64070]
+[INFO      ] 2023-09-07 18:52:42 Channel 'rabbit-1899600322.logConsumer-in-0.errors' has 1 subscriber(s).
+[INFO      ] 2023-09-07 18:52:42 Channel 'rabbit-1899600322.logConsumer-in-0.errors' has 2 subscriber(s).
+[INFO      ] 2023-09-07 18:52:42 started bean 'inbound.log.logconsumer'
+[INFO      ] 2023-09-07 18:52:42 Started StreamApplication in 2.714 seconds (process running for 4.036)
+[INFO      ] 2023-09-07 20:28:32 Waiting for workers to finish.
+[INFO      ] 2023-09-07 20:28:33 Successfully waited for workers to finish.
+[INFO      ] 2023-09-07 20:28:33 stopped bean 'inbound.log.logconsumer'
+[INFO      ] 2023-09-07 20:28:33 Registering MessageChannel rabbit-1899600322.logConsumer-in-0.errors
+[INFO      ] 2023-09-07 20:28:33 Channel 'stream.rabbit-1899600322.logConsumer-in-0.errors' has 1 subscriber(s).
+[INFO      ] 2023-09-07 20:28:33 Removing {logging-channel-adapter:_org.springframework.integration.errorLogger} as a subscriber to the 'errorChannel' channel
+[INFO      ] 2023-09-07 20:28:33 Channel 'stream.errorChannel' has 0 subscriber(s).
+[INFO      ] 2023-09-07 20:28:33 stopped bean '_org.springframework.integration.errorLogger'

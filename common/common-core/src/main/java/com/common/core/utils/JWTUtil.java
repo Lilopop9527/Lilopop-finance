@@ -25,7 +25,7 @@ public class JWTUtil {
     public static String createToken(Map<String,Object> map){
         //TODO 添加日志打印
         //设置过期时间
-        Date expDate = new Date(System.currentTimeMillis()+EXPIRE_TIME);
+        //Date expDate = new Date(System.currentTimeMillis()+EXPIRE_TIME);
         //设置加密算法
         Algorithm algorithm = Algorithm.HMAC256(secert);
         //设置请求头
@@ -36,7 +36,8 @@ public class JWTUtil {
                 //当前时间
                 .withIssuedAt(new Date())
                 //过期时间
-                .withExpiresAt(expDate);
+                //.withExpiresAt(expDate)
+        ;
         //添加负载信息
         map.forEach((k,v)->{
             if(v instanceof Integer){

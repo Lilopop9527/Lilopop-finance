@@ -1,6 +1,5 @@
 import React,{Component}  from 'react';
 import {connect} from "react-redux";
-import {token} from "../../stores/auth/action";
 import {Button,Modal,Radio} from 'antd'
 import LoginByUsername from "./loginByUsername";
 import LoginByEmail from "./loginByEmail";
@@ -56,9 +55,9 @@ class Login extends Component {
 
     render() {
         return (
-            <div>
+            <div className='box1'>
                 <div className='login'>
-                    <h1>欢迎使用XXX管理系统</h1>
+                    <h1>欢迎使用Lilo管理系统</h1>
                     {this.state.login}
                 </div>
                 <Button type='link' className="link" onClick={()=>this.showModal('forgetPassword')}>忘记密码？</Button>

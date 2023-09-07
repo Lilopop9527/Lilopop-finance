@@ -31,4 +31,9 @@ public class BaseController {
                 new CommonData<>(201,"登录失败，请检查输入信息",null):
                 new CommonData<>(200,"success",vo);
     }
+
+    @GetMapping("/logout")
+    public CommonData<Object> logout(Long id){
+        return loginService.loginout(id)?new CommonData<>(200,"success",null):new CommonData<>(500,"当前用户已过期",null);
+    }
 }

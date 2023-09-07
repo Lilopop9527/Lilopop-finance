@@ -23,13 +23,22 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-
+/**
+ *@author: Lilopop
+ *@description:用户基本信息
+ */
 @Service
 public class UserService {
     @Autowired
     private UserRepository userRepository;
     @Autowired
     private UserToRoleRepository userToRoleRepository;
+
+    /**
+     * 保存用户信息
+     * @param user 用户对象
+     * @return 存储结果
+     */
     public boolean saveUser(User user){
         String username = user.getUsername();
         String email = user.getEmail();
@@ -51,7 +60,10 @@ public class UserService {
         userRepository.save(user);
         return true;
     }
-
+    /**
+     * 更新用户信息（待处理）
+     * @param u 用户对象
+     */
     public void updateUser(User u){
         Optional<User> o = userRepository.findById(u.getId());
         if(o.isEmpty()){
@@ -77,6 +89,13 @@ public class UserService {
         userRepository.save(user);
     }
 
+    /**
+     * 根据用户名查找用户数据
+     * @param pageNum 需要查询的页数
+     * @param pageSize 每页数据量
+     * @param username 用户名关键字
+     * @return 分页对象
+     */
     public Page<User> listUsernameByPage(Integer pageNum, Integer pageSize, String username){
         //TODO 分页对象应该封装一下
         Pageable pageable = PageRequest.of(pageNum,pageSize);
@@ -84,7 +103,13 @@ public class UserService {
         bu.append(username).append("%");
         return userRepository.findByUsernameLikeAndUsernameIsNotNullOrderById(bu.toString(),pageable);
     }
-
+    /**
+     * 根据邮箱查找用户数据
+     * @param pageNum 需要查询的页数
+     * @param pageSize 每页数据量
+     * @param email 邮箱关键字
+     * @return 分页对象
+     */
     public Page<User> listEmailByPage(Integer pageNum, Integer pageSize, String email){
         //TODO 分页对象应该封装一下
         Pageable pageable = PageRequest.of(pageNum,pageSize);
@@ -92,7 +117,11 @@ public class UserService {
         bu.append(email).append("%");
         return userRepository.findByEmailLikeAndEmailIsNotNull(bu.toString(),pageable);
     }
-
+    /**
+     * 根据手机号查找用户数据
+     * @param phone 手机号
+     * @return user对象
+     */
     public List<User> getByPhone(String phone){
         Optional<User> o = userRepository.findUserByPhoneAndPhoneIsNotNull(phone);
         if (o.isEmpty()){
@@ -103,6 +132,11 @@ public class UserService {
         return list;
     }
 
+    /**
+     * 修改逻辑删除状态
+     * @param id 用户id
+     * @param deleted 删除状态
+     */
     public void changeUserDeleted(Long id,Integer deleted){
         Optional<User> o = userRepository.findById(id);
         if (o.isEmpty()){
@@ -115,6 +149,11 @@ public class UserService {
         userRepository.save(user);
     }
 
+    /**
+     * 根据角色查询对应用户
+     * @param roleIds 角色id列表
+     * @return userVO列表
+     */
     public List<UserVO> getUsersByRole(List<Long> roleIds){
         List<UserVO> vos = new ArrayList<>();
         List<UserToRole> roles = userToRoleRepository.findUserToRolesById_RoleIdIn(roleIds);

@@ -5,13 +5,11 @@ import Header from "./pages/header";
 import Footer from "./pages/footer";
 import {useRoutes} from 'react-router-dom'
 import Menu from '../../routes/menus'
+import './home.css'
 class Home extends Component {
     constructor(props) {
         super(props);
         this.state = {}
-    }
-    toLogin(){
-        this.props.tologin()
     }
     render() {
         const Menus = ()=>{
@@ -19,7 +17,7 @@ class Home extends Component {
         }
         return (
             <div>
-                <Row>
+                <Row className='container'>
                     <Col span='3' className='nav-left'>
                         <Left/>
                     </Col>

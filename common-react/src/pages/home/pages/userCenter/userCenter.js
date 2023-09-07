@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
 import {delToken, login} from "../../../../stores/auth/action";
-
+import '../../home.css'
 class UserCenter extends Component {
     constructor(props) {
         super(props);
@@ -22,7 +22,7 @@ class UserCenter extends Component {
     }
     render() {
         return (
-            <div>
+            <div className='home-wrap'>
                 <h1>个人中心组件</h1>
             </div>
         );

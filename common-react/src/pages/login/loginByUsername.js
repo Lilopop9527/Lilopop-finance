@@ -38,16 +38,16 @@ class LoginByUsername extends Component {
             if (response.data.code === 201){
                 message["error"](response.data.message)
             }else{
-                console.log(response.data)
                 const {dispatch} = p;
-                dispatch(token(response.data.data.token))
-                dispatch(userInfo({
+                const user = {
                     id:response.data.data.id,
                     username:response.data.data.username,
                     phone:response.data.data.phone,
                     email:response.data.data.email,
                     img:response.data.data.img
-                }))
+                }
+                dispatch(token(response.data.data.token))
+                dispatch(userInfo(user))
                 dispatch(role(response.data.data.roles))
                 dispatch(route(response.data.data.routes))
                 dispatch(home(1))

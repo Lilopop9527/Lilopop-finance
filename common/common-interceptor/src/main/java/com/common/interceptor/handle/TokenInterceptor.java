@@ -22,7 +22,7 @@ public class TokenInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String token = request.getHeader(AUTH);
-        if(!JWTUtil.verifyToken(token)&&!JWTUtil.isNotExpire(token)){
+        if(!JWTUtil.verifyToken(token)){
             response.sendError(HttpStatus.UNAUTHORIZED.value());
             return false;
         }
