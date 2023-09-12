@@ -1,11 +1,13 @@
 package com.auth.service;
 
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.ObjectUtil;
 import com.auth.dao.UserRepository;
 import com.auth.pojo.base.Role;
 import com.auth.pojo.base.RoleToRoutes;
 import com.auth.pojo.base.User;
 import com.auth.pojo.base.UserToRole;
+import com.auth.pojo.vo.DetailVO;
 import com.auth.pojo.vo.RoleVO;
 import com.auth.pojo.vo.UserVO;
 import com.common.core.exception.Asserts;
@@ -138,10 +140,12 @@ public class LoginService {
             roles.add(r);
             ids.add(r.getId());
         }
+        DetailVO detailVO = new DetailVO();
+        BeanUtil.copyProperties(user.getUserDetail(),detailVO);
         UserVO vo = new UserVO(user.getId(), user.getUsername(),
                 user.getEmail(),
                 user.getPhone(),
-                user.getImg(), token,roleToVO(roles));
+                user.getImg(), token,roleToVO(roles),detailVO);
         vo.setRoutes(routesService.getRoutesByRole(ids));
         return vo;
     }

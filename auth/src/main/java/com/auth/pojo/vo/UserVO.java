@@ -9,12 +9,13 @@ public class UserVO {
     private String phone;
     private String img;
     private String token;
+    private DetailVO detail;
     private List<RoleVO> roles;
     private List<RouteVO> routes;
     public UserVO() {
     }
 
-    public UserVO(Long id, String username, String email, String phone, String img, String token,List<RoleVO> vos) {
+    public UserVO(Long id, String username, String email, String phone, String img, String token,List<RoleVO> vos,DetailVO detail) {
         this.id = id;
         this.username = username;
         this.email = email;
@@ -22,6 +23,7 @@ public class UserVO {
         this.img = img;
         this.token = token;
         this.roles = vos;
+        this.detail = detail;
     }
 
     public Long getId() {
@@ -86,6 +88,14 @@ public class UserVO {
 
     public void setRoutes(List<RouteVO> routes) {
         this.routes = routes;
+    }
+
+    public DetailVO getDetail() {
+        return detail;
+    }
+
+    public void setDetail(DetailVO detail) {
+        this.detail = detail;
     }
 
     @Override

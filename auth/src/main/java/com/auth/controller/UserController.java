@@ -1,10 +1,13 @@
 package com.auth.controller;
 
+import cn.hutool.core.util.ObjectUtil;
 import com.auth.pojo.base.User;
+import com.auth.service.UserDetailService;
 import com.auth.service.UserService;
 import com.common.core.pojo.CommonData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -13,6 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
     @Autowired
     private UserService userService;
+    @Autowired
+    private UserDetailService detailService;
     @PostMapping("/saveUser")
     public CommonData saveUser(User user){
         boolean b = userService.saveUser(user);
@@ -23,5 +28,39 @@ public class UserController {
             commonData = new CommonData(200,"用户重复",null);
         }
         return commonData;
+    }
+
+    @PutMapping("/upU")
+    public CommonData updateUsername(String username,Long id){
+        if (userService.updateUsername(username, id)){
+            return new CommonData(200,"success",null);
+        }else
+            return new CommonData(500,"更新失败，请稍后再试",username);
+    }
+
+    @PutMapping("/upE")
+    public CommonData updateEmail(String email,Long id){
+        if (userService.updateEmail(email, id)){
+            return new CommonData(200,"success",null);
+        }else
+            return new CommonData(500,"更新失败，请稍后再试",email);
+    }
+
+    @PutMapping("/upP")
+    public CommonData updatePhone(String phone,Long id){
+        if (userService.updatePhone(phone, id)){
+            return new CommonData(200,"success",null);
+        }else
+            return new CommonData(500,"更新失败，请稍后再试",phone);
+    }
+
+    @PutMapping("/upPsd")
+    public CommonData updatePsd(String password1,String password2,Long id){
+        if (ObjectUtil.equals(password1,password2))
+            return new CommonData(201,"输入的密码一致",null);
+        if (userService.updatePassword(password1, password2, id)){
+            return new CommonData(200,"success",null);
+        }else
+            return new CommonData(500,"更新失败，请稍后再试",password2);
     }
 }

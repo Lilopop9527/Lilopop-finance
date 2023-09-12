@@ -165,4 +165,56 @@ public class UserService {
         }
         return vos;
     }
+
+    /**
+     * 只更新username字段
+     * @param username 新username
+     * @param id 用户id
+     * @return 更新结果
+     */
+    public boolean updateUsername(String username,Long id){
+        int res = userRepository.updateUsername(username, id);
+        return res == 1;
+    }
+
+    /**
+     * 只更新email字段
+     * @param email 新email
+     * @param id 用户id
+     * @return 更新结果
+     */
+    public boolean updateEmail(String email,Long id){
+        int res = userRepository.updateEmail(email, id);
+        return res == 1;
+    }
+
+    /**
+     * 只更新phone字段
+     * @param phone 新email
+     * @param id 用户id
+     * @return 更新结果
+     */
+    public boolean updatePhone(String phone,Long id){
+        int res = userRepository.updatePhone(phone, id);
+        return res == 1;
+    }
+
+    /**
+     * 修改密码
+     * @param password1 输入密码
+     * @param password2 修改后的密码
+     * @param id 用户id
+     * @return 更新结果
+     */
+    public boolean updatePassword(String password1,String password2,Long id){
+        User user = userRepository.findUserById(id);
+        if (!ObjectUtil.equals(user.getPassword(),password1)){
+            Asserts.fail("输入密码与原始密码不一致");
+        }
+        if (ObjectUtil.equals(user.getPassword(),password2)){
+            Asserts.fail("修改后的密码与原始密码一致");
+        }
+        int res = userRepository.updatePassword(password2,id);
+        return res == 1;
+    }
 }

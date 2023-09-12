@@ -4,7 +4,7 @@ import './login.css'
 import md5 from "js-md5";
 import request from "../../utils/request";
 import {connect} from "react-redux";
-import {token,home,userInfo,route,role} from "../../stores/auth/action";
+import {token,home,userInfo,route,role,detail} from "../../stores/auth/action";
 
 React.Component.prototype.$md5 = md5
 class LoginByUsername extends Component {
@@ -48,6 +48,7 @@ class LoginByUsername extends Component {
                 }
                 dispatch(token(response.data.data.token))
                 dispatch(userInfo(user))
+                dispatch(detail(response.data.data.detail))
                 dispatch(role(response.data.data.roles))
                 dispatch(route(response.data.data.routes))
                 dispatch(home(1))
