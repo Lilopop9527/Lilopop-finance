@@ -1,6 +1,7 @@
 package com.auth.service;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.util.ObjectUtil;
 import com.auth.dao.UserDetailRepository;
 import com.auth.dao.UserRepository;
 import com.auth.pojo.base.User;
@@ -22,17 +23,20 @@ public class UserDetailService {
 
     /**
      * 存储用户详细信息
-     * @param detail detail对象
-     * @param id 用户id
+     * @param detailVO detail对象
+     * @return detailVO 修改后的detail对象
      */
-    public void saveDetail(UserDetail detail,Long id){
-       Optional<UserDetail> d = detailRepository.findUserDetailByUserId(id);
+    public DetailVO saveDetail(DetailVO detailVO){
+       Optional<UserDetail> d = detailRepository.findUserDetailByUserId(detailVO.getUserId());
        if (d.isEmpty())
            Asserts.fail("用户未找到");
-       User user = new User();
-       user.setId(id);
-       detail.setUser(user);
-       detailRepository.save(detail);
+       UserDetail detail = d.get();
+       BeanUtil.copyProperties(detailVO,detail);
+       UserDetail userDetail = detailRepository.save(detail);
+       if (ObjectUtil.isEmpty(userDetail)){
+           Asserts.fail("用户更新失败");
+       }
+       return detailVO;
     }
 
     /**

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
-import {Button, message} from "antd";
+import {Button, Image, message} from "antd";
 import './header.css'
 import request from "../../../utils/request";
 import {delToken, login} from "../../../stores/auth/action";
@@ -33,11 +33,11 @@ class Header extends Component {
 
     }
     render() {
-        //TODO 头像没做
+        const url = 'http://127.0.0.1:9000/userimg/'+this.props.user.img
         return (
             <div>
                 <div className='header-user'>
-                    {this.props.user.username}|{this.props.role[0].roleName}
+                    {this.props.user.username}|{this.props.role[0].roleName}|<Image src={url} style={{width:40}}/>
                     <br/>
                     <Button type='link' onClick={()=>this.logout()}>退出登录</Button>
                 </div>

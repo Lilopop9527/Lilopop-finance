@@ -41,4 +41,10 @@ public interface UserRepository extends JpaRepository<User,Long> {
     @Query("update User set password=:password where id=:id and deleated = 0")
     @Transactional
     Integer updatePassword(@Param("password")String password,@Param("id")Long id);
+    @Query("select u.img from User u where u.id = :id and u.deleated = 0")
+    String getImgUrl(@Param("id") Long id);
+    @Modifying
+    @Query("update User set img = :img where id = :id and deleated = 0")
+    @Transactional
+    Integer updateImgUrl(@Param("id") Long id,@Param("img")String img);
 }

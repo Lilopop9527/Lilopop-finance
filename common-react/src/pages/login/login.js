@@ -1,6 +1,6 @@
 import React,{Component}  from 'react';
 import {connect} from "react-redux";
-import {Button,Modal,Radio} from 'antd'
+import {Button,Modal,Radio,Image} from 'antd'
 import LoginByUsername from "./loginByUsername";
 import LoginByEmail from "./loginByEmail";
 import LoginByPhone from "./loginByPhone";

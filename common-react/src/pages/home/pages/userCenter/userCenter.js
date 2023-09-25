@@ -1,15 +1,19 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
-import {Button,Form,Input,Radio,DatePicker,message,Modal} from "antd";
+import { LoadingOutlined, PlusOutlined,UploadOutlined } from '@ant-design/icons';
+import {Button, Form, Input, Radio, DatePicker, message, Modal, Space, Avatar, Upload, Image} from "antd";
 import {delToken, login,userInfo} from "../../../../stores/auth/action";
 import request from "../../../../utils/request";
 import UpdatePsd from "./updatePsd/updatePsd"
+import UpdateUserDetail from "./updateUserDetail/updateUserDetail";
 import './userCenter.css'
 class UserCenter extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            showMod: false
+            showMod: false,
+            loading:false,
+            showDetail:false
         }
     }
 
@@ -17,6 +21,9 @@ class UserCenter extends Component {
     componentDidMount() {
         const p = this.props
         const token = p.token
+        this.setState({
+            url:'http://127.0.0.1:9000/userimg/'+p.user.img
+        })
         const {dispatch} = p
         if(token === 'empty'||!token||token === ''){
             dispatch(delToken('empty'))
@@ -152,8 +159,44 @@ class UserCenter extends Component {
             showMod:false
         })
     }
+    handleChange = async ({file})=>{
+        const result = file.response
+        if (file.status === 'done'){
+            const user = this.props.user
+            const u = {
+                id:user.id,
+                username:user.username,
+                phone:user.phone,
+                email:user.email,
+                img:result.data
+            }
+            this.saveUser(u)
+            this.setState({
+                loading:false,
+                url:'http://127.0.0.1:9000/userimg/'+result.data
+            })
+        }else if (file.status === 'uploading'){
+            this.setState({
+                loading:true
+            })
+        }else{
+            //message['error']("上传图片失败")
+        }
+    }
+
+    showUpdateDetail(){
+        this.setState({
+            showDetail:true
+        })
+    }
+    closeUpdateDetail(){
+        this.setState({
+            showDetail:false
+        })
+    }
     render() {
         const local = this
+        const path = "http://127.0.0.1:8080/auth/user/img/"+local.props.user.id
         return (
             <div className='home-wrap'>
                 <div className='msg'>
@@ -161,6 +204,7 @@ class UserCenter extends Component {
                         labelCol={{span:4}}
                         wrapperCol={{span:14}}
                         style={{maxWidth:600}}
+                        labelWrap='true'
                     >
                         <Form.Item label="账号">
                             <Input onChange={e=>this.saveUsername(e)} defaultValue={local.props.user.username}/>
@@ -187,6 +231,33 @@ class UserCenter extends Component {
                                 }}
                             >
                                 <UpdatePsd close={this.closeMod.bind(this)}/>
+                            </Modal>
+                        </Form.Item>
+                        <Form.Item label="头像">
+                            <Image src={local.state.url} style={{width:100}}/>
+                            <Upload
+                                headers={{Auth:local.props.token}}
+                                action={path}
+                                accept="image/*"
+                                name="file"
+                                onChange={local.handleChange}
+                            >
+                                <Button icon={<UploadOutlined />}>上传图片</Button>
+                            </Upload>
+                        </Form.Item>
+                        <Form.Item label="详细信息" >
+                            <Button onClick={()=>this.showUpdateDetail()}>点击修改</Button>
+                            <Modal
+                                title='修改详细信息'
+                                open={this.state.showDetail}
+                                footer={[]}
+                                onCancel={()=> {
+                                    this.setState({
+                                        showDetail: false
+                                    })
+                                }}
+                            >
+                                <UpdateUserDetail close={this.closeUpdateDetail.bind(this)}/>
                             </Modal>
                         </Form.Item>
                     </Form>

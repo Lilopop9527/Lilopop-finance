@@ -1,12 +1,14 @@
 package com.auth;
 
+import com.common.minio.config.MinioConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-import org.springframework.web.bind.annotation.CrossOrigin;
-//import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.context.annotation.Import;
+
 @SpringBootApplication
 @EnableDiscoveryClient
+@Import(MinioConfig.class)
 //@EnableGlobalMethodSecurity(securedEnabled = true,prePostEnabled = true)
 public class AuthApplication {
 

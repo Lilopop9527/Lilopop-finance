@@ -7,11 +7,15 @@ import com.auth.pojo.base.RoleRoutesId;
 import com.auth.pojo.base.RoleToRoutes;
 import com.auth.service.RoleService;
 import com.auth.service.RoutesService;
-import jakarta.transaction.Transactional;
+import com.common.minio.utils.MinioUtil;
+import io.minio.errors.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.io.IOException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,6 +29,8 @@ public class AnotherTest {
     RoleToRoutesRepository roleToRoutesRepository;
     @Autowired
     RoutesService routesService;
+    @Autowired
+    MinioUtil minioUtils;
     @Test
     void Roletest(){
         List<Long> id = new ArrayList<>();
@@ -53,5 +59,10 @@ public class AnotherTest {
         list.add(2L);
         list.add(3L);
         routesService.saveRoleToRoutes(list,2L);
+    }
+
+    @Test
+    void minioTest() throws ServerException, InsufficientDataException, ErrorResponseException, IOException, NoSuchAlgorithmException, InvalidKeyException, InvalidResponseException, XmlParserException, InternalException {
+        minioUtils.makeBucket("userimg");
     }
 }

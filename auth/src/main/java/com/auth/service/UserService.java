@@ -9,18 +9,16 @@ import com.auth.pojo.base.UserDetail;
 import com.auth.pojo.base.UserToRole;
 import com.auth.pojo.vo.UserVO;
 import com.common.core.exception.Asserts;
-import com.common.core.pojo.Query;
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.Predicate;
-import jakarta.persistence.criteria.Root;
+import com.common.minio.utils.MinioUtil;
+import io.minio.Result;
+import io.minio.messages.DeleteError;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.*;
 /**
@@ -33,7 +31,10 @@ public class UserService {
     private UserRepository userRepository;
     @Autowired
     private UserToRoleRepository userToRoleRepository;
+    @Autowired
+    private MinioUtil minioUtils;
 
+    private final String BUCKETNAME = "userimg";
     /**
      * 保存用户信息
      * @param user 用户对象
@@ -57,6 +58,7 @@ public class UserService {
         UserDetail detail = new UserDetail();
         detail.setDeleated(0);
         user.setUserDetail(detail);
+        detail.setUser(user);
         userRepository.save(user);
         return true;
     }
@@ -216,5 +218,45 @@ public class UserService {
         }
         int res = userRepository.updatePassword(password2,id);
         return res == 1;
+    }
+
+    /**
+     * 修改用户头像
+     * @param file 用户头像图片
+     * @param id 用户id
+     */
+    public String updateImg(MultipartFile file,Long id){
+        String url = "";
+        try{
+            minioUtils.existBucket(BUCKETNAME);
+            url = minioUtils.getThumb(file);
+        }catch (Exception e){
+            e.printStackTrace();
+            Asserts.fail("minio服务器错误");
+        }
+        String img = userRepository.getImgUrl(id);
+        if (ObjectUtil.equals(url,file.getOriginalFilename())){
+            try {
+                url = minioUtils.upload(new MultipartFile[]{file}).get(0);
+            }catch (Exception e){
+                Asserts.fail("新头像上传minio失败");
+            }
+        }
+        Integer i = userRepository.updateImgUrl(id, url);
+        if (i!=1){
+            List<String> names = new ArrayList<>();
+            names.add(url);
+            minioUtils.removeObjects(BUCKETNAME,names);
+            Asserts.fail("数据库更新失败");
+        }
+        if (ObjectUtil.isNotEmpty(img)){
+            List<String> names = new ArrayList<>();
+            names.add(img);
+            Iterable<Result<DeleteError>> results = minioUtils.removeObjects(BUCKETNAME, names);
+            if (ObjectUtil.isNotEmpty(results)){
+                Asserts.fail("删除旧头像失败:"+img);
+            }
+        }
+        return url;
     }
 }

@@ -2,14 +2,13 @@ package com.auth.controller;
 
 import cn.hutool.core.util.ObjectUtil;
 import com.auth.pojo.base.User;
+import com.auth.pojo.vo.DetailVO;
 import com.auth.service.UserDetailService;
 import com.auth.service.UserService;
 import com.common.core.pojo.CommonData;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/user")
@@ -62,5 +61,17 @@ public class UserController {
             return new CommonData(200,"success",null);
         }else
             return new CommonData(500,"更新失败，请稍后再试",password2);
+    }
+
+    @PostMapping("/img/{id}")
+    public CommonData<String> updateImg(MultipartFile file,@PathVariable("id") Long id){
+        String s = userService.updateImg(file, id);
+        return new CommonData<>(200,"success",s);
+    }
+
+    @PutMapping("/detail")
+    public CommonData<DetailVO> updateDetail(DetailVO detail){
+        DetailVO vo = detailService.saveDetail(detail);
+        return new CommonData<>(200,"success",vo);
     }
 }

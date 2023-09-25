@@ -9,6 +9,7 @@
         <module name="auth" />
         <module name="stream" />
         <module name="gateway" />
+        <module name="common-minio" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -16,6 +17,7 @@
       <module name="common" target="17" />
       <module name="common-core" target="17" />
       <module name="common-interceptor" target="17" />
+      <module name="common-minio" target="17" />
       <module name="common-redis" target="17" />
       <module name="gateway" target="17" />
       <module name="Lilopop" target="17" />
@@ -29,6 +31,7 @@
       <module name="common" options="-parameters" />
       <module name="common-core" options="-parameters" />
       <module name="common-interceptor" options="-parameters" />
+      <module name="common-minio" options="-parameters" />
       <module name="common-redis" options="-parameters" />
       <module name="gateway" options="-parameters" />
       <module name="stream" options="-parameters" />

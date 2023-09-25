@@ -4,6 +4,13 @@ spring:
   application:
     name:
       security
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 20MB
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
   datasource:
     url: jdbc:mysql://127.0.0.1:3306/lilo?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC
     username: root
@@ -38,3 +45,8 @@ spring:
         server-addr: 127.0.0.1:8848
         username: nacos
         password: nacos
+minio:
+  url: http://127.0.0.1:9000
+  username: minioadmin
+  password: minioadmin
+  bucket-name: userimg

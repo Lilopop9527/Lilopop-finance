@@ -142,6 +142,7 @@ public class LoginService {
         }
         DetailVO detailVO = new DetailVO();
         BeanUtil.copyProperties(user.getUserDetail(),detailVO);
+        detailVO.setUserId(user.getId());
         UserVO vo = new UserVO(user.getId(), user.getUsername(),
                 user.getEmail(),
                 user.getPhone(),
