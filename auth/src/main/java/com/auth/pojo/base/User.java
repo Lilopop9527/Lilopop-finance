@@ -88,12 +88,14 @@ public class User {
     private List<UserToRole> roles;
     @OneToMany(
             cascade = {CascadeType.PERSIST,CascadeType.REMOVE},
-            mappedBy = "user"
+            mappedBy = "user",
+            fetch = FetchType.EAGER
     )
     private List<UserToDept> depts;
     @OneToMany(
             cascade = {CascadeType.PERSIST,CascadeType.REMOVE},
-            mappedBy = "user"
+            mappedBy = "user",
+            fetch = FetchType.EAGER
     )
     private List<UserToStation> stations;
 

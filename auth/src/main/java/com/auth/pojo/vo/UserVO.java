@@ -1,5 +1,7 @@
 package com.auth.pojo.vo;
 
+import com.auth.pojo.base.Department;
+
 import java.util.List;
 
 public class UserVO {
@@ -9,9 +11,12 @@ public class UserVO {
     private String phone;
     private String img;
     private String token;
+    private Integer deleated;
     private DetailVO detail;
     private List<RoleVO> roles;
     private List<RouteVO> routes;
+    private List<DeptVO> depts;
+    private List<StationVO> stations;
     public UserVO() {
     }
 
@@ -74,6 +79,14 @@ public class UserVO {
         this.token = token;
     }
 
+    public Integer getDeleated() {
+        return deleated;
+    }
+
+    public void setDeleated(Integer deleated) {
+        this.deleated = deleated;
+    }
+
     public List<RoleVO> getRoles() {
         return roles;
     }
@@ -96,6 +109,22 @@ public class UserVO {
 
     public void setDetail(DetailVO detail) {
         this.detail = detail;
+    }
+
+    public List<DeptVO> getDepts() {
+        return depts;
+    }
+
+    public void setDepts(List<DeptVO> depts) {
+        this.depts = depts;
+    }
+
+    public List<StationVO> getStations() {
+        return stations;
+    }
+
+    public void setStations(List<StationVO> stations) {
+        this.stations = stations;
     }
 
     @Override

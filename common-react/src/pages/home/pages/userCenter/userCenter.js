@@ -7,6 +7,7 @@ import request from "../../../../utils/request";
 import UpdatePsd from "./updatePsd/updatePsd"
 import UpdateUserDetail from "./updateUserDetail/updateUserDetail";
 import './userCenter.css'
+import {minioprev} from "../../../../enum/enums";
 class UserCenter extends Component {
     constructor(props) {
         super(props);
@@ -22,7 +23,7 @@ class UserCenter extends Component {
         const p = this.props
         const token = p.token
         this.setState({
-            url:'http://127.0.0.1:9000/userimg/'+p.user.img
+            url:minioprev+p.user.img
         })
         const {dispatch} = p
         if(token === 'empty'||!token||token === ''){
@@ -173,7 +174,7 @@ class UserCenter extends Component {
             this.saveUser(u)
             this.setState({
                 loading:false,
-                url:'http://127.0.0.1:9000/userimg/'+result.data
+                url:minioprev+result.data
             })
         }else if (file.status === 'uploading'){
             this.setState({

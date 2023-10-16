@@ -11,4 +11,5 @@ import java.util.List;
 public interface UserToStationRepository extends JpaRepository<UserToStation, UserStationId> {
 
     Page<UserToStation> findUserToStationsById_StationId(Long id, Pageable pageable);
+    Page<UserToStation> findUserToStationsByStationId(Long id,Pageable pageable);
 }

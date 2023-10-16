@@ -16,7 +16,7 @@ class Header extends Component {
         const msg = await request({
             url:'/auth/auth/logout',
             method:'get',
-            pragma:{
+            params:{
                 id:local.props.user.id
             },
             headers:{
@@ -35,11 +35,11 @@ class Header extends Component {
     render() {
         const url = 'http://127.0.0.1:9000/userimg/'+this.props.user.img
         return (
-            <div>
+            <div className='header'>
                 <div className='header-user'>
                     {this.props.user.username}|{this.props.role[0].roleName}|<Image src={url} style={{width:40}}/>
                     <br/>
-                    <Button type='link' onClick={()=>this.logout()}>退出登录</Button>
+                    <a type='link' onClick={this.logout.bind(this)}>退出登录</a>
                 </div>
             </div>
         );

@@ -7,7 +7,10 @@ import com.auth.pojo.base.Department;
 import com.auth.pojo.base.User;
 import com.auth.pojo.base.UserDeptId;
 import com.auth.pojo.base.UserToDept;
+import com.auth.pojo.vo.DeptVO;
+import com.auth.pojo.vo.UserVO;
 import com.common.core.exception.Asserts;
+import com.common.core.pojo.PageBody;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -102,5 +105,26 @@ public class DeptService {
         Pageable pageable = PageRequest.of(pageNum,pageSize);
         Page<Department> page = departmentRepository.findDepartmentByDeleated(0, pageable);
         return page.toList();
+    }
+
+    /**
+     * 获取所有未禁用的部门
+     * @return
+     */
+    public List<DeptVO> getAllDepts(){
+        List<Department> d = departmentRepository.findAllByDeleated(0);
+        return createVO(d);
+    }
+    public PageBody<UserVO> listUserByDept(Integer pageNum,Integer pageSize,Long deptId){
+        Pageable pageable = PageRequest.of(pageNum,pageSize);
+        return null;
+    }
+
+    public List<DeptVO> createVO(List<Department> list){
+        List<DeptVO> vos = new ArrayList<>();
+        for (Department d:list) {
+            vos.add(new DeptVO(d.getId(),d.getName(),d.getPrincipalId(),d.getDeleated()));
+        }
+        return vos;
     }
 }

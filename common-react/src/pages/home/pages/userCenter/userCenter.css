@@ -1,6 +1,6 @@
 .home-wrap {
     background-color: #ffffff;
-    height: calc(800px);
+    height: 800px;
     display: flex;
     flex: 1;
     align-items: center;

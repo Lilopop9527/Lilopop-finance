@@ -6,6 +6,7 @@ import com.auth.pojo.base.*;
 import com.auth.pojo.vo.DetailVO;
 import com.auth.pojo.vo.UserVO;
 import com.auth.service.*;
+import com.common.core.pojo.PageBody;
 import com.github.javafaker.Faker;
 import jakarta.annotation.Resource;
 import jakarta.persistence.*;
@@ -34,6 +35,8 @@ class AuthApplicationTests {
     UserDetailRepository detailRepository;
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    UserToDeptRepository userToDeptRepository;
     @Autowired
     DepartmentRepository departmentRepository;
     @Autowired
@@ -101,8 +104,7 @@ class AuthApplicationTests {
 
     @Test
     void test4(){
-        Page<User> page = userService.listUsernameByPage(5,10,"Lilopop");
-        System.out.println(page);
+
     }
 
     @Test
@@ -146,25 +148,25 @@ class AuthApplicationTests {
 
     @Test
     void test9(){
-//        Station station = new Station("科长");
-//        station.setDeleated(0);
-//        Station station1 = new Station("经理");
-//        station1.setDeleated(0);
-//        Set<Station> set = new HashSet<>();
-//        set.add(station);
-//        set.add(station1);
-//        stationRepository.saveAll(set);
-//        List<Station> stations = stationService.listStation(0);
-//        stations.forEach(System.out::println);
-//        List<Long> list = new ArrayList<>();
-//        list.add(31L);
-//        list.add(32L);
-//        stationService.setUsers(list,1L);
-    stationService.findUsersByStationId(1L,1,1).getContent().forEach(System.out::println);
+        userService.getByDept(1,20,2L);
     }
 
     @Test
     void test10(){
+        //PageBody<UserVO> p = userService.listUsernameByPage(0,20,"Lilopop");
+        PageBody<UserVO> p1 = userService.listUser(10,20);
+        System.out.println(p1.getData());
+    }
 
+    @Test
+    void stationTest(){
+        List<Long>[] arr = new List[100];
+        Arrays.setAll(arr,e->new ArrayList<>());
+        for (int i = 3; i <1003 ; i++) {
+            arr[i%100].add((long) i);
+        }
+        for (int i = 1; i <101 ; i++) {
+            stationService.setUsers(arr[i-1],i*1L);
+        }
     }
 }

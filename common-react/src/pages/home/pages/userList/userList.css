@@ -1,0 +1,13 @@
+.search{
+    padding-top: 30px;
+    padding-left: 50px;
+}
+.userlist-wrap {
+    background-color: #ffffff;
+    height: calc(800px);
+    flex: 1;
+    font-size: 20px;
+}
+.pagination {
+    float: right;
+}

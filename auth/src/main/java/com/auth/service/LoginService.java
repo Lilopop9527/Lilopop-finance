@@ -147,6 +147,7 @@ public class LoginService {
                 user.getEmail(),
                 user.getPhone(),
                 user.getImg(), token,roleToVO(roles),detailVO);
+        vo.setDeleated(user.getDeleated());
         vo.setRoutes(routesService.getRoutesByRole(ids));
         return vo;
     }

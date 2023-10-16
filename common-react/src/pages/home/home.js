@@ -26,6 +26,7 @@ class Home extends Component {
                         <Row className='content'>
                             <Menus/>
                         </Row>
+                        <br/>
                         <Footer/>
                     </Col>
                 </Row>

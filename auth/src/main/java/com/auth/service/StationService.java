@@ -7,12 +7,14 @@ import com.auth.pojo.base.Station;
 import com.auth.pojo.base.User;
 import com.auth.pojo.base.UserStationId;
 import com.auth.pojo.base.UserToStation;
+import com.auth.pojo.vo.StationVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -91,5 +93,22 @@ public class StationService {
             set.add(us);
         }
         return set;
+    }
+
+    /**
+     * 获取所有岗位信息
+     * @return 岗位列表
+     */
+    public List<StationVO> getAllStationsVO(){
+        List<Station> list = stationRepository.findStationsByDeleatedOrderByCreateTime(0);
+        List<StationVO> vos = new ArrayList<>();
+        for (Station s:list) {
+            vos.add(createVO(s));
+        }
+        return vos;
+    }
+
+    public StationVO createVO(Station station){
+        return new StationVO(station.getId(),station.getName());
     }
 }

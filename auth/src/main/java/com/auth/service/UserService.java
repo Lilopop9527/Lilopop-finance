@@ -3,20 +3,24 @@ package com.auth.service;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.ObjectUtil;
 import com.auth.dao.UserRepository;
+import com.auth.dao.UserToDeptRepository;
 import com.auth.dao.UserToRoleRepository;
-import com.auth.pojo.base.User;
-import com.auth.pojo.base.UserDetail;
-import com.auth.pojo.base.UserToRole;
-import com.auth.pojo.vo.UserVO;
+import com.auth.dao.UserToStationRepository;
+import com.auth.pojo.base.*;
+import com.auth.pojo.vo.*;
 import com.common.core.exception.Asserts;
+import com.common.core.pojo.PageBody;
+import com.common.core.utils.JWTUtil;
 import com.common.minio.utils.MinioUtil;
 import io.minio.Result;
 import io.minio.messages.DeleteError;
 
+import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -31,6 +35,10 @@ public class UserService {
     private UserRepository userRepository;
     @Autowired
     private UserToRoleRepository userToRoleRepository;
+    @Autowired
+    private UserToDeptRepository userToDeptRepository;
+    @Autowired
+    private UserToStationRepository userToStationRepository;
     @Autowired
     private MinioUtil minioUtils;
 
@@ -92,18 +100,40 @@ public class UserService {
     }
 
     /**
-     * 根据用户名查找用户数据
+     * 无条件搜索用户信息
      * @param pageNum 需要查询的页数
      * @param pageSize 每页数据量
+     * @return 分页对象
+     */
+    public PageBody<UserVO> listUser(Integer pageNum, Integer pageSize){
+        Pageable pageable = PageRequest.of(pageNum,pageSize);
+        Page<User> page = userRepository.findAll(pageable);
+        List<UserVO> vos = new ArrayList<>();
+        for (User u:page.getContent()) {
+            vos.add(createUser(u));
+        }
+        PageBody<UserVO> pb = new PageBody<>(page.getTotalElements(),vos,pageNum+1,pageSize);
+        return pb;
+    }
+
+    /**
+     * 根据用户名查找用户数据
+     * @param pageNum 需要查询的页数
+     * @param pageSize
      * @param username 用户名关键字
      * @return 分页对象
      */
-    public Page<User> listUsernameByPage(Integer pageNum, Integer pageSize, String username){
-        //TODO 分页对象应该封装一下
+    public PageBody<UserVO> listUsernameByPage(Integer pageNum, Integer pageSize, String username){
         Pageable pageable = PageRequest.of(pageNum,pageSize);
         StringBuilder bu = new StringBuilder("%");
         bu.append(username).append("%");
-        return userRepository.findByUsernameLikeAndUsernameIsNotNullOrderById(bu.toString(),pageable);
+        Page<User> page = userRepository.findByUsernameLikeAndUsernameIsNotNullOrderById(bu.toString(),pageable);
+        List<UserVO> vos = new ArrayList<>();
+        for (User u:page.getContent()) {
+            vos.add(createUser(u));
+        }
+        PageBody<UserVO> pb = new PageBody<>(page.getTotalElements(),vos,pageNum+1,pageSize);
+        return pb;
     }
     /**
      * 根据邮箱查找用户数据
@@ -112,26 +142,58 @@ public class UserService {
      * @param email 邮箱关键字
      * @return 分页对象
      */
-    public Page<User> listEmailByPage(Integer pageNum, Integer pageSize, String email){
-        //TODO 分页对象应该封装一下
+    public PageBody<UserVO> listEmailByPage(Integer pageNum, Integer pageSize, String email){
         Pageable pageable = PageRequest.of(pageNum,pageSize);
         StringBuilder bu = new StringBuilder("%");
         bu.append(email).append("%");
-        return userRepository.findByEmailLikeAndEmailIsNotNull(bu.toString(),pageable);
+        Page<User> page = userRepository.findByEmailLikeAndEmailIsNotNullOrderById(bu.toString(),pageable);
+        List<UserVO> vos = new ArrayList<>();
+        for (User u:page.getContent()) {
+            vos.add(createUser(u));
+        }
+        PageBody<UserVO> pb = new PageBody<>(page.getTotalElements(),vos,pageNum+1,pageSize);
+        return pb;
     }
     /**
      * 根据手机号查找用户数据
      * @param phone 手机号
      * @return user对象
      */
-    public List<User> getByPhone(String phone){
+    public PageBody<UserVO> getByPhone(String phone){
         Optional<User> o = userRepository.findUserByPhoneAndPhoneIsNotNull(phone);
         if (o.isEmpty()){
-            return new ArrayList<>();
+            return new PageBody<>();
         }
-        List<User> list = new ArrayList<>();
-        list.add(o.get());
-        return list;
+        List<UserVO> vos = new ArrayList<>();
+        vos.add(createUser(o.get()));
+        return new PageBody<>(1L,vos,1,1);
+    }
+
+    /**
+     * 根据部门查询用户
+     * @param pageNum 页码
+     * @param pageSize 每页容量
+     * @param deptId 部门id
+     * @return 分页对象
+     */
+    public PageBody<UserVO> getByDept(Integer pageNum, Integer pageSize, Long deptId){
+        Pageable pageable = PageRequest.of(pageNum,pageSize);
+        Page<UserToDept> page = userToDeptRepository.findUserToDeptByDepartmentId(deptId, pageable);
+        List<UserVO> users = new ArrayList<>();
+        for (UserToDept utd:page.getContent()) {
+            users.add(createUser(utd.getUser()));
+        }
+        return new PageBody<>(page.getTotalElements(),users,pageNum+1,pageSize);
+    }
+
+    public PageBody<UserVO> getBySta(Integer pageNum, Integer pageSize, Long staId){
+        Pageable pageable = PageRequest.of(pageNum,pageSize);
+        Page<UserToStation> page = userToStationRepository.findUserToStationsByStationId(staId,pageable);
+        List<UserVO> users = new ArrayList<>();
+        for (UserToStation uts:page.getContent()) {
+            users.add(createUser(uts.getUser()));
+        }
+        return new PageBody<>(page.getTotalElements(),users,pageNum+1,pageSize);
     }
 
     /**
@@ -258,5 +320,70 @@ public class UserService {
             }
         }
         return url;
+    }
+
+    /**
+     * 将user对象转换为userVO对象，并存储token
+     * @param user user对象
+     * @return userVO对象
+     */
+    public UserVO createUser(User user){
+        List<Role> roles = new ArrayList<>();
+        for (UserToRole utr:user.getRoles()) {
+            Role r = utr.getRole();
+            roles.add(r);
+        }
+        List<DeptVO> deptVOS = deptToVO(user.getDepts());
+        List<StationVO> stationVOS = staToVO(user.getStations());
+        UserVO vo = new UserVO(user.getId(), user.getUsername(),
+                user.getEmail(),
+                user.getPhone(),
+                user.getImg(), null,roleToVO(roles),null);
+        vo.setDepts(deptVOS);
+        vo.setStations(stationVOS);
+        vo.setDeleated(user.getDeleated());
+        return vo;
+    }
+
+    /**
+     * 将role对象转换为roleVO对象
+     * @param roles role对象
+     * @return roleVO对象
+     */
+    public List<RoleVO> roleToVO(List<Role> roles){
+        List<RoleVO> vos = new ArrayList<>();
+        for (Role r:roles) {
+            vos.add(new RoleVO(r.getId(),r.getRoleName()));
+        }
+        return vos;
+    }
+
+    /**
+     * 获取部门VO
+     * @param list 用户和部门关系
+     * @return 部门VO
+     */
+    public List<DeptVO> deptToVO(List<UserToDept> list){
+        List<DeptVO> vos = new ArrayList<>();
+        for (UserToDept utd:list) {
+            DeptVO deptVO = new DeptVO();
+            BeanUtil.copyProperties(utd.getDepartment(),deptVO);
+            vos.add(deptVO);
+        }
+        return vos;
+    }
+    /**
+     * 获取岗位VO
+     * @param list 用户和岗位关系
+     * @return 岗位VO
+     */
+    public List<StationVO> staToVO(List<UserToStation> list){
+        List<StationVO> vos = new ArrayList<>();
+        for (UserToStation uts:list) {
+            StationVO staVO = new StationVO();
+            BeanUtil.copyProperties(uts.getStation(),staVO);
+            vos.add(staVO);
+        }
+        return vos;
     }
 }

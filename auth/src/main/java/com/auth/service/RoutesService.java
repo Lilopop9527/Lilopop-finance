@@ -91,7 +91,9 @@ public class RoutesService {
             list.add(route);
             map.put(route.getParent(),list);
         }
-        return routeToVO(map,0L);
+        List<RouteVO> ans = routeToVO(map,0L);
+        ans.sort((a, b) -> (int) (a.getId() - b.getId()));
+        return ans;
     }
 
     /**
