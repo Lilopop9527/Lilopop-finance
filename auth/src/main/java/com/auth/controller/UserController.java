@@ -2,13 +2,18 @@ package com.auth.controller;
 
 import cn.hutool.core.util.ObjectUtil;
 import com.auth.pojo.base.User;
+import com.auth.pojo.vo.DeptVO;
 import com.auth.pojo.vo.DetailVO;
+import com.auth.pojo.vo.UserVO;
 import com.auth.service.UserDetailService;
 import com.auth.service.UserService;
 import com.common.core.pojo.CommonData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/user")
@@ -74,4 +79,18 @@ public class UserController {
         DetailVO vo = detailService.saveDetail(detail);
         return new CommonData<>(200,"success",vo);
     }
+
+    @PutMapping("/del")
+    public CommonData<UserVO> delUser(Long id,Integer del){
+        UserVO vo = userService.changeUserDeleted(id, del);
+        return new CommonData<>(200,"success",vo);
+    }
+
+    @PutMapping("/dAll")
+    public CommonData<List<UserVO>> delAllUser(Long[] ids,Integer[] status){
+        List<UserVO> vos = userService.changeAllStatus(ids, status);
+        return new CommonData<>(200,"success",vos);
+    }
+
+
 }

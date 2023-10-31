@@ -12,4 +12,6 @@ public interface DepartmentRepository extends JpaRepository<Department,Long> {
     Page<Department> findDepartmentByDeleated(Integer deleated, Pageable pageable);
 
     List<Department> findAllByDeleated(Integer Deleated);
+
+    List<Department> findDepartmentByIdIn(Long[] id);
 }

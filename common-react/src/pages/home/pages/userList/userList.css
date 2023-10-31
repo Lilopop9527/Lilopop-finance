@@ -11,3 +11,14 @@
 .pagination {
     float: right;
 }
+.msg {
+    align-content: center;
+}
+.select{
+    margin-left: 38px;
+    margin-bottom: 15px;
+}
+.button{
+    margin-left: 43px;
+    width: 100px;
+}

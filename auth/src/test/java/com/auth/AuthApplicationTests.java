@@ -169,4 +169,37 @@ class AuthApplicationTests {
             stationService.setUsers(arr[i-1],i*1L);
         }
     }
+
+    @Test
+    void detailTest(){
+//        List<User> users = userRepository.findAll();
+//        for (User user:users) {
+//            Optional<UserDetail> o = detailRepository.findUserDetailByUserId(user.getId());
+//            if (o.isEmpty()){
+//                UserDetail detail = new UserDetail();
+//                UserDetail save = detailRepository.save(detail);
+//                save.setUser(user);
+//                user.setUserDetail(save);
+//                detailRepository.save(save);
+//            }
+//        }
+       // detailRepository.removeUserDetailByDeleatedIsNull();
+    }
+
+    @Test
+    void deptTest(){
+//        User user = userRepository.findUserById(4L);
+//        Department department = departmentRepository.findById(5L).get();
+//        UserDeptId userDeptId = new UserDeptId(user.getId(),department.getId());
+//        UserToDept userToDept = new UserToDept(userDeptId,user,department);
+//        userToDeptRepository.save(userToDept);
+//        List<UserToDept> u = userToDeptRepository.findUserToDeptById_UserId(4L);
+//        u.removeAll(u);
+//        userToDeptRepository.save(u);
+        //userToDeptRepository.deleteByUserId(4L);
+        //userRepository.save(user);
+        Long[] ids = new Long[]{1l,2l,3l};
+        List<Department> list = departmentRepository.findDepartmentByIdIn(ids);
+        System.out.println(list);
+    }
 }

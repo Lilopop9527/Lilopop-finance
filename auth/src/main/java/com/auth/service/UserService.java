@@ -2,10 +2,7 @@ package com.auth.service;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.ObjectUtil;
-import com.auth.dao.UserRepository;
-import com.auth.dao.UserToDeptRepository;
-import com.auth.dao.UserToRoleRepository;
-import com.auth.dao.UserToStationRepository;
+import com.auth.dao.*;
 import com.auth.pojo.base.*;
 import com.auth.pojo.vo.*;
 import com.common.core.exception.Asserts;
@@ -40,6 +37,8 @@ public class UserService {
     @Autowired
     private UserToStationRepository userToStationRepository;
     @Autowired
+    private RoleRepository roleRepository;
+    @Autowired
     private MinioUtil minioUtils;
 
     private final String BUCKETNAME = "userimg";
@@ -67,7 +66,10 @@ public class UserService {
         detail.setDeleated(0);
         user.setUserDetail(detail);
         detail.setUser(user);
-        userRepository.save(user);
+        u = userRepository.save(user);
+        Role role = roleRepository.findRoleById(3L);
+        UserToRole userToRole = new UserToRole(new UserRoleId(u.getId(),role.getId()),u,role);
+        userToRoleRepository.save(userToRole);
         return true;
     }
     /**
@@ -77,7 +79,6 @@ public class UserService {
     public void updateUser(User u){
         Optional<User> o = userRepository.findById(u.getId());
         if(o.isEmpty()){
-            //TODO 添加日志
             Asserts.fail("用户基础信息不存在");
         }
         User user = o.get();
@@ -186,6 +187,13 @@ public class UserService {
         return new PageBody<>(page.getTotalElements(),users,pageNum+1,pageSize);
     }
 
+    /**
+     * 根据岗位信息筛选用户
+     * @param pageNum 页码
+     * @param pageSize 容量
+     * @param staId 岗位id
+     * @return userVO集合
+     */
     public PageBody<UserVO> getBySta(Integer pageNum, Integer pageSize, Long staId){
         Pageable pageable = PageRequest.of(pageNum,pageSize);
         Page<UserToStation> page = userToStationRepository.findUserToStationsByStationId(staId,pageable);
@@ -200,17 +208,33 @@ public class UserService {
      * 修改逻辑删除状态
      * @param id 用户id
      * @param deleted 删除状态
+     * @return 修改后的用户
      */
-    public void changeUserDeleted(Long id,Integer deleted){
+    public synchronized UserVO changeUserDeleted(Long id,Integer deleted){
         Optional<User> o = userRepository.findById(id);
         if (o.isEmpty()){
             Asserts.fail("用户不存在");
         }
         User user = o.get();
-        if (Objects.equals(user.getDeleated(), deleted)||deleted<0||deleted>1)
-            return;
+        if (Objects.equals(user.getDeleated(), deleted)||deleted<0||deleted>1||user.getId()== 1L)
+            return createUser(user);
         user.setDeleated(deleted);
-        userRepository.save(user);
+        User u = userRepository.save(user);
+        return createUser(u);
+    }
+
+    /**
+     * 批量修改用户状态
+     * @param ids 用户id
+     * @param status 需要被修改成的状态
+     * @return 修改后的用户
+     */
+    public List<UserVO> changeAllStatus(Long[] ids,Integer[] status){
+        List<UserVO> list = new ArrayList<>();
+        for (int i = 0; i < ids.length; i++) {
+            list.add(changeUserDeleted(ids[i],status[i]));
+        }
+        return list;
     }
 
     /**
@@ -335,10 +359,11 @@ public class UserService {
         }
         List<DeptVO> deptVOS = deptToVO(user.getDepts());
         List<StationVO> stationVOS = staToVO(user.getStations());
+        DetailVO detailVO = detailToVO(user.getUserDetail());
         UserVO vo = new UserVO(user.getId(), user.getUsername(),
                 user.getEmail(),
                 user.getPhone(),
-                user.getImg(), null,roleToVO(roles),null);
+                user.getImg(), null,roleToVO(roles),detailVO);
         vo.setDepts(deptVOS);
         vo.setStations(stationVOS);
         vo.setDeleated(user.getDeleated());
@@ -385,5 +410,17 @@ public class UserService {
             vos.add(staVO);
         }
         return vos;
+    }
+
+    /**
+     * 将用户详细信息转换成VO
+     * @param detail 用户详细信息
+     * @return vo
+     */
+    public DetailVO detailToVO(UserDetail detail){
+        DetailVO vo = new DetailVO();
+        BeanUtil.copyProperties(detail,vo);
+        vo.setUserId(detail.getUser().getId());
+        return vo;
     }
 }

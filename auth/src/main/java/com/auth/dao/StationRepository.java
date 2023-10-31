@@ -9,4 +9,5 @@ public interface StationRepository extends JpaRepository<Station,Long> {
 
     List<Station> findStationsByDeleatedOrderByCreateTime(Integer deleated);
     Station findStationById(Long id);
+    List<Station> findStationByIdIn(Long[] id);
 }

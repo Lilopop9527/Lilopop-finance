@@ -15,4 +15,8 @@ public interface UserDetailRepository extends JpaRepository<UserDetail,Long> {
 //    @Modifying
 //    void update(@Param("height") Integer height, @Param("id") Long id);
     Optional<UserDetail> findUserDetailByUserId(Long userId);
+//    @Modifying
+//    @Query("update UserDetail u set u.deleated = 0 where u.deleated is null ")
+//    @Transactional
+//    Integer removeUserDetailByDeleatedIsNull();
 }

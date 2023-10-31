@@ -1,8 +1,9 @@
 package com.auth.controller;
 
 import com.auth.pojo.vo.DeptVO;
+import com.auth.pojo.vo.RoleVO;
 import com.auth.pojo.vo.StationVO;
-import com.auth.service.StationService;
+import com.auth.service.RoleService;
 import com.common.core.pojo.CommonData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,26 +18,25 @@ import java.util.List;
  * @description:
  */
 @RestController
-@RequestMapping("/sta")
-public class StationController {
+@RequestMapping("/role")
+public class RoleController {
     @Autowired
-    private StationService stationService;
-
-
-    @GetMapping("/l")
-    public CommonData<List<StationVO>> getAllStations(){
-        return new CommonData<>(200,"success",stationService.getAllStationsVO());
-    }
-
+    private RoleService roleService;
     @GetMapping("/get")
-    public CommonData<List<StationVO>> getStationByUserId(Long id){
-        List<StationVO> vos = stationService.getStationByUserId(id);
+    public CommonData<List<RoleVO>> getRoleByUserId(Long id){
+        List<RoleVO> vos = roleService.getRoleByUserId(id);
         return new CommonData<>(200,"success",vos);
     }
 
-    @PutMapping("/uts")
-    public CommonData<List<StationVO>> userToSta(Long userId, Long[] staIds){
-        List<StationVO> vos = stationService.changeUserToSta(userId, staIds);
+    @GetMapping("/l")
+    public CommonData<List<RoleVO>> getRoles(){
+        List<RoleVO> vos = roleService.getRoles();
+        return new CommonData<>(200,"success",vos);
+    }
+
+    @PutMapping("/utr")
+    public CommonData<List<RoleVO>> userToDept(Long userId, Long[] roleIds){
+        List<RoleVO> vos = roleService.changeUserToRole(userId, roleIds);
         return new CommonData<>(200,"success",vos);
     }
 }

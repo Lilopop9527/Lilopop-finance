@@ -1,9 +1,11 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
-import {Input, message, Radio, Table, Pagination, Image, Select, Button, Tag} from "antd";
+import {Input, message, Radio, Table, Pagination, Image, Select, Button, Tag, Modal} from "antd";
 import request from "../../../../utils/request";
 import {minioprev} from "../../../../enum/enums";
 import './userList.css'
+import {departments,stations} from "../../../../stores/auth/action";
+import UserDetail from "./userDetail";
 const {Search} = Input
 class UserList extends Component {
     constructor(props) {
@@ -92,19 +94,35 @@ class UserList extends Component {
                     render:(text)=><Image src={text} style={{width:70}}/>
                 },
                 {
-                    title: '详细信息',
-                    key:'详细信息',
+                    title: '操作',
+                    key:'操作',
                     align: 'center',
                     width: 100,
-                    render:(_,record)=>(
-                        <Button onClick={()=>this.toDetail(record.id)}>查看详细</Button>
-                    )
+                    render:(_,record)=>([
+                                <Button onClick={()=>this.toDetail(record.id)}>查看详细</Button>,
+                                <Button type='primary'
+                                        onClick={()=>this.delUser(record.id,record.deleated)}>
+                                    {record.deleated === '启用'?'禁用':'启用'}
+                                </Button>,
+                                <Modal title='详细信息' open={this.state.showDetail === record.id} footer={[]}
+                                       onCancel={()=>{
+                                           this.setState({
+                                               showDetail:-1
+                                           })
+                                       }}
+                                       cancelText='取消'>
+                                    <UserDetail  close = {this.closeModal.bind(this)}
+                                                user = {record}/>
+                                </Modal>
+                            ]
+                        )
                 }
             ],
             depts:[],
             dv:'',
             stations:[],
             select:[],
+            showDetail:-1,
             input:<Search placeholder='请输入搜索内容' style={{width:200}} onChange={(e)=>this.changeSearch(e)}
                           allowClear enterButton
                           onSearch={()=>this.searchList(1,this.state.pageSize)}/>
@@ -191,23 +209,6 @@ class UserList extends Component {
             }
         }).then(function (res) {
             local.createData(res,pn,pz)
-            // const data = []
-            // res.data.data.data.map((item,index)=>{
-            //     const url = item.img;
-            //     item.img = minioprev+url
-            //     const status = item.deleated
-            //     item.deleated = status === 0?'启用':'禁用'
-            //     data.push({
-            //         ...item,
-            //         key:(pn-1)*pz+index+1
-            //     })
-            // })
-            // local.setState({
-            //     total:res.data.data.total,
-            //     list:data,
-            //     pageNum:res.data.data.pageNum,
-            //     pageSize:res.data.data.pageSize
-            // })
         }).catch(function (e) {
             message['error']('服务器错误，请稍后再试')
         })
@@ -237,23 +238,6 @@ class UserList extends Component {
             }
         }).then(function (res) {
             local.createData(res,pn,pz)
-            // const data = []
-            // res.data.data.data.map((item,index)=>{
-            //     const url = item.img;
-            //     item.img = minioprev+url
-            //     const status = item.deleated
-            //     item.deleated = status === 0?'启用':'禁用'
-            //     data.push({
-            //         ...item,
-            //         key:(pn-1)*pz+index+1
-            //     })
-            // })
-            // local.setState({
-            //     total:res.data.data.total,
-            //     list:data,
-            //     pageNum:res.data.data.pageNum,
-            //     pageSize:res.data.data.pageSize
-            // })
         }).catch(function (e) {
             message['error']('服务器错误，请稍后再试')
         })
@@ -447,6 +431,12 @@ class UserList extends Component {
 
     async getDepts(){
         const local = this
+        if (local.props.department){
+            local.setState({
+                depts:local.props.department
+            })
+            return
+        }
         const msg = await request({
             url: '/auth/dept/l',
             method:'get',
@@ -465,12 +455,19 @@ class UserList extends Component {
             local.setState({
                 depts:temp
             })
+            local.props.dispatch(departments(temp))
         }).catch(function (e) {
             message['error']('服务器错误，请稍后再试')
         })
     }
     async getStations(){
         const local = this
+        if (local.props.station){
+            local.setState({
+                stations:local.props.station
+            })
+            return
+        }
         const msg = await request({
             url: '/auth/sta/l',
             method:'get',
@@ -489,22 +486,113 @@ class UserList extends Component {
             local.setState({
                 stations:temp
             })
+            local.props.dispatch(stations(temp))
         }).catch(function (e) {
             message['error']('服务器错误，请稍后再试')
         })
     }
-    toDetail(id){
-        console.log(id)
+    toDetail(item){
+        this.setState({
+            showDetail:item
+        })
+    }
+    closeModal(){
+        this.toDetail(-1)
+    }
+    async delUser(id,del){
+        const local = this
+        const msg = await request({
+            url:'/auth/user/del',
+            method:'put',
+            params:{
+                id:id,
+                del:del==='启用'?1:0
+            },
+            headers:{
+                Auth:local.props.token
+            }
+        }).then(function (res) {
+            const list = local.state.list
+            const l = []
+            for (let i = 0; i < list.length; i++) {
+                const d = res.data.data
+                if (list[i].id === d.id){
+                    const img = d.img
+                    const status = d.deleated
+                    const index = list[i].key
+                    d.img = minioprev+img
+                    d.deleated = status === 0?'启用':'禁用'
+                    list[i] = {
+                        ...d,
+                        key:index
+                    }
+                }
+                l.push(list[i])
+            }
+            local.setState({
+                list:l
+            })
+            message['success']('修改成功')
+        }).catch(function (e) {
+            message['error']('修改失败')
+        })
     }
     changeSelect(selectedRowKeys){
         this.setState({
             select:selectedRowKeys
         })
     }
-    //TODO 该函数未确定具体功能
-    waitToDo(){
+    async delAll(){
         const local = this
-
+        let l1 = ''
+        let l2 = ''
+        const pn = local.state.pageNum
+        const pz = local.state.pageSize
+        const list = local.state.list
+        const select = local.state.select
+        for (let i = 0; i < select.length; i++) {
+            let t = select[i]
+            t = t-(pn-1)*pz-1
+            list[t].deleated = list[t].deleated === '启用'?'禁用':'启用'
+        }
+        for (let i = 0; i < list.length-1; i++) {
+            l1 += list[i].id+','
+            l2 += (list[i].deleated==='启用'?0:1) +','
+        }
+        l1+=list[list.length-1].id
+        l2+=(list[list.length-1].deleated==='启用'?0:1)
+        const msg = await request({
+            url:'/auth/user/dAll',
+            method:'put',
+            params:{
+                ids:l1,
+                status:l2
+            },
+            headers:{
+                Auth:local.props.token
+            }
+        }).then(function (res) {
+            const data = []
+            res.data.data.map((item,index)=>{
+                const url = item.img;
+                item.img = minioprev+url
+                const status = item.deleated
+                item.deleated = status === 0?'启用':'禁用'
+                data.push({
+                    ...item,
+                    key:(pn-1)*pz+index+1
+                })
+            })
+            local.setState({
+                list:data
+            })
+            local.setState({
+                select:[]
+            })
+            message['success']('修改完成')
+        }).catch(function (err) {
+            message['error']('服务器错误，请稍后再试')
+        })
     }
     saveDeptValue(e){
         this.setState((state,props)=>{
@@ -567,7 +655,7 @@ class UserList extends Component {
                        }
                        }
                 />
-                <Button type='primary' onClick={this.waitToDo}>待定功能</Button>
+                <Button type='primary' onClick={this.delAll.bind(this)}>批量修改</Button>
                 <Pagination className='pagination'
                     total={this.state.total}
                     showSizeChanger
@@ -584,6 +672,8 @@ class UserList extends Component {
 }
 const mapStateToProps = (state)=>({
     token:state.token,
-    user:state.user
+    user:state.user,
+    department:state.departments,
+    station:state.stations
 })
 export default connect(mapStateToProps)(UserList);

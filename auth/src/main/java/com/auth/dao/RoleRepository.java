@@ -12,4 +12,6 @@ public interface RoleRepository extends JpaRepository<Role,Long> {
     List<Role> getRoles(@Param("ids") List<Long> roles,@Param("del") Integer del);
 
     Role findRoleById(Long id);
+
+    List<Role> findRoleByIdIn(Long[] id);
 }

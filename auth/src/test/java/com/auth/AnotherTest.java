@@ -1,5 +1,6 @@
 package com.auth;
 
+import cn.hutool.core.util.ObjectUtil;
 import com.auth.dao.*;
 import com.auth.pojo.base.*;
 import com.auth.service.DeptService;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.io.IOException;
 import java.security.InvalidKeyException;
@@ -37,7 +39,11 @@ public class AnotherTest {
     @Autowired
     DeptService deptService;
     @Autowired
+    UserRepository userRepository;
+    @Autowired
     UserToDeptRepository userToDeptRepository;
+    @Autowired
+    UserToRoleRepository userToRoleRepository;
     @Autowired
     MinioUtil minioUtils;
     @Test
@@ -108,5 +114,25 @@ public class AnotherTest {
     void deptTest(){
         Page<UserToDept> userToDeptByDepartmentId = userToDeptRepository.findUserToDeptByDepartmentId(1L, PageRequest.of(0, 20));
         System.out.println(userToDeptByDepartmentId);
+    }
+    @Test
+    void roleInitData(){
+        long count = userRepository.count();
+        Role role = roleRepository.findRoleById(3L);
+        for (int i = 0; i < count/500+1; i++) {
+            Pageable pageable = PageRequest.of(i,500);
+            Page<User> page = userRepository.findAll(pageable);
+            List<User> list = page.getContent();
+            List<UserToRole> userToRoles = new ArrayList<>();
+            for (User u:list) {
+                List<UserToRole> roles = userToRoleRepository.findUserToRolesById_UserId(u.getId());
+                if (ObjectUtil.isEmpty(roles)){
+                    UserRoleId userRoleId = new UserRoleId(u.getId(),3L);
+                    UserToRole userToRole = new UserToRole(userRoleId,u,role);
+                    userToRoles.add(userToRole);
+                }
+            }
+            userToRoleRepository.saveAll(userToRoles);
+        }
     }
 }

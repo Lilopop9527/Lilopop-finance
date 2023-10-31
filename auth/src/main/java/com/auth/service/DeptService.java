@@ -1,5 +1,6 @@
 package com.auth.service;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.auth.dao.DepartmentRepository;
 import com.auth.dao.UserRepository;
 import com.auth.dao.UserToDeptRepository;
@@ -11,6 +12,7 @@ import com.auth.pojo.vo.DeptVO;
 import com.auth.pojo.vo.UserVO;
 import com.common.core.exception.Asserts;
 import com.common.core.pojo.PageBody;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -115,10 +117,49 @@ public class DeptService {
         List<Department> d = departmentRepository.findAllByDeleated(0);
         return createVO(d);
     }
-    public PageBody<UserVO> listUserByDept(Integer pageNum,Integer pageSize,Long deptId){
-        Pageable pageable = PageRequest.of(pageNum,pageSize);
-        return null;
+
+    /**
+     * 根据用户id获取对应部门
+     * @param id 用户id
+     * @return 部门列表
+     */
+    public List<DeptVO> getDeptsByUserId(Long id){
+        List<UserToDept> utds = userToDeptRepository.findUserToDeptById_UserId(id);
+        List<DeptVO> vos = new ArrayList<>();
+        for (UserToDept utd:utds) {
+            DeptVO vo = new DeptVO();
+            BeanUtil.copyProperties(utd.getDepartment(),vo);
+            vos.add(vo);
+        }
+        return vos;
     }
+
+    /**
+     * 更新用户和部门之间的关系
+     * @param userId 用户id
+     * @param deptIds 修改后的部门id
+     * @return 修改后的部门列表
+     */
+    @Transactional
+    public List<DeptVO> changeUserToDept(Long userId,Long[] deptIds){
+        Integer integer = userToDeptRepository.deleteByUserId(userId);
+        if (integer == 0)
+            Asserts.fail("没有删除数据");
+        if (deptIds.length == 0)return new ArrayList<>();
+        List<Department> departments = departmentRepository.findDepartmentByIdIn(deptIds);
+        if (departments.isEmpty())
+            Asserts.fail("未找到对应部门信息");
+        User user = userRepository.findUserById(userId);
+        List<UserToDept> utds = new ArrayList<>();
+        for (Department d:departments) {
+            UserDeptId udi = new UserDeptId(userId,d.getId());
+            UserToDept utd = new UserToDept(udi,user,d);
+            utds.add(utd);
+        }
+        userToDeptRepository.saveAll(utds);
+        return createVO(departments);
+    }
+
 
     public List<DeptVO> createVO(List<Department> list){
         List<DeptVO> vos = new ArrayList<>();
@@ -127,4 +168,6 @@ public class DeptService {
         }
         return vos;
     }
+
+
 }

@@ -13,10 +13,6 @@ import org.springframework.web.bind.annotation.*;
 public class BaseController {
     @Autowired
     private LoginService loginService;
-    @GetMapping("/test")
-    public String test(){
-        return "123456";
-    }
 
     @PostMapping("/login")
     public CommonData<UserVO> loginByUsername(String username, String password, String email, String phone, String code){

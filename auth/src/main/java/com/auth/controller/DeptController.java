@@ -5,6 +5,7 @@ import com.auth.service.DeptService;
 import com.common.core.pojo.CommonData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,5 +23,17 @@ public class DeptController {
     @GetMapping("/l")
     public CommonData<List<DeptVO>> getDepts(){
         return new CommonData<>(200,"success",deptService.getAllDepts());
+    }
+
+    @GetMapping("/get")
+    public CommonData<List<DeptVO>> getDeptsByUserId(Long id){
+        List<DeptVO> vos = deptService.getDeptsByUserId(id);
+        return new CommonData<>(200,"success",vos);
+    }
+
+    @PutMapping("/utd")
+    public CommonData<List<DeptVO>> userToDept(Long userId,Long[] deptIds){
+        List<DeptVO> vos = deptService.changeUserToDept(userId, deptIds);
+        return new CommonData<>(200,"success",vos);
     }
 }

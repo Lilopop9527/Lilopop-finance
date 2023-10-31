@@ -1,9 +1,11 @@
 package com.auth.service;
 
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.ObjectUtil;
 import com.auth.dao.*;
 import com.auth.pojo.base.*;
 import com.auth.pojo.vo.RoleVO;
+import com.auth.pojo.vo.StationVO;
 import com.common.core.exception.Asserts;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -144,10 +146,10 @@ public class RoleService {
     }
 
     /**
-     *
-     * @param routeIds
-     * @param roleId
-     * @return
+     * 设置角色和路由的关系
+     * @param routeIds 路由id
+     * @param roleId 角色id
+     * @return 生成的关系对象
      */
     public Set<RoleToRoutes> getRoleToRoutes(List<Long> routeIds,Long roleId){
         Optional<Role> o = roleRepository.findById(roleId);
@@ -161,5 +163,55 @@ public class RoleService {
             set.add(rr);
         }
         return set;
+    }
+
+    /**
+     * 根据用户id查找对应角色
+     * @param id 用户id
+     * @return 角色对象列表
+     */
+    public List<RoleVO> getRoleByUserId(Long id){
+        List<UserToRole> utrs = userToRoleRepository.findUserToRolesById_UserId(id);
+        List<RoleVO> vos = new ArrayList<>();
+        for (UserToRole utr:utrs) {
+            RoleVO vo = new RoleVO();
+            BeanUtil.copyProperties(utr.getRole(),vo);
+            vos.add(vo);
+        }
+        return vos;
+    }
+    /**
+     * 更新用户和角色之间的关系
+     * @param userId 用户id
+     * @param roleIds 修改后的部门id
+     * @return 修改后的角色列表
+     */
+    @Transactional
+    public List<RoleVO> changeUserToRole(Long userId, Long[] roleIds){
+        Integer integer = userToRoleRepository.deleteByUserId(userId);
+        if (integer == 0)
+            Asserts.fail("没有删除数据");
+        if (roleIds.length == 0)return  new ArrayList<>();
+        List<Role> roles = roleRepository.findRoleByIdIn(roleIds);
+        if (roles.isEmpty())
+            Asserts.fail("未找到对应部门信息");
+        User user = userRepository.findUserById(userId);
+        List<UserToRole> utrs = new ArrayList<>();
+        for (Role r:roles) {
+            UserRoleId udi = new UserRoleId(userId,r.getId());
+            UserToRole utd = new UserToRole(udi,user,r);
+            utrs.add(utd);
+        }
+        userToRoleRepository.saveAll(utrs);
+        return createVOs(roles);
+    }
+
+    public List<RoleVO> createVOs(List<Role> roles){
+        List<RoleVO> vos = new ArrayList<>();
+        for (Role r:roles) {
+            RoleVO vo = new RoleVO(r.getId(),r.getRoleName());
+            vos.add(vo);
+        }
+        return vos;
     }
 }
