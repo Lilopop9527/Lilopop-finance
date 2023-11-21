@@ -23,7 +23,6 @@ public class JWTUtil {
      * @return token字符串
      */
     public static String createToken(Map<String,Object> map){
-        //TODO 添加日志打印
         //设置过期时间
         //Date expDate = new Date(System.currentTimeMillis()+EXPIRE_TIME);
         //设置加密算法
@@ -52,6 +51,8 @@ public class JWTUtil {
                 builder.withClaim(k,(Double) v);
             }else if(v instanceof Date){
                 builder.withClaim(k,(Date) v);
+            }else if (v instanceof List<?>){
+                builder.withClaim(k,(List<?>) v);
             }
         });
         return builder.sign(algorithm);

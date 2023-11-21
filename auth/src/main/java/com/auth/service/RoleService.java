@@ -4,6 +4,7 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.ObjectUtil;
 import com.auth.dao.*;
 import com.auth.pojo.base.*;
+import com.auth.pojo.dto.RoleDTO;
 import com.auth.pojo.vo.RoleVO;
 import com.auth.pojo.vo.StationVO;
 import com.common.core.exception.Asserts;
@@ -43,14 +44,16 @@ public class RoleService {
     }
     /**
      * 更新角色对象
-     * @param role 角色对象
+     * @param dto 角色对象
      */
-    public void updateRole(Role role){
-        if (ObjectUtil.isEmpty(role.getDeleated())
-                ||ObjectUtil.isEmpty(role.getId())
-                ||ObjectUtil.isEmpty(role.getRoleName())){
-            Asserts.fail("角色信息不合法!");
-        }
+    public void updateRole(RoleDTO dto){
+        if (ObjectUtil.isEmpty(dto.getId()))
+            Asserts.fail("请输入正确id");
+        Role role = roleRepository.findRoleById(dto.getId());
+        if (ObjectUtil.isEmpty(role))
+          Asserts.fail("未找到指定角色");
+        role.setRoleName(dto.getRoleName());
+        role.setWeight(dto.getWeight());
         roleRepository.save(role);
     }
 
@@ -62,7 +65,7 @@ public class RoleService {
         List<RoleVO> vos = new ArrayList<>();
         List<Role> roles = roleRepository.findAll();
         for (Role r:roles) {
-            RoleVO vo = new RoleVO(r.getId(),r.getRoleName());
+            RoleVO vo = new RoleVO(r.getId(),r.getRoleName(),r.getWeight(),r.getDeleated());
             vos.add(vo);
         }
         return vos;
@@ -206,10 +209,25 @@ public class RoleService {
         return createVOs(roles);
     }
 
+    /**
+     * 修改角色启用状态
+     * @param id 角色id
+     * @param del 需要修改的状态
+     */
+    public void changeRoleStatus(Long id,Integer del){
+        Role role = roleRepository.findRoleById(id);
+        if (ObjectUtil.isEmpty(role))
+            Asserts.fail("未找到角色");
+        if (Objects.equals(role.getDeleated(), del)){
+            role.setDeleated((del+1)%2);
+            roleRepository.save(role);
+        }else
+            Asserts.fail("用户不需要修改");
+    }
     public List<RoleVO> createVOs(List<Role> roles){
         List<RoleVO> vos = new ArrayList<>();
         for (Role r:roles) {
-            RoleVO vo = new RoleVO(r.getId(),r.getRoleName());
+            RoleVO vo = new RoleVO(r.getId(),r.getRoleName(),r.getWeight(),r.getDeleated());
             vos.add(vo);
         }
         return vos;

@@ -378,7 +378,7 @@ public class UserService {
     public List<RoleVO> roleToVO(List<Role> roles){
         List<RoleVO> vos = new ArrayList<>();
         for (Role r:roles) {
-            vos.add(new RoleVO(r.getId(),r.getRoleName()));
+            vos.add(new RoleVO(r.getId(),r.getRoleName(),r.getWeight(),r.getDeleated()));
         }
         return vos;
     }

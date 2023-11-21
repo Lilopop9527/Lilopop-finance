@@ -48,11 +48,11 @@ public class AnotherTest {
     MinioUtil minioUtils;
     @Test
     void Roletest(){
-        List<Long> id = new ArrayList<>();
-        id.add(1L);
-        id.add(2L);
-        List<RoleToRoutes> rtrs = roleToRoutesRepository.findRoleToRoutesById_RoleIdIn(id);
-        System.out.println(rtrs);
+        User u = userRepository.findById(1L).get();
+        Role r = roleRepository.findRoleById(3L);
+        UserRoleId uri = new UserRoleId(u.getId(),r.getId());
+        UserToRole utr = new UserToRole(uri,u,r);
+        userToRoleRepository.save(utr);
     }
 
     @Test
@@ -69,11 +69,18 @@ public class AnotherTest {
 
     @Test
     void saveRoleToRoute(){
-        List<Long> list = new ArrayList<>();
-        list.add(1L);
-        list.add(2L);
-        list.add(3L);
-        routesService.saveRoleToRoutes(list,2L);
+//        Routes routes = new Routes("角色设置","/authConfig/roleConfig",6L);
+//        routes.setDeleated(0);
+//        routesRepository.save(routes);
+        Routes routes = routesRepository.getReferenceById(7L);
+        List<Role> all = roleRepository.findAll();
+        List<RoleToRoutes> rtrs = new ArrayList<>();
+        for(Role r:all){
+            RoleRoutesId rri = new RoleRoutesId(r.getId(),routes.getId());
+            RoleToRoutes rtr = new RoleToRoutes(rri,r,routes);
+            rtrs.add(rtr);
+        }
+        roleToRoutesRepository.saveAll(rtrs);
     }
 
     @Test

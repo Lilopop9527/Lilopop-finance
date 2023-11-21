@@ -44,8 +44,15 @@ public class RoutesService {
      * 获取所有路径
      * @return 路径对象列表
      */
-    public List<Routes> listRoutes(){
-        return routesRepository.findAll();
+    public List<RouteVO> listRoutes(){
+        List<Routes> all = routesRepository.findAll();
+        Map<Long,List<Routes>> map = new HashMap<>();
+        for (Routes r:all) {
+            List<Routes> list = map.getOrDefault(r.getParent(),new ArrayList<>());
+            list.add(r);
+            map.put(r.getParent(),list);
+        }
+        return routeToVO(map,0L);
     }
 
     /**

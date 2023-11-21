@@ -1,0 +1,24 @@
+.search{
+    padding-top: 30px;
+    padding-left: 50px;
+}
+.list-wrap {
+    background-color: #ffffff;
+    height: calc(800px);
+    flex: 1;
+    font-size: 20px;
+}
+.pagination {
+    float: right;
+}
+.msg {
+    align-content: center;
+}
+.select{
+    margin-left: 38px;
+    margin-bottom: 15px;
+}
+.button{
+    margin-left: 43px;
+    width: 100px;
+}

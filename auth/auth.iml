@@ -157,7 +157,6 @@
     <orderEntry type="library" name="Maven: com.mysql:mysql-connector-j:8.0.31" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-data-jpa:3.0.5" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-aop:3.0.5" level="project" />
-    <orderEntry type="library" name="Maven: org.aspectj:aspectjweaver:1.9.19" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-jdbc:3.0.5" level="project" />
     <orderEntry type="library" name="Maven: com.zaxxer:HikariCP:5.0.1" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-jdbc:6.0.7" level="project" />
@@ -205,6 +204,7 @@
     <orderEntry type="library" name="Maven: org.apache.tomcat:tomcat-annotations-api:10.1.7" level="project" />
     <orderEntry type="module" module-name="common-core" />
     <orderEntry type="library" name="Maven: com.auth0:java-jwt:4.3.0" level="project" />
+    <orderEntry type="library" name="Maven: org.aspectj:aspectjweaver:1.9.19" level="project" />
     <orderEntry type="module" module-name="common-minio" />
     <orderEntry type="library" name="Maven: io.minio:minio:8.2.2" level="project" />
     <orderEntry type="library" name="Maven: com.carrotsearch.thirdparty:simple-xml-safe:2.7.1" level="project" />

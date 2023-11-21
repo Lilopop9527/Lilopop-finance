@@ -32,6 +32,10 @@ public class Role {
     )
     private String roleName;
     @Column(
+            name = "weight"
+    )
+    private Integer weight;
+    @Column(
             name = "create_time",
             nullable = false,
             updatable = false,
@@ -92,6 +96,14 @@ public class Role {
 
     public void setDeleated(Integer deleated) {
         this.deleated = deleated;
+    }
+
+    public Integer getWeight() {
+        return weight;
+    }
+
+    public void setWeight(Integer weight) {
+        this.weight = weight;
     }
 
     public List<UserToRole> getUsers() {

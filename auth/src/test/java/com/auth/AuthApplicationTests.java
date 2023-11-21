@@ -148,7 +148,7 @@ class AuthApplicationTests {
 
     @Test
     void test9(){
-        userService.getByDept(1,20,2L);
+
     }
 
     @Test

@@ -98,6 +98,13 @@ public class LoginService {
         if(ObjectUtil.isNotEmpty(user.getImg())){
             map.put("img",user.getImg());
         }
+        if (ObjectUtil.isNotEmpty(user.getRoles())){
+            int role = 0;
+            for (UserToRole utr:user.getRoles()) {
+                role = Math.max(role,utr.getRole().getWeight());
+            }
+            map.put("role",role);
+        }
         return map;
     }
 
@@ -160,7 +167,7 @@ public class LoginService {
     public List<RoleVO> roleToVO(List<Role> roles){
         List<RoleVO> vos = new ArrayList<>();
         for (Role r:roles) {
-            vos.add(new RoleVO(r.getId(),r.getRoleName()));
+            vos.add(new RoleVO(r.getId(),r.getRoleName(),r.getWeight(),r.getDeleated()));
         }
         return vos;
     }

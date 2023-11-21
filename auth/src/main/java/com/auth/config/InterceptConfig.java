@@ -1,6 +1,8 @@
 package com.auth.config;
 
 import com.common.interceptor.handle.TokenInterceptor;
+import com.common.interceptor.section.RoleSection;
+import com.common.minio.config.MinioConfig;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -19,4 +21,10 @@ public class InterceptConfig implements WebMvcConfigurer {
     public TokenInterceptor tokenInterceptor(){
         return new TokenInterceptor();
     }
+
+    @Bean
+    public RoleSection roleSection(){
+        return new RoleSection();
+    }
+
 }
