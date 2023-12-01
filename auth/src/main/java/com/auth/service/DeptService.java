@@ -1,6 +1,7 @@
 package com.auth.service;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.util.ObjectUtil;
 import com.auth.dao.DepartmentRepository;
 import com.auth.dao.UserRepository;
 import com.auth.dao.UserToDeptRepository;
@@ -21,6 +22,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 /**
  *@author: Lilopop
@@ -37,10 +39,15 @@ public class DeptService {
 
     /**
      * 存储部门信息
-     * @param department 部门信息
+     * @param name 部门名称
+     * @param  principalId 负责人id
+     * @return 存储的部门信息
      */
-    public void saveDept(Department department){
-        departmentRepository.save(department);
+    public DeptVO saveDept(String name,Long principalId){
+        Department de = new Department(name,principalId);
+        de.setDeleated(0);
+        Department department = departmentRepository.save(de);
+        return createVO(department);
     }
 
     /**
@@ -56,6 +63,37 @@ public class DeptService {
         Department department = o1.get();
         department.setPrincipalId(userId);
         departmentRepository.save(department);
+    }
+
+    /**
+     * 根据传入的状态修改对应的部门
+     * @param id 部门id
+     * @param del 需要被修改的状态
+     */
+    public synchronized void changeDeptStatus(Long id,Integer del){
+        Department department = departmentRepository.findDepartmentById(id);
+        if (ObjectUtil.isEmpty(department)||del<0||del>10)
+            Asserts.fail("未找到指定部门信息");
+        if (Objects.equals(del, department.getDeleated()))return;
+        department.setDeleated(del);
+        departmentRepository.save(department);
+    }
+
+    /**
+     * 修改部门信息
+     * @param id 部门id
+     * @param name 部门名称
+     * @param principalId 部门负责人id
+     * @return 修改后的部门信息
+     */
+    public DeptVO updateDept(Long id,String name,Long principalId){
+        Department department = departmentRepository.findDepartmentById(id);
+        if (ObjectUtil.isEmpty(department))
+            Asserts.fail("未找到指定部门信息");
+        department.setName(name);
+        department.setPrincipalId(principalId);
+        departmentRepository.save(department);
+        return createVO(department);
     }
 
     /**
@@ -114,7 +152,7 @@ public class DeptService {
      * @return
      */
     public List<DeptVO> getAllDepts(){
-        List<Department> d = departmentRepository.findAllByDeleated(0);
+        List<Department> d = departmentRepository.findAll();
         return createVO(d);
     }
 
@@ -167,6 +205,10 @@ public class DeptService {
             vos.add(new DeptVO(d.getId(),d.getName(),d.getPrincipalId(),d.getDeleated()));
         }
         return vos;
+    }
+
+    public DeptVO createVO(Department d){
+        return new DeptVO(d.getId(),d.getName(),d.getPrincipalId(),d.getDeleated());
     }
 
 

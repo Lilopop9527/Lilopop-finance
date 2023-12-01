@@ -1,5 +1,6 @@
 package com.auth.dao;
 
+import com.auth.pojo.base.User;
 import com.auth.pojo.base.UserRoleId;
 import com.auth.pojo.base.UserToRole;
 import jakarta.transaction.Transactional;
@@ -17,10 +18,9 @@ public interface UserToRoleRepository extends JpaRepository<UserToRole, UserRole
     List<UserToRole> findUserToRolesById_RoleIdIn(List<Long> roleIds);
 
     Page<UserToRole> findUserToRolesById_RoleId(Long id, Pageable pageable);
-
+    List<UserToRole> findUserToRolesById_RoleId(Long id);
     List<UserToRole> findUserToRolesById_UserId(Long id);
 
-    @Transactional
     @Modifying
     @Query("delete from UserToRole u where u.user.id = :id")
     Integer deleteByUserId(@Param("id") Long id);

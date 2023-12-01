@@ -66,6 +66,11 @@ public class Role {
         this.roleName = roleName;
     }
 
+    public Role(String roleName, Integer weight) {
+        this.roleName = roleName;
+        this.weight = weight;
+    }
+
     public Long getId() {
         return id;
     }

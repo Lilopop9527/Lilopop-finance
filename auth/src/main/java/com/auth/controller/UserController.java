@@ -101,5 +101,10 @@ public class UserController {
         return new CommonData<>(200,"success",vos);
     }
 
-
+    @GetMapping("/lea")
+    @CheckRole(20000)
+    public CommonData<List<UserVO>> getLeaders(){
+        List<UserVO> vos = userService.getLeaders();
+        return new CommonData<>(200,"success",vos);
+    }
 }

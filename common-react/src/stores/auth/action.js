@@ -1,4 +1,18 @@
-import { TOKEN,DELTOKEN,LOGIN,HOME,USERINFO,ROLE,ROUTE,USERDETAIL,DEPARTMENT,STATIONS,ROLES,ROUTES } from './enum'
+import {
+    TOKEN,
+    DELTOKEN,
+    LOGIN,
+    HOME,
+    USERINFO,
+    ROLE,
+    ROUTE,
+    USERDETAIL,
+    DEPARTMENT,
+    STATIONS,
+    ROLES,
+    ROUTES,
+    LEADERS
+} from './enum'
 export const token = (token)=>({
     type:TOKEN,
     token
@@ -46,4 +60,8 @@ export const roles = (role)=>({
 export const routes = (routes)=>({
     type:ROUTES,
     routes
+})
+export const leaders = (leaders)=>({
+    type:LEADERS,
+    leaders
 })

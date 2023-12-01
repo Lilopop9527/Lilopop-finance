@@ -7,6 +7,8 @@ import com.auth.pojo.base.RoleRoutesId;
 import com.auth.pojo.base.RoleToRoutes;
 import com.auth.pojo.base.Routes;
 import com.auth.pojo.vo.RouteVO;
+import com.common.core.exception.Asserts;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -46,12 +48,7 @@ public class RoutesService {
      */
     public List<RouteVO> listRoutes(){
         List<Routes> all = routesRepository.findAll();
-        Map<Long,List<Routes>> map = new HashMap<>();
-        for (Routes r:all) {
-            List<Routes> list = map.getOrDefault(r.getParent(),new ArrayList<>());
-            list.add(r);
-            map.put(r.getParent(),list);
-        }
+        Map<Long,List<Routes>> map = createMaps(all);
         return routeToVO(map,0L);
     }
 
@@ -92,15 +89,35 @@ public class RoutesService {
             routes.add(rtr.getRoutes());
         }
         //routes.sort((a, b) -> (int) (a.getParent() - b.getParent()));
-        Map<Long,List<Routes>> map = new HashMap<>();
-        for (Routes route:routes) {
-            List<Routes> list = map.getOrDefault(route.getParent(),new ArrayList<>());
-            list.add(route);
-            map.put(route.getParent(),list);
-        }
+        Map<Long,List<Routes>> map = createMaps(routes);
         List<RouteVO> ans = routeToVO(map,0L);
         ans.sort((a, b) -> (int) (a.getId() - b.getId()));
         return ans;
+    }
+
+    /**
+     * 根据角色id寻找对应route的id
+     * @param id 角色id
+     * @return route的id集合
+     */
+    public List<Long> getRouteIdByRoleId(Long id){
+        return routesRepository.findRoutesIdByRoleId(id);
+    }
+
+    @Transactional
+    public List<RouteVO> changeRoleToRoutes(Long[] rids,Long roleId){
+        Integer a = roleToRoutesRepository.delRoleToRoute(roleId);
+        Role role = roleService.getRoleById(roleId);
+        List<Routes> routes = routesRepository.findRoutesByIdIn(rids);
+        List<RoleToRoutes> rtrs = new ArrayList<>();
+        for (Routes r:routes) {
+            RoleRoutesId rri = new RoleRoutesId(role.getId(),r.getId());
+            RoleToRoutes rtr = new RoleToRoutes(rri,role,r);
+            rtrs.add(rtr);
+        }
+        roleToRoutesRepository.saveAll(rtrs);
+        Map<Long, List<Routes>> maps = createMaps(routes);
+        return routeToVO(maps,0L);
     }
 
     /**
@@ -118,6 +135,17 @@ public class RoutesService {
             vo.setChildren(routeToVO(routes,route.getId()));
             vos.add(vo);
         }
+        vos.sort((a, b) -> (int) (a.getId() - b.getId()));
         return vos;
+    }
+
+    public Map<Long,List<Routes>> createMaps(Iterable<Routes> arr){
+        Map<Long,List<Routes>> map = new HashMap<>();
+        for (Routes r:arr) {
+            List<Routes> list = map.getOrDefault(r.getParent(),new ArrayList<>());
+            list.add(r);
+            map.put(r.getParent(),list);
+        }
+        return map;
     }
 }

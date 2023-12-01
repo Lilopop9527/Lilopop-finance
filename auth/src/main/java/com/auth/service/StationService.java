@@ -1,5 +1,6 @@
 package com.auth.service;
 
+import cn.hutool.core.util.ObjectUtil;
 import com.auth.dao.StationRepository;
 import com.auth.dao.UserRepository;
 import com.auth.dao.UserToStationRepository;
@@ -34,10 +35,14 @@ public class StationService {
 
     /**
      * 存储岗位信息
-     * @param station station对象
+     * @param name 岗位名
+     * @return 储存的岗位对象
      */
-    public void saveStation(Station station){
-        stationRepository.save(station);
+    public StationVO saveStation(String name){
+        Station station = new Station(name);
+        station.setDeleated(0);
+        Station save = stationRepository.save(station);
+        return createVO(save);
     }
 
     /**
@@ -78,6 +83,34 @@ public class StationService {
         return userToStationRepository.findUserToStationsById_StationId(stationId, pageable);
     }
 
+
+    public StationVO changeStation(Long id,String name){
+        Station station = stationRepository.findStationById(id);
+        if (ObjectUtil.isEmpty(station)||ObjectUtil.isEmpty(name))
+            Asserts.fail("未找到指定对象");
+        if (!ObjectUtil.equals(name,station.getName())){
+            station.setName(name);
+            stationRepository.save(station);
+        }
+        return createVO(station);
+    }
+
+    /**
+     * 修改岗位状态
+     * @param id 岗位id
+     * @param del 需要修改的状态
+     * @return 修改后的信息
+     */
+    public StationVO changeStationStatus(Long id,Integer del){
+        Station station = stationRepository.findStationById(id);
+        if (ObjectUtil.isEmpty(station)||del<0||del>10)
+            Asserts.fail("未找到指定岗位信息");
+        if (ObjectUtil.equals(del,station.getDeleated()))return createVO(station);
+        station.setDeleated(del);
+        stationRepository.save(station);
+        return createVO(station);
+    }
+
     /**
      * 创建岗位和用户中间关系
      * @param usersId 用户id列表
@@ -108,8 +141,18 @@ public class StationService {
         return vos;
     }
 
+    /**
+     * 获取所有岗位信息
+     * @return 所有岗位信息
+     */
+    public List<StationVO> getAllStation(){
+        List<Station> list = stationRepository.findAll();
+        List<StationVO> vos = createVOs(list);
+        return vos;
+    }
+
     public StationVO createVO(Station station){
-        return new StationVO(station.getId(),station.getName());
+        return new StationVO(station.getId(),station.getName(),station.getDeleated());
     }
 
     /**

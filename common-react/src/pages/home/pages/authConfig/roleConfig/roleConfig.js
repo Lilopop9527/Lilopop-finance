@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
 import request from "../../../../../utils/request";
-import {departments, roles, stations,routes} from "../../../../../stores/auth/action";
-import {Button, message, Popconfirm, Select, Table, Typography, Form, Input, InputNumber} from "antd";
-import {FormInstance} from "antd";
+import {departments, roles, routes, stations} from "../../../../../stores/auth/action";
+import {Button, Form, Input, InputNumber, message, Modal, Popconfirm, Table, Typography} from "antd";
+import AddRole from "./addRole";
+import ChangeRoute from "./changeRoute";
 
 class RoleConfig extends Component {
     formRef:any = React.createRef()
@@ -77,7 +78,8 @@ class RoleConfig extends Component {
             list:[],
             editingKey:'',
             roleName:'',
-            weight:''
+            weight:'',
+            showModal:false
         }
     }
 
@@ -90,8 +92,17 @@ class RoleConfig extends Component {
     async getDepts(){
         const local = this
         if (local.props.department){
+            const list = local.props.department
+            const data = []
+            list.map((item)=>{
+                data.push({
+                    value:item.id,
+                    label:item.name,
+                    key:item.id
+                })
+            })
             local.setState({
-                depts:local.props.department
+                depts:data
             })
             return
         }
@@ -113,7 +124,7 @@ class RoleConfig extends Component {
             local.setState({
                 depts:temp
             })
-            local.props.dispatch(departments(temp))
+            local.props.dispatch(departments(res.data.data))
         }).catch(function (e) {
             message['error']('服务器错误，请稍后再试')
         })
@@ -121,8 +132,17 @@ class RoleConfig extends Component {
     async getStations(){
         const local = this
         if (local.props.station){
+            const list = local.props.station
+            const data = []
+            list.map((item)=>{
+                data.push({
+                    value:item.id,
+                    label:item.name,
+                    key:item.id
+                })
+            })
             local.setState({
-                stations:local.props.station
+                stations:data
             })
             return
         }
@@ -144,7 +164,7 @@ class RoleConfig extends Component {
             local.setState({
                 stations:temp
             })
-            local.props.dispatch(stations(temp))
+            local.props.dispatch(stations(res.data.data))
         }).catch(function (e) {
             message['error']('服务器错误，请稍后再试')
         })
@@ -152,7 +172,11 @@ class RoleConfig extends Component {
     async getAllRole(){
         const local = this
         if (local.props.roles){
-            local.createRole(local.props.roles)
+            const list = local.props.roles
+            const data = local.createRole(list)
+            this.setState({
+                roles:data
+            })
             return
         }
         const msg = await request({
@@ -167,7 +191,7 @@ class RoleConfig extends Component {
             local.setState({
                 roles:r
             })
-            local.props.dispatch(roles(r))
+            local.props.dispatch(roles(roles1))
         }).catch(function (e) {
             message['error']('服务器错误，请稍后再试')
         })
@@ -180,11 +204,8 @@ class RoleConfig extends Component {
                 item.deleated = del === 0?'启用':'禁用'
             data.push({
                 ...item,
-                key:index
+                key:index+1
             })
-        })
-        this.setState({
-            roles:data
         })
         return data
     }
@@ -206,12 +227,7 @@ class RoleConfig extends Component {
             const routes1 = res.data.data
             const r =[]
             routes1.map((item,index)=>{
-                const t = {
-                    value:item.id,
-                    label:item.title,
-                    path:item.path,
-                    children:item.children
-                }
+                const t = local.createRoutes(item)
                 r.push(t)
             })
             local.setState({
@@ -221,6 +237,21 @@ class RoleConfig extends Component {
         }).catch(function (e) {
             message['error']('服务器错误，请稍后再试')
         })
+    }
+    createRoutes(item){
+        const children = []
+        if (item.children){
+            item.children.map((item)=>{
+                children.push(this.createRoutes(item))
+            })
+        }
+        return {
+            id: item.id,
+            title: item.title,
+            path: item.path,
+            key: item.id,
+            children: children
+        }
     }
     async changeStatus(id,del){
         const local = this
@@ -275,7 +306,6 @@ class RoleConfig extends Component {
         return data
     }
     isEditing(items){
-        //console.log(item.key === this.state.editingKey)
         return items.key === this.state.editingKey
     }
     cancel(){
@@ -310,6 +340,7 @@ class RoleConfig extends Component {
             local.setState({
                 roles:data
             })
+            local.props.dispatch(roles(data))
             message['success']('修改成功')
         }).catch(function (e) {
             message['error']('修改失败，请稍后再试')
@@ -354,6 +385,31 @@ class RoleConfig extends Component {
         }
 
     }
+    showModal(){
+        this.setState({
+            showModal:true
+        })
+    }
+    closeModal(){
+        this.setState({
+            showModal:false
+        })
+    }
+    addRole(role){
+        const data = []
+        const roles1 = this.state.roles
+        const flag = role.deleated
+        role.deleated = flag === 1?'禁用':'启用'
+        role.key = roles1.length+1
+        for (let i = 0; i < roles1.length; i++) {
+            data.push(roles1[i])
+        }
+        data.push(role)
+        this.setState({
+            roles:data
+        })
+        this.props.dispatch(roles(data))
+    }
     render() {
         const {select,roles} = this.state
         return (
@@ -368,9 +424,25 @@ class RoleConfig extends Component {
                         }}
                                columns={this.mergerColumns()} dataSource={roles} scroll={{x:1500,y:640}}
                                pagination={false}
+                               expandable={{
+                                   expandedRowRender:(record)=>([
+                                           <ChangeRoute id = {record.id}/>
+                                       ]
+                                   ),
+                                   rowExpandable:()=>true
+                               }}
                         />
                     </div>
                 </Form>
+                <Button type='primary' className='button' onClick={()=>this.showModal()}>新建角色</Button>
+                <Modal title='创建角色' open={this.state.showModal} footer={[]}
+                    onCancel={()=>{
+                        this.closeModal()
+                    }}
+                       cancelText='取消'
+                >
+                    <AddRole close = {this.closeModal.bind(this)} addRole = {this.addRole.bind(this)}/>
+                </Modal>
             </div>
         );
     }

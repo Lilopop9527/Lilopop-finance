@@ -62,6 +62,18 @@ class UserDetail extends Component {
     async getDepts(){
         const local = this
         if (local.props.department){
+            const list = local.props.department
+            const data = []
+            list.map((item)=>{
+                data.push({
+                    value:item.id,
+                    label:item.name,
+                    key:item.id
+                })
+            })
+            local.setState({
+                department:data
+            })
             return
         }
         const msg = await request({
@@ -75,11 +87,15 @@ class UserDetail extends Component {
             res.data.data.map((item,index)=>{
                 const t = {
                     value:item.id,
-                    label:item.name
+                    label:item.name,
+                    key:item.id
                 }
                 temp.push(t)
             })
-            local.props.dispatch(departments(temp))
+            local.setState({
+                department:temp
+            })
+            local.props.dispatch(departments(res.data.data))
         }).catch(function (e) {
             message['error']('服务器错误，请稍后再试')
             local.closeModal()
@@ -88,6 +104,18 @@ class UserDetail extends Component {
     async getStations(){
         const local = this
         if (local.props.station){
+            const list = local.props.station
+            const data = []
+            list.map((item)=>{
+                data.push({
+                    value:item.id,
+                    label:item.name,
+                    key:item.id
+                })
+            })
+            local.setState({
+                station:data
+            })
             return
         }
         const msg = await request({
@@ -101,11 +129,15 @@ class UserDetail extends Component {
             res.data.data.map((item,index)=>{
                 const t = {
                     value:item.id,
-                    label:item.name
+                    label:item.name,
+                    key:item.id
                 }
                 temp.push(t)
             })
-            local.props.dispatch(stations(temp))
+            local.setState({
+                station:temp
+            })
+            local.props.dispatch(stations(res.data.data))
         }).catch(function (e) {
             message['error']('服务器错误，请稍后再试')
             local.closeModal()
@@ -114,8 +146,17 @@ class UserDetail extends Component {
     async getAllRole(){
         const local = this
         if (local.props.roles){
+            const data = []
+            local.props.roles.map((item)=>{
+                const t = {
+                    value:item.id,
+                    label:item.name,
+                    key:item.id
+                }
+                data.push(t)
+            })
             this.setState({
-                roles:local.props.roles
+                roles:data
             })
             return
         }
@@ -131,14 +172,15 @@ class UserDetail extends Component {
             roles1.map((item,index)=>{
                 const t = {
                     value:item.id,
-                    label:item.roleName
+                    label:item.roleName,
+                    key:item.id
                 }
                 r.push(t)
             })
             local.setState({
                 roles:r
             })
-            local.props.dispatch(roles(r))
+            local.props.dispatch(roles(roles1))
         }).catch(function (e) {
             message['error']('服务器错误，请稍后再试')
         })
@@ -162,7 +204,7 @@ class UserDetail extends Component {
         }).then(function (res) {
             if (res.data.code === 200)
                 message['success']("更新成功")
-            dispatch(detail(res.data.data))
+            //dispatch(detail(res.data.data))
         }).catch(function (err) {
             message['error']('更新失败，请稍后再试')
         })
@@ -272,7 +314,7 @@ class UserDetail extends Component {
                         value={local.state.uDept}
                         onChange={local.changeDept}
                         style={{ width: '70%' }}
-                        options={local.props.department}
+                        options={local.state.department}
                     />
                     <br/>
                     <Button className='button' type='primary' onClick={this.changeUTD.bind(this)}>修改部门</Button>
@@ -285,7 +327,7 @@ class UserDetail extends Component {
                     value={local.state.uStation}
                     onChange={local.changeSta}
                     style={{ width: '70%' }}
-                    options={local.props.station}
+                    options={local.state.station}
                 />
                     <br/>
                     <Button className='button' type='primary' onClick={this.changeUTS.bind(this)}>修改岗位</Button>

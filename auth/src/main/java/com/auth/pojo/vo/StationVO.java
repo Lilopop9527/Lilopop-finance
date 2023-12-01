@@ -7,13 +7,15 @@ package com.auth.pojo.vo;
 public class StationVO {
     private Long id;
     private String name;
+    private Integer deleated;
 
     public StationVO() {
     }
 
-    public StationVO(Long id, String name) {
+    public StationVO(Long id, String name,Integer deleated) {
         this.id = id;
         this.name = name;
+        this.deleated = deleated;
     }
 
     public Long getId() {
@@ -30,6 +32,14 @@ public class StationVO {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Integer getDeleated() {
+        return deleated;
+    }
+
+    public void setDeleated(Integer deleated) {
+        this.deleated = deleated;
     }
 
     @Override

@@ -423,4 +423,23 @@ public class UserService {
         vo.setUserId(detail.getUser().getId());
         return vo;
     }
+
+    /**
+     * 获取主管者角色的用户
+     * @return 用户列表
+     */
+    public List<UserVO> getLeaders(){
+        List<UserVO> vos = new ArrayList<>();
+        List<UserToRole> utrs = userToRoleRepository.findUserToRolesById_RoleId(6L);
+        if (ObjectUtil.isEmpty(utrs)){
+            Asserts.fail("未找到主管，请检查角色设置");
+        }
+        for (UserToRole utr:utrs) {
+            UserVO vo = new UserVO();
+            vo.setId(utr.getUser().getId());
+            vo.setUsername(utr.getUser().getUsername());
+            vos.add(vo);
+        }
+        return vos;
+    }
 }

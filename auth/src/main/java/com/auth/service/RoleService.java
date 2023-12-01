@@ -36,11 +36,17 @@ public class RoleService {
 
     /**
      * 存储角色对象
-     * @param role 角色对象
+     * @param roleName 角色名
+     * @param weight 权重
      */
-    public void saveRole(Role role){
+    public RoleVO saveRole(String roleName,Integer weight){
+        Integer count = roleRepository.countRoleByRoleName(roleName);
+        if (count >0)
+            Asserts.fail("用户已存在");
+        Role role = new Role(roleName,weight);
         role.setDeleated(0);
-        roleRepository.save(role);
+        Role temp = roleRepository.save(role);
+        return new RoleVO(temp.getId(), temp.getRoleName(),temp.getWeight(),temp.getDeleated());
     }
     /**
      * 更新角色对象
@@ -224,6 +230,9 @@ public class RoleService {
         }else
             Asserts.fail("用户不需要修改");
     }
+
+
+
     public List<RoleVO> createVOs(List<Role> roles){
         List<RoleVO> vos = new ArrayList<>();
         for (Role r:roles) {

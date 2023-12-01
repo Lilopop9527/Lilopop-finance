@@ -5,10 +5,7 @@ import com.auth.service.DeptService;
 import com.common.core.pojo.CommonData;
 import com.common.interceptor.annotation.CheckRole;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -39,5 +36,26 @@ public class DeptController {
     public CommonData<List<DeptVO>> userToDept(Long userId,Long[] deptIds){
         List<DeptVO> vos = deptService.changeUserToDept(userId, deptIds);
         return new CommonData<>(200,"success",vos);
+    }
+
+    @PutMapping("/sta")
+    @CheckRole(5000000)
+    public CommonData changeStatus(Long id,Integer del){
+        deptService.changeDeptStatus(id, del);
+        return new CommonData<>(200,"success",null);
+    }
+
+    @PutMapping("/update")
+    @CheckRole(5000000)
+    public CommonData<DeptVO> updateDept(Long id,String name,Long principalId){
+        DeptVO vo = deptService.updateDept(id, name, principalId);
+        return new CommonData<>(200,"success",vo);
+    }
+
+    @PostMapping("/add")
+    @CheckRole(5000000)
+    public CommonData<DeptVO> saveDept(String name,Long principalId){
+        DeptVO vo = deptService.saveDept(name, principalId);
+        return new CommonData<>(200,"success",vo);
     }
 }

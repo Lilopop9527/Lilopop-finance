@@ -8,10 +8,7 @@ import com.auth.service.RoleService;
 import com.common.core.pojo.CommonData;
 import com.common.interceptor.annotation.CheckRole;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -29,6 +26,13 @@ public class RoleController {
     public CommonData<List<RoleVO>> getRoleByUserId(Long id){
         List<RoleVO> vos = roleService.getRoleByUserId(id);
         return new CommonData<>(200,"success",vos);
+    }
+
+    @PostMapping("/save")
+    @CheckRole(5000000)
+    public CommonData<RoleVO> saveRole(String roleName,Integer weight){
+        RoleVO vo = roleService.saveRole(roleName, weight);
+        return new CommonData<>(200,"success",vo);
     }
 
     @GetMapping("/l")

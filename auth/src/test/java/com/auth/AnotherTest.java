@@ -119,8 +119,7 @@ public class AnotherTest {
 
     @Test
     void deptTest(){
-        Page<UserToDept> userToDeptByDepartmentId = userToDeptRepository.findUserToDeptByDepartmentId(1L, PageRequest.of(0, 20));
-        System.out.println(userToDeptByDepartmentId);
+        //departmentRepository.setData();
     }
     @Test
     void roleInitData(){
@@ -141,5 +140,26 @@ public class AnotherTest {
             }
             userToRoleRepository.saveAll(userToRoles);
         }
+    }
+
+    @Test
+    void RoleTest(){
+        Routes routes = new Routes();
+        routes.setId(120L);
+        Role role = new Role();
+        role.setId(1L);
+        RoleRoutesId rri = new RoleRoutesId(1L,120L);
+        RoleToRoutes rtr = new RoleToRoutes(rri,role,routes);
+        roleToRoutesRepository.save(rtr);
+    }
+    @Test
+    void routeTest(){
+        Routes routes = new Routes();
+        routes.setId(121L);
+        Role role = new Role();
+        role.setId(1L);
+        RoleRoutesId rri = new RoleRoutesId(1L,121L);
+        RoleToRoutes rtr = new RoleToRoutes(rri,role,routes);
+        roleToRoutesRepository.save(rtr);
     }
 }

@@ -1,4 +1,18 @@
-import { TOKEN,DELTOKEN,LOGIN,HOME,USERINFO,ROLE,ROUTE,USERDETAIL,DEPARTMENT,STATIONS,ROLES,ROUTES } from './enum'
+import {
+    TOKEN,
+    DELTOKEN,
+    LOGIN,
+    HOME,
+    USERINFO,
+    ROLE,
+    ROUTE,
+    USERDETAIL,
+    DEPARTMENT,
+    STATIONS,
+    ROLES,
+    ROUTES,
+    LEADERS
+} from './enum'
 import Login from "../../pages/login/login";
 import Home from "../../pages/home/home";
 
@@ -33,6 +47,8 @@ const reducer = (state=data,action)=>{
             return {...state,roles:action.role}
         case ROUTES:
             return {...state,routes:action.routes}
+        case LEADERS:
+            return {...state,leaders:action.leaders}
         default :
             return state;
     }

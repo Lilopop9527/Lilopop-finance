@@ -432,8 +432,17 @@ class UserList extends Component {
     async getDepts(){
         const local = this
         if (local.props.department){
+            const list = local.props.department
+            const data = []
+            list.map((item)=>{
+                data.push({
+                    value:item.id,
+                    label:item.name,
+                    key:item.id
+                })
+            })
             local.setState({
-                depts:local.props.department
+                depts:data
             })
             return
         }
@@ -448,14 +457,15 @@ class UserList extends Component {
             res.data.data.map((item,index)=>{
                 const t = {
                     value:item.id,
-                    label:item.name
+                    label:item.name,
+                    key:item.id
                 }
                 temp.push(t)
             })
             local.setState({
                 depts:temp
             })
-            local.props.dispatch(departments(temp))
+            local.props.dispatch(departments(res.data.data))
         }).catch(function (e) {
             message['error']('服务器错误，请稍后再试')
         })
@@ -463,8 +473,17 @@ class UserList extends Component {
     async getStations(){
         const local = this
         if (local.props.station){
+            const list = local.props.station
+            const data = []
+            list.map((item)=>{
+                data.push({
+                    value:item.id,
+                    label:item.name,
+                    key:item.id
+                })
+            })
             local.setState({
-                stations:local.props.station
+                stations:data
             })
             return
         }
@@ -479,14 +498,15 @@ class UserList extends Component {
             res.data.data.map((item,index)=>{
                 const t = {
                     value:item.id,
-                    label:item.name
+                    label:item.name,
+                    key:item.id
                 }
                 temp.push(t)
             })
             local.setState({
                 stations:temp
             })
-            local.props.dispatch(stations(temp))
+            local.props.dispatch(stations(res.data.data))
         }).catch(function (e) {
             message['error']('服务器错误，请稍后再试')
         })

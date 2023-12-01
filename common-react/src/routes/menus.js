@@ -4,6 +4,8 @@ import {Navigate} from 'react-router-dom'
 import UserList from "../pages/home/pages/userList/userList";
 import AuthConfig from "../pages/home/pages/authConfig/authConfig";
 import RoleConfig from "../pages/home/pages/authConfig/roleConfig/roleConfig";
+import DepartmentConfig from "../pages/home/pages/authConfig/departmentConfig/departmentConfig";
+import StationConfig from "../pages/home/pages/authConfig/stationConfig/stationConfig";
 
 const Home =lazy(()=>import('../pages/home/pages/home/home'))
 const menus =[
@@ -30,6 +32,14 @@ const menus =[
             {
                 path:'roleConfig',
                 element:<RoleConfig/>
+            },
+            {
+                path: 'deptConfig',
+                element: <DepartmentConfig/>
+            },
+            {
+                path: 'stationConfig',
+                element: <StationConfig/>
             }
         ]
     }
