@@ -8,8 +8,9 @@
         <outputRelativeToContentRoot value="true" />
         <module name="auth" />
         <module name="stream" />
-        <module name="gateway" />
         <module name="common-minio" />
+        <module name="gateway" />
+        <module name="finance" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -19,6 +20,7 @@
       <module name="common-interceptor" target="17" />
       <module name="common-minio" target="17" />
       <module name="common-redis" target="17" />
+      <module name="finance" target="17" />
       <module name="gateway" target="17" />
       <module name="Lilopop" target="17" />
       <module name="stream" target="17" />
@@ -33,6 +35,7 @@
       <module name="common-interceptor" options="-parameters" />
       <module name="common-minio" options="-parameters" />
       <module name="common-redis" options="-parameters" />
+      <module name="finance" options="-parameters" />
       <module name="gateway" options="-parameters" />
       <module name="stream" options="-parameters" />
     </option>

@@ -1,0 +1,2 @@
+[INFO      ] 2024-01-03 18:27:20 auth服务class com.auth.service.UserService.checkUser参数:id:1 name:zby ，执行结果为:调用
+[INFO      ] 2024-01-03 18:27:27 auth服务class com.auth.service.UserService.checkUser参数:false，执行结果为:成功

@@ -150,7 +150,7 @@ class UserDetail extends Component {
             local.props.roles.map((item)=>{
                 const t = {
                     value:item.id,
-                    label:item.name,
+                    label:item.roleName,
                     key:item.id
                 }
                 data.push(t)

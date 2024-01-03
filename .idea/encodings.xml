@@ -10,6 +10,8 @@
     <file url="file://$PROJECT_DIR$/common/common-redis/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/common/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/common/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/finance/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/finance/src/main/resources/application.yml" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/gateway/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/gateway/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/gateway/src/main/resources/application.yml" charset="UTF-8" />

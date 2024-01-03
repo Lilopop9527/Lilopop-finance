@@ -442,4 +442,21 @@ public class UserService {
         }
         return vos;
     }
+
+    /**
+     * 根据传入的名称和id判断是否是合法用户
+     * @param id 用户id
+     * @param name 需要匹配的名称
+     * @return 是否匹配
+     */
+    public boolean checkUser(Long id,String name){
+        User user = userRepository.findUserByIdAndDeleated(id,0);
+        String first = user.getUserDetail().getFirstName();
+        String last = user.getUserDetail().getLastName();
+        if (ObjectUtil.isEmpty(first)||ObjectUtil.isEmpty(last)){
+            return ObjectUtil.equals(name,user.getUsername());
+        }else {
+            return ObjectUtil.equals(name,first+last);
+        }
+    }
 }

@@ -69,18 +69,9 @@ public class AnotherTest {
 
     @Test
     void saveRoleToRoute(){
-//        Routes routes = new Routes("角色设置","/authConfig/roleConfig",6L);
-//        routes.setDeleated(0);
-//        routesRepository.save(routes);
-        Routes routes = routesRepository.getReferenceById(7L);
-        List<Role> all = roleRepository.findAll();
-        List<RoleToRoutes> rtrs = new ArrayList<>();
-        for(Role r:all){
-            RoleRoutesId rri = new RoleRoutesId(r.getId(),routes.getId());
-            RoleToRoutes rtr = new RoleToRoutes(rri,r,routes);
-            rtrs.add(rtr);
-        }
-        roleToRoutesRepository.saveAll(rtrs);
+        Routes r1 = new Routes("/凭证管理","/finance",0L);
+        r1.setDeleated(0);
+        routesRepository.save(r1);
     }
 
     @Test
@@ -154,12 +145,8 @@ public class AnotherTest {
     }
     @Test
     void routeTest(){
-        Routes routes = new Routes();
-        routes.setId(121L);
-        Role role = new Role();
-        role.setId(1L);
-        RoleRoutesId rri = new RoleRoutesId(1L,121L);
-        RoleToRoutes rtr = new RoleToRoutes(rri,role,routes);
-        roleToRoutesRepository.save(rtr);
+        Routes routes = new Routes("凭证添加","/finance/create",122L);
+        routes.setDeleated(0);
+        routesRepository.save(routes);
     }
 }

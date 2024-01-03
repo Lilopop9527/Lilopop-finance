@@ -57,7 +57,7 @@ class Login extends Component {
         return (
             <div className='box1'>
                 <div className='login'>
-                    <h1>欢迎使用Lilo管理系统</h1>
+                    <h1>欢迎使用Lilo财务管理系统</h1>
                     {this.state.login}
                 </div>
                 <Button type='link' className="link" onClick={()=>this.showModal('forgetPassword')}>忘记密码？</Button>

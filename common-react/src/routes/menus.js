@@ -6,6 +6,8 @@ import AuthConfig from "../pages/home/pages/authConfig/authConfig";
 import RoleConfig from "../pages/home/pages/authConfig/roleConfig/roleConfig";
 import DepartmentConfig from "../pages/home/pages/authConfig/departmentConfig/departmentConfig";
 import StationConfig from "../pages/home/pages/authConfig/stationConfig/stationConfig";
+import Voucher from "../pages/home/pages/voucher/voucher";
+import Create from "../pages/home/pages/voucher/create/create";
 
 const Home =lazy(()=>import('../pages/home/pages/home/home'))
 const menus =[
@@ -42,7 +44,17 @@ const menus =[
                 element: <StationConfig/>
             }
         ]
-    }
+    },
+    {
+        path: '/finance',
+        element: <Voucher/>,
+        children: [
+            {
+                path: 'create',
+                element: <Create/>
+            }
+        ]
+    },
 ]
 
 export default menus

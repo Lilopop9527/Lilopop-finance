@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Import;
 
 @SpringBootApplication
 @EnableDiscoveryClient
-@Import({MinioConfig.class})
+//@Import({MinioConfig.class})
 //@EnableGlobalMethodSecurity(securedEnabled = true,prePostEnabled = true)
 public class AuthApplication {
 
