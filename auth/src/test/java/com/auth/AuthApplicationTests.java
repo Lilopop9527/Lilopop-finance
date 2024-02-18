@@ -53,8 +53,7 @@ class AuthApplicationTests {
     Faker faker = new Faker();
     @Test
     void contextLoads() {
-        Optional<User> u = userRepository.findById(1L);
-        u.ifPresentOrElse(System.out::println,null);
+
     }
     @Test
     void test1(){

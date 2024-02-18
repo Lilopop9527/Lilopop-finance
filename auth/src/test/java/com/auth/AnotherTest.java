@@ -8,6 +8,7 @@ import com.auth.service.RoleService;
 import com.auth.service.RoutesService;
 import com.common.minio.utils.MinioUtil;
 import io.minio.errors.*;
+import okhttp3.Route;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -145,8 +146,14 @@ public class AnotherTest {
     }
     @Test
     void routeTest(){
-        Routes routes = new Routes("凭证添加","/finance/create",122L);
+        Routes routes = new Routes("凭证状态","/checkStatus",122L);
         routes.setDeleated(0);
-        routesRepository.save(routes);
+        Routes save = routesRepository.save(routes);
+        RoleRoutesId rri = new RoleRoutesId(save.getId(),1L);
+        Role role = new Role();
+        role.setId(1L);
+        RoleToRoutes rtr = new RoleToRoutes(rri,role,save);
+        roleToRoutesRepository.save(rtr);
+
     }
 }

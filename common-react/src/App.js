@@ -1,7 +1,5 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
-import {muban1, mubanprev} from "./enum/enums";
-import MaterialEditComp from "./pages/home/pages/voucher/MaterialEditComp";
 
 class App extends Component {
     constructor(props) {

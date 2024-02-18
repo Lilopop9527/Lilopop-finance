@@ -1,11 +1,11 @@
 import axios from 'axios'
 
 
-var request = axios.create({
+const request = axios.create({
     // 后台接口的基准地址
-    baseURL:"http://127.0.0.1:8080",
-    timeout:5000
-})
+    baseURL: "http://127.0.0.1:8080",
+    timeout: 5000
+});
 
 // 添加请求拦截器
 request.interceptors.request.use((config) => {

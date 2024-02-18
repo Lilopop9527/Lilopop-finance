@@ -10,7 +10,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
-      ddl-auto: create #这个配置表示在程序启动后运行的sql语句会进行更新，而不是在停止程序后删除
+      ddl-auto: update #这个配置表示在程序启动后运行的sql语句会进行更新，而不是在停止程序后删除
     show-sql: true
     properties:
       hibernate:
@@ -21,6 +21,8 @@ spring:
       host: 127.0.0.1
       port: 6379
       database: 0
+      timeout: 3000
+      connect-timeout: 10000
   rabbitmq:
     host: 127.0.0.1
     port: 5672

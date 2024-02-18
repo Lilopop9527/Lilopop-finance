@@ -1,4 +1,4 @@
-package com.finance.pojo.base.vo;
+package com.finance.pojo.vo;
 
 /**
  * @author: Lilopop
@@ -20,13 +20,14 @@ public class VoucherVO {
     private String singleId;
     private Long company;
     private String originalEvidence;
+    private Integer status;
 
     public VoucherVO() {
     }
 
     public VoucherVO(Long id, String content, Integer checked, Long first, Long second, String money, String createDate,
                      String record, String principal, String review, String cashier, String maker,
-                     String singleId, Long company, String originalEvidence) {
+                     String singleId, Long company, String originalEvidence,Integer status) {
         this.id = id;
         this.content = content;
         this.checked = checked;
@@ -42,6 +43,7 @@ public class VoucherVO {
         this.singleId = singleId;
         this.company = company;
         this.originalEvidence = originalEvidence;
+        this.status = status;
     }
 
     public Long getId() {
@@ -162,5 +164,13 @@ public class VoucherVO {
 
     public void setOriginalEvidence(String originalEvidence) {
         this.originalEvidence = originalEvidence;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 }

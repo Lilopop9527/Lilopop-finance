@@ -1,7 +1,7 @@
 package com.stream.config;
 
 import com.common.core.pojo.LogMessage;
-import com.stream.logger.Auth;
+import com.stream.logger.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
@@ -13,6 +13,7 @@ import java.util.function.Consumer;
 @Configuration
 public class LogStreamConfig {
     private final String AUTH = "auth";
+    private final String Finance = "finance";
 
     @Bean
     Consumer<List<LogMessage>> logConsumer(){
@@ -45,6 +46,7 @@ public class LogStreamConfig {
         Logger logger;
         switch (from){
             case AUTH -> logger = LoggerFactory.getLogger(Auth.class);
+            case Finance -> logger = LoggerFactory.getLogger(Finance.class);
             default -> logger = LoggerFactory.getLogger(LogStreamConfig.class);
         }
         return logger;

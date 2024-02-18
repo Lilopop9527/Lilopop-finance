@@ -11,7 +11,9 @@ import {
     STATIONS,
     ROLES,
     ROUTES,
-    LEADERS
+    LEADERS,
+    FIRSTENTRY,
+    SECONDENTRY
 } from './enum'
 export const token = (token)=>({
     type:TOKEN,
@@ -64,4 +66,12 @@ export const routes = (routes)=>({
 export const leaders = (leaders)=>({
     type:LEADERS,
     leaders
+})
+export const firstEntry = (firstEntry)=>({
+    type:FIRSTENTRY,
+    firstEntry
+})
+export const secondEntry = (secondEntry)=>({
+    type:SECONDENTRY,
+    secondEntry
 })

@@ -11,7 +11,9 @@ import {
     STATIONS,
     ROLES,
     ROUTES,
-    LEADERS
+    LEADERS,
+    FIRSTENTRY,
+    SECONDENTRY
 } from './enum'
 import Login from "../../pages/login/login";
 import Home from "../../pages/home/home";
@@ -49,6 +51,10 @@ const reducer = (state=data,action)=>{
             return {...state,routes:action.routes}
         case LEADERS:
             return {...state,leaders:action.leaders}
+        case FIRSTENTRY:
+            return {...state,firstEntry:action.firstEntry}
+        case SECONDENTRY:
+            return {...state,secondEntry:action.secondEntry}
         default :
             return state;
     }

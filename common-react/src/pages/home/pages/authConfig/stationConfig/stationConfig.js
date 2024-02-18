@@ -110,7 +110,6 @@ class StationConfig extends Component {
             local.setState({
                 stations:temp
             })
-            console.log(res.data.data)
             local.props.dispatch(stations(res.data.data))
         }).catch(function (e) {
             message['error']('服务器错误，请稍后再试')
@@ -232,7 +231,6 @@ class StationConfig extends Component {
             message['success']('修改成功')
             local.cancel()
         }).catch(function (e) {
-            console.log(e)
             message['error']('修改失败，请稍后再试')
         })
     }
@@ -247,7 +245,6 @@ class StationConfig extends Component {
         })
     }
     addSta(e){
-        console.log(e)
         const list = this.state.stations
         const data = []
         list.map((item)=>{

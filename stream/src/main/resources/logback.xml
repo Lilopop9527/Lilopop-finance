@@ -34,8 +34,26 @@
             <onMismatch>ACCEPT</onMismatch>
         </filter>
     </appender>
+    <appender name = "financeLog" class = "ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${logDir}/finance/finance_logging_logback.log</file>
+        <encoder class = "ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${logRule}</pattern>
+        </encoder>
+        <rollingPolicy class = "ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${logDir}/finance/log_roll.%d{yyyy-MM-dd}.log%i.log</fileNamePattern>
+            <maxFileSize>50MB</maxFileSize>
+        </rollingPolicy>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>INFO</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>ACCEPT</onMismatch>
+        </filter>
+    </appender>
     <logger name="com.stream.logger.Auth" level="info" additivity="false">
         <appender-ref ref="authLog"/>
+    </logger>
+    <logger name="com.stream.logger.Finance" level="info" additivity="false">
+        <appender-ref ref="financeLog"/>
     </logger>
     <root level="info">
         <appender-ref ref = "filesLog"/>

@@ -1,41 +1,41 @@
-[INFO      ] 2024-01-03 18:23:26 HV000001: Hibernate Validator 8.0.0.Final
-[INFO      ] 2024-01-03 18:23:26 Starting StreamApplication using Java 17.0.6 with PID 11764 (E:\workspace\Lilopop-finance\stream\target\classes started by Administrator in E:\workspace\Lilopop-finance)
-[INFO      ] 2024-01-03 18:23:26 No active profile set, falling back to 1 default profile: "default"
-[INFO      ] 2024-01-03 18:23:26 No bean named 'errorChannel' has been explicitly defined. Therefore, a default PublishSubscribeChannel will be created.
-[INFO      ] 2024-01-03 18:23:26 No bean named 'integrationHeaderChannelRegistry' has been explicitly defined. Therefore, a default DefaultHeaderChannelRegistry will be created.
-[INFO      ] 2024-01-03 18:23:26 Bean 'org.springframework.boot.autoconfigure.integration.IntegrationAutoConfiguration$IntegrationJmxConfiguration' of type [org.springframework.boot.autoconfigure.integration.IntegrationAutoConfiguration$IntegrationJmxConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
-[INFO      ] 2024-01-03 18:23:26 Bean 'org.springframework.cloud.stream.binder.rabbit.config.ExtendedBindingHandlerMappingsProviderConfiguration' of type [org.springframework.cloud.stream.binder.rabbit.config.ExtendedBindingHandlerMappingsProviderConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
-[INFO      ] 2024-01-03 18:23:26 Bean 'rabbitExtendedPropertiesDefaultMappingsProvider' of type [org.springframework.cloud.stream.binder.rabbit.config.ExtendedBindingHandlerMappingsProviderConfiguration$$Lambda$583/0x0000000800f7fa40] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
-[INFO      ] 2024-01-03 18:23:26 Bean 'BindingHandlerAdvise' of type [org.springframework.cloud.stream.config.BindingHandlerAdvise] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
-[INFO      ] 2024-01-03 18:23:26 Bean 'spelConverter' of type [org.springframework.cloud.stream.config.SpelExpressionConverterConfiguration$SpelConverter] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
-[INFO      ] 2024-01-03 18:23:26 Bean 'spring.jmx-org.springframework.boot.autoconfigure.jmx.JmxProperties' of type [org.springframework.boot.autoconfigure.jmx.JmxProperties] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
-[INFO      ] 2024-01-03 18:23:26 Bean 'org.springframework.boot.autoconfigure.jmx.JmxAutoConfiguration' of type [org.springframework.boot.autoconfigure.jmx.JmxAutoConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
-[INFO      ] 2024-01-03 18:23:26 Bean 'mbeanServer' of type [com.sun.jmx.mbeanserver.JmxMBeanServer] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
-[INFO      ] 2024-01-03 18:23:27 Channel 'stream.logConsumer-in-0' has 1 subscriber(s).
-[WARN      ] 2024-01-03 18:23:27 Using deprecated '-debug' fallback for parameter name resolution. Compile the affected code with '-parameters' instead or avoid its introspection: org.springframework.amqp.rabbit.core.RabbitAdmin
-[INFO      ] 2024-01-03 18:23:27 Registering MessageChannel errorChannel
-[INFO      ] 2024-01-03 18:23:27 Registering MessageChannel logConsumer-in-0
-[INFO      ] 2024-01-03 18:23:27 Registering MessageChannel nullChannel
-[INFO      ] 2024-01-03 18:23:27 Registering MessageHandler _org.springframework.integration.errorLogger
-[INFO      ] 2024-01-03 18:23:27 Adding {logging-channel-adapter:_org.springframework.integration.errorLogger} as a subscriber to the 'errorChannel' channel
-[INFO      ] 2024-01-03 18:23:27 Channel 'stream.errorChannel' has 1 subscriber(s).
-[INFO      ] 2024-01-03 18:23:27 started bean '_org.springframework.integration.errorLogger'
-[INFO      ] 2024-01-03 18:23:27 Netty started on port 9800
-[INFO      ] 2024-01-03 18:23:27 Creating binder: rabbit
-[INFO      ] 2024-01-03 18:23:27 Constructing binder child context for rabbit
-[INFO      ] 2024-01-03 18:23:27 Caching the binder: rabbit
-[INFO      ] 2024-01-03 18:23:27 declaring queue for inbound: log.logconsumer, bound to: log
-[INFO      ] 2024-01-03 18:23:27 Attempting to connect to: [127.0.0.1:5672]
-[INFO      ] 2024-01-03 18:23:27 Created new connection: rabbitConnectionFactory#331ff3ac:0/SimpleConnection@7345f97d [delegate=amqp://guest@127.0.0.1:5672/, localPort=55927]
-[INFO      ] 2024-01-03 18:23:27 Channel 'rabbit-1675471168.logConsumer-in-0.errors' has 1 subscriber(s).
-[INFO      ] 2024-01-03 18:23:27 Channel 'rabbit-1675471168.logConsumer-in-0.errors' has 2 subscriber(s).
-[INFO      ] 2024-01-03 18:23:27 started bean 'inbound.log.logconsumer'
-[INFO      ] 2024-01-03 18:23:27 Started StreamApplication in 1.807 seconds (process running for 2.38)
-[INFO      ] 2024-01-03 18:55:51 Waiting for workers to finish.
-[INFO      ] 2024-01-03 18:55:52 Successfully waited for workers to finish.
-[INFO      ] 2024-01-03 18:55:52 stopped bean 'inbound.log.logconsumer'
-[INFO      ] 2024-01-03 18:55:52 Registering MessageChannel rabbit-1675471168.logConsumer-in-0.errors
-[INFO      ] 2024-01-03 18:55:52 Channel 'stream.rabbit-1675471168.logConsumer-in-0.errors' has 1 subscriber(s).
-[INFO      ] 2024-01-03 18:55:52 Removing {logging-channel-adapter:_org.springframework.integration.errorLogger} as a subscriber to the 'errorChannel' channel
-[INFO      ] 2024-01-03 18:55:52 Channel 'stream.errorChannel' has 0 subscriber(s).
-[INFO      ] 2024-01-03 18:55:52 stopped bean '_org.springframework.integration.errorLogger'
+[INFO      ] 2024-01-25 18:26:21 HV000001: Hibernate Validator 8.0.0.Final
+[INFO      ] 2024-01-25 18:26:21 Starting StreamApplication using Java 17.0.6 with PID 12140 (E:\workspace\Lilopop-finance\stream\target\classes started by Administrator in E:\workspace\Lilopop-finance)
+[INFO      ] 2024-01-25 18:26:21 No active profile set, falling back to 1 default profile: "default"
+[INFO      ] 2024-01-25 18:26:21 No bean named 'errorChannel' has been explicitly defined. Therefore, a default PublishSubscribeChannel will be created.
+[INFO      ] 2024-01-25 18:26:21 No bean named 'integrationHeaderChannelRegistry' has been explicitly defined. Therefore, a default DefaultHeaderChannelRegistry will be created.
+[INFO      ] 2024-01-25 18:26:21 Bean 'org.springframework.boot.autoconfigure.integration.IntegrationAutoConfiguration$IntegrationJmxConfiguration' of type [org.springframework.boot.autoconfigure.integration.IntegrationAutoConfiguration$IntegrationJmxConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+[INFO      ] 2024-01-25 18:26:21 Bean 'org.springframework.cloud.stream.binder.rabbit.config.ExtendedBindingHandlerMappingsProviderConfiguration' of type [org.springframework.cloud.stream.binder.rabbit.config.ExtendedBindingHandlerMappingsProviderConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+[INFO      ] 2024-01-25 18:26:21 Bean 'rabbitExtendedPropertiesDefaultMappingsProvider' of type [org.springframework.cloud.stream.binder.rabbit.config.ExtendedBindingHandlerMappingsProviderConfiguration$$Lambda$583/0x0000000800f7ec08] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+[INFO      ] 2024-01-25 18:26:21 Bean 'BindingHandlerAdvise' of type [org.springframework.cloud.stream.config.BindingHandlerAdvise] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+[INFO      ] 2024-01-25 18:26:21 Bean 'spelConverter' of type [org.springframework.cloud.stream.config.SpelExpressionConverterConfiguration$SpelConverter] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+[INFO      ] 2024-01-25 18:26:21 Bean 'spring.jmx-org.springframework.boot.autoconfigure.jmx.JmxProperties' of type [org.springframework.boot.autoconfigure.jmx.JmxProperties] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+[INFO      ] 2024-01-25 18:26:21 Bean 'org.springframework.boot.autoconfigure.jmx.JmxAutoConfiguration' of type [org.springframework.boot.autoconfigure.jmx.JmxAutoConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+[INFO      ] 2024-01-25 18:26:21 Bean 'mbeanServer' of type [com.sun.jmx.mbeanserver.JmxMBeanServer] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+[INFO      ] 2024-01-25 18:26:22 Channel 'stream.logConsumer-in-0' has 1 subscriber(s).
+[WARN      ] 2024-01-25 18:26:22 Using deprecated '-debug' fallback for parameter name resolution. Compile the affected code with '-parameters' instead or avoid its introspection: org.springframework.amqp.rabbit.core.RabbitAdmin
+[INFO      ] 2024-01-25 18:26:22 Registering MessageChannel errorChannel
+[INFO      ] 2024-01-25 18:26:22 Registering MessageChannel logConsumer-in-0
+[INFO      ] 2024-01-25 18:26:22 Registering MessageChannel nullChannel
+[INFO      ] 2024-01-25 18:26:22 Registering MessageHandler _org.springframework.integration.errorLogger
+[INFO      ] 2024-01-25 18:26:22 Adding {logging-channel-adapter:_org.springframework.integration.errorLogger} as a subscriber to the 'errorChannel' channel
+[INFO      ] 2024-01-25 18:26:22 Channel 'stream.errorChannel' has 1 subscriber(s).
+[INFO      ] 2024-01-25 18:26:22 started bean '_org.springframework.integration.errorLogger'
+[INFO      ] 2024-01-25 18:26:22 Netty started on port 9800
+[INFO      ] 2024-01-25 18:26:22 Creating binder: rabbit
+[INFO      ] 2024-01-25 18:26:22 Constructing binder child context for rabbit
+[INFO      ] 2024-01-25 18:26:22 Caching the binder: rabbit
+[INFO      ] 2024-01-25 18:26:22 declaring queue for inbound: log.logconsumer, bound to: log
+[INFO      ] 2024-01-25 18:26:22 Attempting to connect to: [127.0.0.1:5672]
+[INFO      ] 2024-01-25 18:26:22 Created new connection: rabbitConnectionFactory#35d60381:0/SimpleConnection@6b832551 [delegate=amqp://guest@127.0.0.1:5672/, localPort=50397]
+[INFO      ] 2024-01-25 18:26:22 Channel 'rabbit-2079188202.logConsumer-in-0.errors' has 1 subscriber(s).
+[INFO      ] 2024-01-25 18:26:22 Channel 'rabbit-2079188202.logConsumer-in-0.errors' has 2 subscriber(s).
+[INFO      ] 2024-01-25 18:26:22 started bean 'inbound.log.logconsumer'
+[INFO      ] 2024-01-25 18:26:22 Started StreamApplication in 1.704 seconds (process running for 2.325)
+[INFO      ] 2024-01-25 19:26:44 Waiting for workers to finish.
+[INFO      ] 2024-01-25 19:26:44 Successfully waited for workers to finish.
+[INFO      ] 2024-01-25 19:26:44 stopped bean 'inbound.log.logconsumer'
+[INFO      ] 2024-01-25 19:26:44 Registering MessageChannel rabbit-2079188202.logConsumer-in-0.errors
+[INFO      ] 2024-01-25 19:26:44 Channel 'stream.rabbit-2079188202.logConsumer-in-0.errors' has 1 subscriber(s).
+[INFO      ] 2024-01-25 19:26:44 Removing {logging-channel-adapter:_org.springframework.integration.errorLogger} as a subscriber to the 'errorChannel' channel
+[INFO      ] 2024-01-25 19:26:44 Channel 'stream.errorChannel' has 0 subscriber(s).
+[INFO      ] 2024-01-25 19:26:44 stopped bean '_org.springframework.integration.errorLogger'

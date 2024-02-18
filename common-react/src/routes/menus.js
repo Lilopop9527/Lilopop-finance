@@ -8,6 +8,8 @@ import DepartmentConfig from "../pages/home/pages/authConfig/departmentConfig/de
 import StationConfig from "../pages/home/pages/authConfig/stationConfig/stationConfig";
 import Voucher from "../pages/home/pages/voucher/voucher";
 import Create from "../pages/home/pages/voucher/create/create";
+import EntryList from "../pages/home/pages/voucher/entryManager/entryList";
+import ListByUserId from "../pages/home/pages/voucher/checkSta/listByUserId";
 
 const Home =lazy(()=>import('../pages/home/pages/home/home'))
 const menus =[
@@ -52,9 +54,17 @@ const menus =[
             {
                 path: 'create',
                 element: <Create/>
+            },
+            {
+                path: 'checkStatus',
+                element: <ListByUserId/>
             }
         ]
     },
+    {
+        path:'/entryList',
+        element: <EntryList/>
+    }
 ]
 
 export default menus

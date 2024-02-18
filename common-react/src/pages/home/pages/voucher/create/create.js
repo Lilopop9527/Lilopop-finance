@@ -4,9 +4,7 @@ import {useEffect, useState,useRef} from "react";
 import {MinusCircleOutlined, PlusOutlined} from "@ant-design/icons";
 import {muban1, mubanprev} from "../../../../../enum/enums";
 import html2canvas from "html2canvas";
-const data1 = [{label:'科目1',value:0},{label:'科目2',value: 1}]
-const data2 = [[{label:'科目11',value:0},{label:'科目12',value:1},{label:'科目13',value:2}],
-               [{label:'科目21',value:0},{label:'科目22',value:1},{label:'科目23',value:2},{label:'科目24',value:3}]]
+import request from "../../../../../utils/request";
 const Create:React.FC = (props)=>{
     const [form] = Form.useForm()
     const contentRef = useRef(null)
@@ -16,27 +14,30 @@ const Create:React.FC = (props)=>{
     const [count,setCount] = useState(0)
     const [first,setFirst] = useState([])
     const [second,setSecond] = useState([])
+    const [prev,setPrev] = useState([])
+    const [last,setLast] = useState([])
     const [money,setMoney] = useState(0)
     const [values,setValues] = useState([{
         content:'出差',
         check:1,
-        first:0,
-        second:0,
+        first:1,
+        second:2,
         money:0
     }])
     const [date,setDate] = useState(new Date())
+    const [errorData,setErrorData] = useState([])
     const [imageSize,setImageSize] = useState({width:0,height:0})
     const [src,setSrc] = useState(mubanprev+muban1)
     const [local,setLocal] = useState([295,350,405,460,512,568,621])
     const [lefts,setLefts] = useState([120,280,400,510,630,747,767,787,808,828,849,868,889,910,931,952])
     const [widths,setWidths] = useState([160,100,100,100,100,10,10,10,10,10,10,10,10,10,10,10])
     const [numbers,setNumbers] = useState(['零','壹','贰','叁','肆','伍','陆','柒','捌','玖','拾'])
+
     useEffect(()=>{
-        const a = [data1,]
-        const b = [data2[0],]
-        setFirst(a)
-        setSecond(b)
-        //contentRef.current = ref
+        getAllEntry()
+        first[0] = prev
+        second[0] = last[0]
+        setDate(new Date())
         form.resetFields()
         setValues(form.getFieldsValue().paramAttribute)
         let name = (props.detail.firstName&&props.detail.lastName)?props.detail.firstName+props.detail.lastName:
@@ -48,6 +49,40 @@ const Create:React.FC = (props)=>{
             initNode(contentRef,0,name)
         }
     },[top])
+    const getAllEntry = async ()=>{
+       const msg = await request({
+           url:'/finance/entry/la',
+           method:'get',
+           headers:{
+               Auth:props.token
+           }
+       }).then(function (res) {
+           const data = res.data.data
+           let a = []
+           let b = []
+           for (let i = 0; i < data.length; i++) {
+               if (data[i].parent === 0){
+                   a.push(data[i])
+               }
+           }
+           for (let i = 0; i < a.length; i++) {
+               const temp = []
+               for (let j = 0; j < data.length; j++) {
+                   if (data[j].parent === a[i].id){
+                       temp.push(data[j])
+                   }
+               }
+               //console.log(temp)
+               b.push(temp)
+           }
+           createEntry(a,b)
+       }).catch(function (e) {
+           console.log(e)
+       })
+        if (top === 0){
+            setTop(1)
+        }
+    }
     const initNode = (mode,m,name)=>{
         AddNode({
             content: `${date.getFullYear()}`,
@@ -78,6 +113,28 @@ const Create:React.FC = (props)=>{
             top: 662+m,
             width:100
         }, 3,mode,0);
+        AddNode({
+            content:date.getTime()*3,
+            color:'#000000',
+            size:18,
+            left:820,
+            top:145+m
+        },4,mode,0);
+    }
+    const createEntry=(arr1,arr2)=>{
+        let a = []
+        let b = []
+        for (let i = 0; i < arr1.length; i++) {
+            a[i] = {label:arr1[i].name,value:arr1[i].id}
+            let temp = []
+            const t = arr2[i]
+            for (let j = 0; j < arr2[i].length; j++) {
+               temp.push({label:t[j].name,value:t[j].id})
+            }
+            b[i] = temp
+        }
+        setPrev(a)
+        setLast(b)
     }
     const valueChange = (changedValues, allValues)=>{
         setValues(allValues.paramAttribute)
@@ -113,8 +170,8 @@ const Create:React.FC = (props)=>{
         }
     }
     const changeNodes=(items,mode,m)=>{
-        let cnt = 4
-        for (let i = nodecnt; i >= 4; i--) {
+        let cnt = 5
+        for (let i = nodecnt; i > 4; i--) {
             removeNode(i,mode)
         }
         items.forEach((item,index)=>{
@@ -125,7 +182,7 @@ const Create:React.FC = (props)=>{
                 size: 20,
                 left:lefts[0],
                 top:local[index]+m,
-                width:widths[0]
+                width:widths[0],
             }
              e1 && AddNode({
                 content:item.content,
@@ -136,9 +193,23 @@ const Create:React.FC = (props)=>{
                 width:widths[0]
             },cnt,mode)
             cnt++
+            let o = 0
+            let p = 0
+            for (let i = 0; i < prev.length; i++) {
+                if (prev[i].value === item.first){
+                    o = i
+                    break
+                }
+            }
+            for (let i = 0; i < last[o].length; i++) {
+                if (last[o][i].value === item.second){
+                    p = i
+                    break
+                }
+            }
             if (item.check === 1){
                 let e2 = {
-                    content:first[index][item.first].label,
+                    content:first[index][o].label,
                     color: '#000000',
                     size: 20,
                     left:lefts[1],
@@ -146,7 +217,7 @@ const Create:React.FC = (props)=>{
                     width:widths[1]
                 }
                 e2&&AddNode({
-                    content:first[index][item.first].label,
+                    content:first[index][o].label,
                     color: '#000000',
                     size: 20,
                     left:lefts[1],
@@ -155,7 +226,7 @@ const Create:React.FC = (props)=>{
                 },cnt,mode)
                 cnt++
                 let e3 = {
-                    content:second[index][item.second].label,
+                    content:second[index][p].label,
                     color: '#000000',
                     size: 20,
                     left:lefts[2],
@@ -163,7 +234,7 @@ const Create:React.FC = (props)=>{
                     width:widths[2]
                 }
                 e3&&AddNode({
-                    content:second[index][item.second].label,
+                    content:second[index][p].label,
                     color: '#000000',
                     size: 20,
                     left:lefts[2],
@@ -173,7 +244,7 @@ const Create:React.FC = (props)=>{
                 cnt++
             }else{
                 let e2 = {
-                    content:first[index][item.first].label,
+                    content:first[index][o].label,
                     color: '#000000',
                     size: 20,
                     left:lefts[3],
@@ -181,7 +252,7 @@ const Create:React.FC = (props)=>{
                     width:widths[3]
                 }
                 e2&&AddNode({
-                    content:first[index][item.first].label,
+                    content:first[index][o].label,
                     color: '#000000',
                     size: 20,
                     left:lefts[3],
@@ -190,7 +261,7 @@ const Create:React.FC = (props)=>{
                 },cnt,mode)
                 cnt++
                 let e3 = {
-                    content:second[index][item.second].label,
+                    content:second[index][p].label,
                     color: '#000000',
                     size: 20,
                     left:lefts[4],
@@ -198,7 +269,7 @@ const Create:React.FC = (props)=>{
                     width:widths[4]
                 }
                 e3&&AddNode({
-                    content:second[index][item.second].label,
+                    content:second[index][p].label,
                     color: '#000000',
                     size: 20,
                     left:lefts[4],
@@ -244,10 +315,17 @@ const Create:React.FC = (props)=>{
         }
     }
     const firstChange = (e,index)=>{
+        let l = 0
+        for (let i = 0; i < prev.length; i++) {
+            if (prev[i].value === e){
+                l = i
+                break
+            }
+        }
         const a = form.getFieldsValue()
-        a.paramAttribute[index].second = 0
+        a.paramAttribute[index].second = last[l][0].value
         const data = {...second}
-        data[index] = data2[e]
+        data[index] = last[l]
         setSecond(data)
     }
     const secondChange = (e,index)=>{
@@ -296,6 +374,75 @@ const Create:React.FC = (props)=>{
         setTop(top=>top+1)
         changeNodes(values,contentRef,0)
     }
+    const saveMsg = async ()=>{
+        const data = []
+        let st = ''
+        values.map((item)=>{
+            st = st + JSON.stringify(item)+'-'
+        })
+        st = st.substring(0,st.length-1)
+        const vmsgs = {
+            createDate:date.getTime(),
+            record:props.detail.userId,
+            recordName:props.detail.firstName+props.detail.lastName,
+            singleId:date.getTime()*3
+            //TODO 公司信息添加
+        }
+        console.log(st,)
+        const msg = await request({
+            url: '/finance/voucher/save',
+            method: 'post',
+            params: {
+                vouchers:st,
+                dto:JSON.stringify(vmsgs)
+            },
+            headers:{
+                Auth:props.token
+            }
+        }).then(function (res) {
+            if (!res.data.data){
+                res.data.data.map((item)=>{
+                    data.push(item)
+                })
+            }
+        }).catch(function (e) {
+            message['error']("存储信息失败，请检查输入")
+        })
+        if (data.length === 0){
+            message['success']('保存成功')
+            return
+        }
+        setErrorData(data)
+    }
+    const submitMsg = async ()=>{
+        if (errorData.length !== 0){
+            return
+        }
+        const msg = await request({
+            url:'/finance/voucher/submit',
+            method:'post',
+            params:{
+                singleId:date.getTime()*3,
+                userId:props.detail.userId,
+                username:props.detail.firstName+props.detail.lastName
+            },
+            headers:{
+                Auth:props.token
+            }
+        }).then(function (res) {
+            if (res.data.data === "该用户不存在！"){
+                message['error']('当前用户非法，请检查信息')
+            }else{
+                message['success'](res.data.data)
+            }
+        }).catch(function (e) {
+            message['error']('当前凭证编号错误，请检查后提交')
+        })
+    }
+    const reset = ()=>{
+        console.log(form.getFieldsValue())
+        //setTop(top=>top+1)
+    }
     return (
         <div>
             <div ref={contentRef} style={{
@@ -312,8 +459,8 @@ const Create:React.FC = (props)=>{
                           paramAttribute:[{
                               content:'出差',
                               check:1,
-                              first:0,
-                              second:0,
+                              first:1,
+                              second:2,
                               money:0
                           }]
                       }}
@@ -386,8 +533,8 @@ const Create:React.FC = (props)=>{
                                                 message['warning']('已添加至上限')
                                                 return
                                             }
-                                            first[count+1] = data1
-                                            second[count+1] = data2[0]
+                                            first[count+1] = prev
+                                            second[count+1] = last[0]
                                             //setFirst(a)
                                             //setSecond(b)
                                             add()
@@ -398,11 +545,13 @@ const Create:React.FC = (props)=>{
                                         }
                                     }} block icon={<PlusOutlined/>}>添加信息</Button>
                                 </Form.Item>
+                                <Button type='primary' onClick={saveMsg}>保存信息</Button>
+                                <Button style={{marginLeft:10}} type='primary' onClick={submitMsg}>提交审核</Button>
+                                <Button style={{marginLeft:10}} type='default' onClick={reset}>重置</Button>
                             </>
                         )}
                     </Form.List>
                 </Form>
-                <Button type='primary' onClick={saveImage}>保存凭证</Button>
             </div>
         </div>
     )

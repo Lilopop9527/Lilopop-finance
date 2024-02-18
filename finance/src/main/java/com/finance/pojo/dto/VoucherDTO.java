@@ -1,4 +1,4 @@
-package com.finance.pojo.base.dto;
+package com.finance.pojo.dto;
 
 /**
  * @author: Lilopop
@@ -6,11 +6,6 @@ package com.finance.pojo.base.dto;
  */
 public class VoucherDTO {
     private Long id;
-    private String content;
-    private Integer checked;
-    private Long first;
-    private Long second;
-    private String money;
     private String createDate;
     private Long record;
     private String recordName;
@@ -29,16 +24,10 @@ public class VoucherDTO {
     public VoucherDTO() {
     }
 
-    public VoucherDTO(Long id, String content, Integer checked, Long first, Long second, String money,
-                      String createDate, Long record, String recordName, Long principal, String principalName,
+    public VoucherDTO(Long id, String createDate, Long record, String recordName, Long principal, String principalName,
                       Long review, String reviewName, Long cashier, String cashierName, Long maker, String makerName,
                       String singleId, Long companyId, Long company, String originalEvidence) {
         this.id = id;
-        this.content = content;
-        this.checked = checked;
-        this.first = first;
-        this.second = second;
-        this.money = money;
         this.createDate = createDate;
         this.record = record;
         this.recordName = recordName;
@@ -62,46 +51,6 @@ public class VoucherDTO {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public Integer getChecked() {
-        return checked;
-    }
-
-    public void setChecked(Integer checked) {
-        this.checked = checked;
-    }
-
-    public Long getFirst() {
-        return first;
-    }
-
-    public void setFirst(Long first) {
-        this.first = first;
-    }
-
-    public Long getSecond() {
-        return second;
-    }
-
-    public void setSecond(Long second) {
-        this.second = second;
-    }
-
-    public String getMoney() {
-        return money;
-    }
-
-    public void setMoney(String money) {
-        this.money = money;
     }
 
     public String getCreateDate() {
@@ -228,11 +177,6 @@ public class VoucherDTO {
     public String toString() {
         return "VoucherDTO{" +
                 "id=" + id +
-                ", content='" + content + '\'' +
-                ", checked=" + checked +
-                ", first=" + first +
-                ", second=" + second +
-                ", money='" + money + '\'' +
                 ", createDate='" + createDate + '\'' +
                 ", record=" + record +
                 ", recordName='" + recordName + '\'' +
